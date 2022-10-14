@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Document</title>
+    <script src="calender.js"></script>
+</head>
+<body onload="javascript:innit()">
+    <form action="javascript:eventcheck()">
+        uID<input type="text" name="" id="uID">
+        title<input type="text" name="" id="title">
+        description<input type="text" name="" id="description">
+        startDate<input type="text" name="" id="startDate">
+        endDate<input type="text" name="" id="endDate">
+        <input type="submit">
+    </form>
+</body>
+</html>
+<script>
+    function eventcheck(){
+        uID = document.getElementById("uID").value;
+        title = document.getElementById("title").value;
+        description = document.getElementById("description").value;
+        startDate = document.getElementById("startDate").value;
+        endDate = document.getElementById("endDate").value;
+        fetch('calender_create_event.php?uID=' + uID + '&title=' + title + '&description=' + description + '&startDate=' + startDate + '&endDate=' + endDate);
+        // .then(function (response) {
+        // // The API call was successful!
+        // return response.json();
+        // }).then(function (html) {
+        //     // This is the HTML from our response as a text string
+        //     alert(html);
+        // }).catch(function (err) {
+        //     // There was an error
+        //     console.warn('Something went wrong.', err);
+        // });
+    }
+</script>
