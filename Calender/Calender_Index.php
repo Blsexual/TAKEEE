@@ -1,16 +1,18 @@
 <?php
-    // require_once("../db.php");
+    require_once("../db.php");
 ?>
 
 <?php
-    $Login = array();
-    if((isset($_GET['LoginNamn'])) && (isset($_GET['LoginPassword']))){
-        array_push($Login,$_GET['LoginNamn']);
-        array_push($Login,$_GET['LoginPassword']);
-        echo json_encode($Login);
-    }
-    else{
-        echo "Fuck you";
-    }
+    $sql = "SELECT `uID`, `title`, `description`, `startDate`, `endDate` FROM `event`";
+    $result = $conn->query($sql);
     
+    if ($result->num_rows > 0) {
+      // output data of each row
+      while($row = $result->fetch_assoc()) {
+        echo json_encode($row);
+      }
+    } else {
+      $Res = array("0 Results");
+      echo json_encode($Res);
+    }
 ?>
