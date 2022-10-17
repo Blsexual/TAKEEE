@@ -20,26 +20,16 @@
             $res = $row;
         }
     } else{
-        die("We can not find the page in question");
+        die(json_encode("We can not find the page in question"));
     }
 
     if($res["admin"][0] == "1" ){
-        echo "hej admin";
         $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
         $conn->query($sql);
     } else if ($res["endUser"][0] == "1"){
-        echo "hej inte admin";
         $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
         $conn->query($sql);
-    }else{
-        echo "Du har inte rätt att tabort den här sidan";
-    }
-
-//DELETE FROM wiki_entry WHERE ID = $page
-/*-----------------------------------------------------------
-        Connection
------------------------------------------------------------*/
-
-
-    
+    }else{          // Basicly if something went very wrong
+        die(json_encode("Du har inte rätt att tabort den här sidan"));
+    } 
 ?>
