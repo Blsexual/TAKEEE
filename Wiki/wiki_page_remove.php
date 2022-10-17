@@ -12,32 +12,26 @@
         Is the user allowed to remove?
 -----------------------------------------------------------*/
 
-    $sql = "SELECT * FROM user WHERE ID = $user";       // gets the user for purposes to check if they are allowed to use the service 
+    $sql = "SELECT user.admin, user.endUser, wiki_entry.uID FROM user, wiki_entry WHERE user.ID = $user AND wiki_entry.uID = $user AND wiki_entry.ID = $page";       // gets the user for purposes to check if they are allowed to use the service 
     $result = $conn->query($sql);                       // Sends question to database
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {          // output data of each row
             $user = $row;
         }
+    } else{
+        die("We can not find the page in question");
     }
 
     if($user["admin"][0] == "1" ){
         echo "hej admin";
     } else if ($user["endUser"][0] == "1"){
         echo "hej inte admin";
-        $sql = "SELECT * FROM wiki_entry WHERE ID = $page";
-        $result = $conn->query($sql); // Sends question to database
-    
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {      // output data of each row
-                $user = $row;
-            }
-        }
     }else{
-        echo "du har inte rätt att tabort den här sidan";
+        echo "Du har inte rätt att tabort den här sidan";
     }
 
-
+//DELETE FROM wiki_entry WHERE ID = $page
 /*-----------------------------------------------------------
         Connection
 -----------------------------------------------------------*/
