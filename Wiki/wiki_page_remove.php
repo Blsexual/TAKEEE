@@ -17,16 +17,20 @@
 
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {          // output data of each row
-            $user = $row;
+            $res = $row;
         }
     } else{
         die("We can not find the page in question");
     }
 
-    if($user["admin"][0] == "1" ){
+    if($res["admin"][0] == "1" ){
         echo "hej admin";
-    } else if ($user["endUser"][0] == "1"){
+        $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
+        $conn->query($sql);
+    } else if ($res["endUser"][0] == "1"){
         echo "hej inte admin";
+        $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
+        $conn->query($sql);
     }else{
         echo "Du har inte rätt att tabort den här sidan";
     }
