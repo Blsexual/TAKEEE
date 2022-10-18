@@ -55,12 +55,11 @@
 
         $datecheckEnd = preg_replace($pattern, "", $endDate);
 
-        echo $uID."<br>";
-        echo $title."<br>";
-        echo $description."<br>";
-        echo $startDate."<br>";
-        echo $endDate."<br>";
-        die();
+        //echo $uID."<br>";
+        //echo $title."<br>";
+        //echo $description."<br>";
+        //echo $startDate."<br>";
+        //echo $endDate."<br>";
         $stmt = $conn->prepare("INSERT INTO `event` (uID, title, description, startDate, endDate) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $uID, $title, $description, $startDate, $endDate);
 
