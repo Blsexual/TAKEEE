@@ -22,35 +22,39 @@
             }
         }
         
-        
-        $startDate = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 0, date("m"), date("d"), date("Y")));
+        $startDate = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
         if(isset($_GET['startDate'])){
             if(@$_GET['startDate'] != "0000-00-00 00:00:00"){
                 $startDate = $_GET['startDate'];
             }
         }
-        
-        
+
+        $changeYear = substr($startDate,0,4);
+        $changeMonth = substr($startDate,5,2);
+        $changeDay = substr($startDate,8,2);
         $changeHour = substr($startDate,11,2);
         $changeMinute = substr($startDate,14,2);
-        $endDate = date("Y-m-d H:i:s", mktime($changeHour+1, $changeMinute, 0, date("m"), date("d"), date("Y")));
-        if(isset($_GET['description'])){
+
+        $endDate = date("Y-m-d H:i:s", mktime($changeHour+1, $changeMinute, 00, $changeMonth, $changeDay, $changeYear));
+        if(isset($_GET['endDate'])){
             if(@$_GET['endDate'] != "0000-00-00 00:00:00"){
                 $endDate = $_GET['endDate'];
                 
             }
         }
+
         $datecheckStart = preg_replace($pattern, "", $startDate);
+        $datecheckStart = (int)$datecheckStart;
+
         $datecheckEnd = preg_replace($pattern, "", $endDate);
-        echo $datecheckStart."<br>";
-        echo $datecheckEnd."<br>";
-        if($datecheckStart < $datecheckEnd){
-            $endDate = date("Y-m-d H:i:s", mktime($changeHour+1, $changeMinute, 0, date("m"), date("d"), date("Y")));
+        $datecheckEnd = (int)$datecheckEnd;
+
+        if($datecheckStart > $datecheckEnd){
+            $endDate = date("Y-m-d H:i:s", mktime($changeHour+1, $changeMinute, 00, $changeMonth, $changeDay, $changeYear));
         }
-        $datecheckStart = preg_replace($pattern, "", $startDate);
+
         $datecheckEnd = preg_replace($pattern, "", $endDate);
-        echo $datecheckStart."<br>";
-        echo $datecheckEnd."<br>";
+
         echo $uID."<br>";
         echo $title."<br>";
         echo $description."<br>";
