@@ -8,7 +8,7 @@
     if (!isset($_REQUEST['ID'])){
         die("Error: Inget ID data har identifierats");
     }
-    $sql = "SELECT * FROM wiki where (ID) = $ID";
+    $sql = "SELECT * FROM wiki_entry_history where (ID) = $ID";
     $result = mysqli_query($conn, $sql);
 
     $emparray = [];
@@ -26,4 +26,3 @@
     }
     echo json_encode($WikiData); // Send data as json
 ?>
-
