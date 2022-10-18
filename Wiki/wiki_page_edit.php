@@ -18,11 +18,17 @@
         Connection
 -----------------------------------------------------------*/
     $sql = "SELECT date FROM wiki_entry WHERE ID = $page";
-    $date = $conn->query($sql);
+    $result = $conn->query($sql);
     
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {          // output data of each row
+            $date = $row;
+        }
+    }
+
     $sql = "INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES($page,$wiki,$user,'$title','$contents','$date','$todayDate')";
 
     $result = $conn->query($sql);       // Sends question to database
-    echo $result;
+    
     
 ?>

@@ -19,6 +19,5 @@
     $sql = "INSERT INTO wiki_entry (wID,uID,title,contents,date) VALUES($wiki,$user,'$title','$contents','$todayDate')";
 
     $result = $conn->query($sql);       // Sends question to database
-    echo $result;
     
 ?>

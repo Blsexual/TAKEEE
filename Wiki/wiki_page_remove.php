@@ -7,6 +7,9 @@
 
     $user = $_REQUEST["user"];      // user = user ID
     $page = $_GET["page"];          // wiki_entry ID
+    $return = [
+        
+    ];
 
 /*-----------------------------------------------------------
         Is the user allowed to remove?
