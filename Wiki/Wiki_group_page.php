@@ -7,7 +7,8 @@
     if (empty($_GET)){
         die("Error: Inget ID data har identifierats");
     }
-    $sql = "SELECT * FROM wiki_entry where (ID) = $ID";
+
+    $sql = "SELECT * FROM wiki where (ID) = $ID";
     $result = mysqli_query($conn, $sql);
 
     $emparray = [];
