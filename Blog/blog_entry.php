@@ -7,8 +7,8 @@
               creating new entries
     ----------------------------------------*/
 
-    $title = "title";
-    $content = "content";  // sets base variables
+    $title = "No Title";
+    $content = "No content";  // sets base variables
     $bid = 0;
     $uid = 0;
 
@@ -29,14 +29,6 @@
         $uid = $_GET['uid'];
     }
 
-
-
-    
-
-
-    $content = $_GET["content"];  // gets the variables
-    $bid = $_GET["bid"];
-    $uid = $_GET["uid"];
     $date = date("Y/m/d");
 
     if ($bid != 0){
