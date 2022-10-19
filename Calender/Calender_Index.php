@@ -1,5 +1,6 @@
 <?php
     require_once("../db.php");
+    $version = "0.1.0";
 ?>
 
 <?php
@@ -25,17 +26,17 @@
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
-        $eventList = array();
+        $eventList = [];
         while($row = $result->fetch_assoc()) {
             array_push($eventList,$row);
         }
-        $data = array("Events"=>$eventList);
-        $type = "Ok";
     } 
     else {
-        $data = array("Events"=>"No events found for user");
+        $data = "No events found for user";
         $type = "Error";
+        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
+        die(json_encode($return));
     }
-    $Contents = array("Type"=>$type,"Contents"=>$data);
+    $Contents = array("Type"=>"Ok","My events"=>$eventList);
     echo json_encode($Contents);
 ?>
