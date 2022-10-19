@@ -1,11 +1,15 @@
 <?php
     require_once("../db.php");
+    $version = "0.0.1"; 
     /*----------------------------------
         Variables
     ----------------------------------*/
     $ID = $_REQUEST["ID"];
     if (empty($_GET)){
-        die("Error: Inget ID data har identifierats");
+        $data = ["error"=>"wrong username or password was given"];
+        $type = "error";
+        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
+        die(json_encode($return));
     }
 
     $sql = "SELECT * FROM wiki where (ID) = $ID";
@@ -19,5 +23,17 @@
         $emparray[] = $row;
     }
 
-    echo json_encode($emparray); // Send data as json
+    $sql = "SELECT * FROM wiki_entry where (wID) = $ID";
+    $result = mysqli_query($conn, $sql);
+    /*----------------------------------
+        Fetch entries
+    ----------------------------------*/
+    $entryArray =[];
+    while ($row = mysqli_fetch_assoc($result)){
+        $entryArray[] = $row;
+    }
+    $data = ["wiki"=>$emparray, "wiki_entry"=>$entryArray];
+    $return = ["Version" => $version, "type"=>"ok", "data"=>$data];
+
+    echo json_encode($return); // Send data as json
 ?>
