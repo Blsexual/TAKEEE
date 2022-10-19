@@ -3,28 +3,39 @@
 ?>
 
 <?php
-if(isset($_GET['insertuID'])){
-    require("calender_create_event.php");
-}
-if(isset($_GET['deleteuID'])){
-    require("calender_delete_event.php");
-}
+    if(isset($_GET['uID'])){
+        $uID = $_GET['uID'];
+        $_SESSION['uID'] = $uID;
+    }
+    else{
+        $uID = $_SESSION['uID'];
+    }
 ?>
 
 <?php
-    $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event`";
+    if(isset($_GET['createEvent'])){
+        require("calender_create_event.php");
+    }
+
+    if(isset($_GET['deleteEvent'])){
+        require("calender_delete_event.php");
+    }
+
+    $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
-        $Arr = array();
+        $eventList = array();
         while($row = $result->fetch_assoc()) {
-            array_push($Arr,$row);
+            array_push($eventList,$row);
         }
-        $Data = array("Events" => $Arr);
-        echo json_encode($Data);
+        $data = array("Events"=>$eventList);
+        $type = "Ok";
     } 
     else {
-        $Res = array("Error"=>"0 Results");
-        echo json_encode($Res);
+        $data = array("Events"=>"No events found for user");
+        $type = "Error";
     }
+    $Contents = array("Type"=>$type,"Contents"=>$data);
+    echo json_encode($Contents);
 ?>
