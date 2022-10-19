@@ -8,7 +8,7 @@
         #Event title
             $title = "My event";
             if(isset($_GET['title'])){
-                if(strlen($_GET['title'])){
+                if(!empty($_GET['title'])){
                     $title = $_GET['title'];
                 }
             }
@@ -17,7 +17,7 @@
         #Event description
             $description = "Test";
             if(isset($_GET['description'])){
-                if(strlen($_GET['description'])){
+                if(!empty($_GET['description'])){
                     $description = $_GET['description'];
                 }
             }
