@@ -3,45 +3,53 @@
 
     require_once("../db.php");
 
-    if(isset($_GET)){
-        $_SESSION['blogSearch'] = $_GET['blogSearch'];
-    }
+    $bid = $_GET["bid"];
 
-    $blogname = $_SESSION['blogSearch'];
-    echo "<br>";
-    $howaboutno = "SELECT * FROM blog WHERE title = '$blogname'";
+    $version = "0.1.0";
+
+    /*---------------------------------------
+                      Blogs
+    ----------------------------------------*/
+
+    $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bid'";
     $result = $conn->query($howaboutno);
-
-
     echo "<br>";
-    $bloggs = array();
     if ($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-            array_push($bloggs,$row);
+        while($row = $result->fetch_assoc()) {  //shows all the possible blogs
+            $dataB = array($row);
         }
-        echo json_encode($bloggs);
-      } else {
-        echo "0 results";
-      }
-
-
-    $entry = "SELECT * FROM blog_entry";
-    $result = $conn->query($entry);
-
-
-    echo "<br>";
-    echo "<br>";
-    echo "<br>";
-    $entries = array();
-    if ($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-        array_push($entries,$row);
-        }
-        echo json_encode($entries);
-    } else {
-        echo "0 results";
+    } 
+    else {
+        $type = "Error";
+        $dataB = array("No Bloggs found");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
+        die(json_encode($return));
     }
+    
+    /*---------------------------------------
+    Blog entries
+    ----------------------------------------*/
+    
+    
+    $entry = "SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = '$bid' AND blog_entry.bID = '$bid'";
+    $result = $conn->query($entry);
+    
+    echo "<br>";
+    echo "<br>";
+    if ($result->num_rows > 0) {
+        $bloggPostList = array();
+        while($row = $result->fetch_assoc()) {  //shows all the entries
+            array_push($bloggPostList,$row);
+        }
+    } 
+    else {
+        $type = "Error";
+        $dataBP = array("No Blogg posts found");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataBP];
+        die(json_encode($return));
+    }
+
+    $contents = array("Version"=>$version,"Type"=>"Ok","Blogg"=>$dataB,"Blogg posts"=>$bloggPostList);
+    echo json_encode($contents);
 
 ?>
