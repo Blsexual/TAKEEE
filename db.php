@@ -3,14 +3,16 @@
     error_reporting(0);
 ?>
 <?php
+
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $db = "TAKEEE";
+    $db = "takeee";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password,$db);
 
     // Check connection
     if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+
 ?>
