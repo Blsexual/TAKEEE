@@ -4,12 +4,40 @@
 ?>
 
 <?php
-    if(isset($_GET['uID'])){
+    if(!empty($_GET['uID'])){
         $uID = $_GET['uID'];
         $_SESSION['uID'] = $uID;
     }
-    else{
+    elseif(isset($_SESSION['uID'])){
         $uID = $_SESSION['uID'];
+    }
+    else{
+        $data = "No selected user";
+        $type = "Error";
+        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
+        die(json_encode($return));
+    }
+
+    if(!is_numeric($uID)){
+        $data = "Not a valid user";
+        $type = "Error";
+        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
+        die(json_encode($return));
+    }
+
+    $sql = "SELECT `ID` FROM user WHERE `ID`=$uID";
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+
+      }
+    } 
+    else{
+        $data = "User doesn't exist";
+        $type = "Error";
+        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
+        die(json_encode($return));
     }
 
 ?>
