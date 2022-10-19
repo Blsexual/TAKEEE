@@ -5,6 +5,7 @@
 
     $bid = $_GET["bid"];
 
+    $version = "0.1.0";
 
     /*---------------------------------------
                       Blogs
@@ -12,18 +13,17 @@
 
     $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bid'";
     $result = $conn->query($howaboutno);
-
-
-    $entries = array();
     echo "<br>";
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {  //shows all the possible blogs
-            $bloggs = array("Blogg"=>$row,"Blogg Posts"=>$entries);
+            $dataB = array($row);
         }
     } 
     else {
-        $ohno = array("error=>no blog found");
-        echo json_encode($ohno);
+        $type = "Error";
+        $dataB = array("No Bloggs found");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
+        die(json_encode($return));
     }
     
     /*---------------------------------------
@@ -37,13 +37,19 @@
     echo "<br>";
     echo "<br>";
     if ($result->num_rows > 0) {
+        $bloggPostList = array();
         while($row = $result->fetch_assoc()) {  //shows all the entries
-            array_push($entries,$row);
+            array_push($bloggPostList,$row);
         }
-    } else {
-        $ohno = array("error=>no entries found");
-        echo json_encode($ohno);
+    } 
+    else {
+        $type = "Error";
+        $dataBP = array("No Blogg posts found");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataBP];
+        die(json_encode($return));
     }
-    echo json_encode($bloggs);
+
+    $contents = array("Version"=>$version,"Type"=>"Ok","Blogg"=>$dataB,"Blogg posts"=>$bloggPostList);
+    echo json_encode($contents);
 
 ?>
