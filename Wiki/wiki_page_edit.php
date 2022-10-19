@@ -24,6 +24,13 @@
         while($row = $result->fetch_assoc()) {          // output data of each row
             $date = $row;
         }
+    } else{
+
+        // JSON Return
+        $data = ["error"=>"we cant find the page you are looking for"];
+        $type = "error";
+        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
+        die(json_encode($return));
     }
 
     $sql = "INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES($page,$wiki,$user,'$title','$contents','$date','$todayDate')";

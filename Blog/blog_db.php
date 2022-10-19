@@ -2,10 +2,14 @@
 <?php
 
     require_once("../db.php");
+    $version = "0.1.1";
 
-    $bid = $_GET["bid"];
+    $bid = 0;
 
-    $version = "0.1.0";
+    if(!empty($_GET['bid'])){
+        $bid = $_GET["bid"];
+    }
+   
 
     /*---------------------------------------
                       Blogs
