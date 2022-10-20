@@ -1,5 +1,5 @@
 <?php
-    if(!empty($_GET['createEvent'])){ 
+    if(!empty($_GET['action'])){ 
         #Event title
             $title = "My event";
             if(!empty($_GET['title'])){
@@ -42,7 +42,7 @@
         #
 
         #Checks if the end date is before the start date
-            $pattern[] = ['/:/i','/-/i','/ /i']; //kommentera skiten!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $pattern = ['/:/i','/-/i','/ /i']; //kommentera skiten!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             $datecheckStart = preg_replace($pattern, "", $startDate);
             $datecheckEnd = preg_replace($pattern, "", $endDate);
             
@@ -66,8 +66,10 @@
 
         #Inserting the data into the table
             $stmt = $conn->prepare("INSERT INTO `event` (uID, title, description, startDate, endDate) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssss", $uID, $title, $description, $startDate, $endDate);
+            $stmt->bind_param("issss", $uID, $title, $description, $startDate, $endDate);
             $stmt->execute();
+            $data = ["Action"=>"Created 1 new event"];
+            jsonWrite($version,$data);
         #
     }
 ?>
