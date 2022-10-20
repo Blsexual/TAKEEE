@@ -1,5 +1,5 @@
 <?php
-    if(isset($_SESSION['uID'])){ 
+    if(!empty($_SESSION['uID'])){ 
         $uID = $_SESSION['uID'];
         
         $ID = $_GET['eventID'];

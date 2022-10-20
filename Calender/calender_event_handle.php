@@ -1,9 +1,9 @@
 <?php
-    if(isset($_GET['eventHandle'])){ 
-        if(isset($_GET['eventAccept'])){
+    if(!empty($_GET['eventHandle'])){ 
+        if(!empty($_GET['eventAccept'])){
             require("calender_event_accept.php");
         }
-        if(isset($_GET['eventDecline'])){
+        if(!empty($_GET['eventDecline'])){
             require("calender_event_decline.php");
         }
     }
