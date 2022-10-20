@@ -1,5 +1,5 @@
 <?php
-    if(!empty($_GET['eventDelete'])){ 
+    if(!empty($_GET['action'])){ 
 
     }
 ?>
