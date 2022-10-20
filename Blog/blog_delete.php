@@ -1,8 +1,9 @@
-
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+?>
 
+<?php
     $eID = 0;
     $bID = 0;
 
