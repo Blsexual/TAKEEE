@@ -1,5 +1,6 @@
 <?php
     require_once("../db.php");
+    require_once("../json_exempel.php");
 
 /*-----------------------------------------------------------
         Variabels
@@ -24,10 +25,7 @@
         }
     } else{
         // JSON Return
-        $data = ["error"=>"we can not find the page you are looking for"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"we can not find the page you are looking for");
     }
 
     if($res["admin"][0] == "1" ){   // If you are a admin
