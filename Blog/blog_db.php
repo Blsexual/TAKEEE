@@ -9,10 +9,10 @@
     if(!empty($_GET['bid'])){
         $bid = $_GET["bid"];
     }
-   
+
 
     /*---------------------------------------
-                      Blogs
+                    Blogs
     ----------------------------------------*/
 
     $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bid'";
