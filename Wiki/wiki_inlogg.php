@@ -44,7 +44,8 @@
                 $_SESSION["user"] = $row["ID"];
     
                 // JSON Return
-                loginWrite($version,$username);
+                $data = ["Username"=>$username];
+                jsonWrite($version,$data);
             }
         }
     } else{ // No username match the one that has been inputed 

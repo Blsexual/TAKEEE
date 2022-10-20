@@ -9,10 +9,7 @@
     ----------------------------------*/
         $ID = $_REQUEST["ID"];
         if (empty($_GET)){
-            $data = ["error"=>"wrong username or password was given"];
-            $type = "error";
-            $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-            die(json_encode($return));
+            errorWrite($version,"Wrong username or password was given");
         }
     #
 
@@ -37,7 +34,5 @@
         $entryArray[] = $row;
     }
     $data = ["wiki"=>$emparray, "wiki_entry"=>$entryArray];
-    $return = ["Version" => $version, "type"=>"ok", "data"=>$data];
-
-    echo json_encode($return); // Send data as json
+    jsonWrite($version,$data);
 ?>

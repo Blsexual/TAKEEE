@@ -23,24 +23,17 @@
     if ($eID != 0){
         $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
         $conn->query($del);
-        $type = "ok";
-        $dataB = array("entry deleted");
-        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-        echo json_encode($return); 
+        $data = ["Result"=>"Entry deleted"];
+        jsonWrite($version,$data);
     }
     else if ($bID != 0){
         $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
         $conn->query($del);
-        $type = "ok";
-        $dataB = array("blog deleted");
-        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-        echo json_encode($return);
+        $data = ["Result"=>"Blog deleted"];
+        jsonWrite($version,$data);
     }
     else{
-        $type = "Error";
-        $dataB = array("wrong inputs");                         // error output
-        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-        die(json_encode($return));
+        errorWrite($version,"Wrong inputs");
     }
 
 

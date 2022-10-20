@@ -10,9 +10,6 @@
 
     $user = $_REQUEST["user"];      // user = user ID
     $page = $_GET["page"];          // wiki_entry ID
-    $return = [
-        
-    ];
 
 /*-----------------------------------------------------------
         Is the user allowed to remove?
@@ -33,25 +30,18 @@
         $conn->query($sql);
 
         // JSON Return
-        $data = ["ok"=>"succsess"];
-        $type = "ok";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        $data = ["Result"=>"wiki deleted"];
+        jsonWrite($version,$data);
     } else if ($res["endUser"][0] == "1"){  // If you are a enduser
         $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
         $conn->query($sql);
 
         // JSON Return
-        $data = ["ok"=>"succsess"];
-        $type = "ok";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        $data = ["Result"=>"wiki deleted"];
+        jsonWrite($version,$data);
     }else{          // Basicly if something went very wrong
 
         // JSON Return
-        $data = ["error"=>"you are not allowed to remove this entry"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"you are not allowed to remove this entry");
     } 
 ?>
