@@ -9,20 +9,20 @@
     if(!empty($_GET['bID'])){
         $bID = $_GET["bID"];
     }
-
+    echo $bID;
 
     /*---------------------------------------
                     Blogs
     ----------------------------------------*/
 
-    if ($bID == 0){
-        $howaboutno = "SELECT * FROM blog";
+    if ($bID == -1){
+        $selectBlog = "SELECT * FROM blog";
     }
     else{
-        $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bID'";
+        $selectBlog = "SELECT * FROM blog WHERE blog.ID = '$bID'";
     }
 
-    $result = $conn->query($howaboutno);
+    $result = $conn->query($selectBlog);
 
     if ($result->num_rows > 0) {
         $bloggList = [];
@@ -37,8 +37,12 @@
     /*---------------------------------------
                 Blog entries
     ----------------------------------------*/
-    
-    if ($bID != 0){
+
+    if ($bID == -1){
+        $data = ["Blog"=>$bloggList];
+        jsonWrite($version,$data); 
+    }
+    else{
         $entry = "SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = '$bID' AND blog_entry.bID = '$bID'";
         $result = $conn->query($entry);
         
@@ -54,10 +58,6 @@
         }
 
         $data = ["Blog"=>$bloggList,"Blog entry"=>$bloggPostList];
-        jsonWrite($version,$data);
-    }
-    else{
-        $data = ["Blog"=>$bloggList];
         jsonWrite($version,$data);
     }
 ?>
