@@ -4,9 +4,6 @@
 ?>
 
 <?php 
-    $data = [];
-    $type = "";
-
 /*-----------------------------------------------------------
         Get Input
 -----------------------------------------------------------*/
@@ -40,8 +37,13 @@
         // output data of each row
         while($row = $result->fetch_assoc()) {
             if((password_verify($pass, $row['password']) && $row['endUser'][0] == "1") || (password_verify($pass, $row['password']) && $row['admin'][0] == "1")){
-                $_SESSION["user"] = $row["ID"];
-    
+                $token = random_bytes(20);
+
+                $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
+                $sql = "UPDATE user SET token = $token, validUntil = $date";
+
+                echo $sql;
+
                 // JSON Return
                 $data = ["Action"=>"Log in succsess","User"=>$row];
                 jsonWrite($version,$data);
