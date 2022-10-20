@@ -16,15 +16,13 @@
     }
 
     if(!is_numeric($uID)){
-        $data = "Not a valid user";
-        $type = "Error";
-        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"Not a valid user");
     }
 
     $sql = "SELECT `ID` FROM user WHERE `ID`=$uID";
     $result = $conn->query($sql);
     
+
     if ($result->num_rows == 0) {
         errorWrite($version,"User doesn't exist");
     }
@@ -42,6 +40,7 @@
     if(!empty($_GET['eventInvite'])){
         require("calender_event_invite.php");
     }
+
 
     $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
     $result = $conn->query($sql);
