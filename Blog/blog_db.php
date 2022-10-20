@@ -1,13 +1,11 @@
-
 <?php
-
     require_once("../db.php");
-    $version = "0.1.1";
+    require_once("../json_exempel.php");
 
-    $bid = 0;
+    $bID = 0;
 
-    if(!empty($_GET['bid'])){
-        $bid = $_GET["bid"];
+    if(!empty($_GET['bID'])){
+        $bID = $_GET["bID"];
     }
 
 
@@ -15,19 +13,19 @@
                     Blogs
     ----------------------------------------*/
 
-    if ($bid == 0){
+    if ($bID == 0){
         $howaboutno = "SELECT * FROM blog";
     }
     else{
-        $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bid'";
+        $howaboutno = "SELECT * FROM blog WHERE blog.ID = '$bID'";
     }
 
     $result = $conn->query($howaboutno);
 
     if ($result->num_rows > 0) {
-        $bloggList = array();
+        $bloggList = [];
         while($row = $result->fetch_assoc()) {  //shows all the possible blogs
-            array_push($bloggList,$row);
+            $bloggList[] = $row;
         }
     } 
     else {
@@ -38,18 +36,18 @@
     }
     
     /*---------------------------------------
-                  Blog entries
+                Blog entries
     ----------------------------------------*/
     
-    if ($bid != 0){
-        $entry = "SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = '$bid' AND blog_entry.bID = '$bid'";
+    if ($bID != 0){
+        $entry = "SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = '$bID' AND blog_entry.bID = '$bID'";
         $result = $conn->query($entry);
         
     
         if ($result->num_rows > 0) {
-            $bloggPostList = array();
+            $bloggPostList = [];
             while($row = $result->fetch_assoc()) {  //shows all the entries
-                array_push($bloggPostList,$row);
+                $bloggPostList[] = $row;
             }
         } 
         else {
@@ -65,8 +63,6 @@
         $contents = array("Version"=>$version,"Type"=>"Ok","Blogg"=>$bloggList);
     }
 
-
-    
     echo json_encode($contents);
 
 ?>
