@@ -1,16 +1,20 @@
 <?php
     require_once("../db.php");
-    $version = "0.0.1"; 
+    require_once("../json_exempel.php");
+?>
+
+<?php
     /*----------------------------------
         Variables
     ----------------------------------*/
-    $ID = $_REQUEST["ID"];
-    if (empty($_GET)){
-        $data = ["error"=>"wrong username or password was given"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
-    }
+        $ID = $_REQUEST["ID"];
+        if (empty($_GET)){
+            $data = ["error"=>"wrong username or password was given"];
+            $type = "error";
+            $return = ["version"=>$version,"type"=>$type,"data"=>$data];
+            die(json_encode($return));
+        }
+    #
 
     $sql = "SELECT * FROM wiki where (ID) = $ID";
     $result = mysqli_query($conn, $sql);

@@ -1,7 +1,9 @@
 <?php
-    session_start();
     require_once("../db.php");
+    require_once("../json_exempel.php");
+?>
 
+<?php
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
@@ -27,10 +29,7 @@
     } else{
 
         // JSON Return
-        $data = ["error"=>"we cant find the page you are looking for"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"we cant find the page you are looking for");
     }
 
     $sql = "INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES($page,$wiki,$user,'$title','$contents','$date','$todayDate')";

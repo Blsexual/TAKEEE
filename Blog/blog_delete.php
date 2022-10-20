@@ -1,34 +1,35 @@
-
 <?php
     require_once("../db.php");
-    $version = "0.1.1";
+    require_once("../json_exempel.php");
+?>
 
-    $eid = 0;
-    $bid = 0;
+<?php
+    $eID = 0;
+    $bID = 0;
 
     /*---------------------------------------
-         deleteng entries and blogs
+        deleteng entries and blogs
     ----------------------------------------*/
 
-    if(!empty($_GET['eid'])){
-        $eid = $_GET['eid'];
+    if(!empty($_GET['eID'])){
+        $eID = $_GET['eID'];
     }
     
-    if(!empty($_GET['bid'])){
-        $bid = $_GET['bid'];
+    if(!empty($_GET['bID'])){
+        $bID = $_GET['bID'];
     }
 
 
-    if ($eid != 0){
-        $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eid ";  // deletes entries by specific id
+    if ($eID != 0){
+        $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
         $conn->query($del);
         $type = "ok";
         $dataB = array("entry deleted");
         $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
         echo json_encode($return); 
     }
-    else if ($bid != 0){
-        $del = "DELETE FROM blog WHERE blog.ID = $bid ";   // deletes blogs by specific id
+    else if ($bID != 0){
+        $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
         $conn->query($del);
         $type = "ok";
         $dataB = array("blog deleted");
@@ -44,7 +45,7 @@
 
 
 
-    // ?eid=x
-    // ?bid=x
+    // ?eID=x
+    // ?bID=x
 ?>
 

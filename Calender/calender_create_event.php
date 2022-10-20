@@ -1,27 +1,22 @@
 <?php
-    if(isset($_GET['createEvent'])){ 
-        
+    if(!empty($_GET['createEvent'])){ 
         #Event title
             $title = "My event";
-            if(isset($_GET['title'])){
-                if(!empty($_GET['title'])){
-                    $title = $_GET['title'];
-                }
+            if(!empty($_GET['title'])){
+                $title = $_GET['title'];
             }
         #
             
         #Event description
             $description = "Test";
-            if(isset($_GET['description'])){
-                if(!empty($_GET['description'])){
-                    $description = $_GET['description'];
-                }
+            if(!empty($_GET['description'])){
+                $description = $_GET['description'];
             }
         #
         
         #Event start
             $startDate = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
-            if(isset($_GET['startDate'])){
+            if(!empty($_GET['startDate'])){
                 if(@$_GET['startDate'] != "0000-00-00 00:00:00"){
                     $startDate = $_GET['startDate'];
                 }
@@ -38,7 +33,7 @@
         
         #Event end
             $endDate = date("Y-m-d H:i:s", mktime($changeHour+1, $changeMinute, 00, $changeMonth, $changeDay, $changeYear));
-            if(isset($_GET['endDate'])){
+            if(!empty($_GET['endDate'])){
                 if(@$_GET['endDate'] != "0000-00-00 00:00:00"){
                     $endDate = $_GET['endDate'];
                     
@@ -47,7 +42,7 @@
         #
 
         #Checks if the end date is before the start date
-            $pattern = array('/:/i','/-/i','/ /i');
+            $pattern[] = ['/:/i','/-/i','/ /i']; //kommentera skiten!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             $datecheckStart = preg_replace($pattern, "", $startDate);
             $datecheckEnd = preg_replace($pattern, "", $endDate);
             
@@ -74,7 +69,5 @@
             $stmt->bind_param("sssss", $uID, $title, $description, $startDate, $endDate);
             $stmt->execute();
         #
-    }
-    else{
     }
 ?>
