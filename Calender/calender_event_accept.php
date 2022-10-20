@@ -1,5 +1,5 @@
 <?php
-    if(!empty($_GET['action'])){ 
-
+    if(!empty($_GET['action'])){
+        
     }
 ?>

@@ -4,7 +4,6 @@
 ?>
 
 <?php   //comment
-
     if(!empty($_GET['token'])){
 
     }
@@ -61,6 +60,4 @@
         errorWrite($version,"Not a valid action");
     }
     errorWrite($version,"No action made");
-
-
 ?>
