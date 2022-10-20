@@ -6,6 +6,10 @@
     $eid = 0;
     $bid = 0;
 
+    /*---------------------------------------
+         deleteng entries and blogs
+    ----------------------------------------*/
+
     if(!empty($_GET['eid'])){
         $eid = $_GET['eid'];
     }
@@ -18,14 +22,22 @@
     if ($eid != 0){
         $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eid ";  // deletes entries by specific id
         $conn->query($del);
+        $type = "ok";
+        $dataB = array("entry deleted");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
+        echo json_encode($return); 
     }
     else if ($bid != 0){
         $del = "DELETE FROM blog WHERE blog.ID = $bid ";   // deletes blogs by specific id
         $conn->query($del);
+        $type = "ok";
+        $dataB = array("blog deleted");
+        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
+        echo json_encode($return);
     }
     else{
         $type = "Error";
-        $dataB = array("wrong inputs");
+        $dataB = array("wrong inputs");                         // error output
         $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
         die(json_encode($return));
     }
