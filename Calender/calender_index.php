@@ -1,6 +1,6 @@
 <?php
     require_once("../db.php");
-    $version = "0.1.0";
+    require_once("../json_exempel.php");
 ?>
 
 <?php
@@ -12,10 +12,7 @@
         $uID = $_SESSION['uID'];
     }
     else{
-        $data = "No selected user";
-        $type = "Error";
-        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"No selected user");
     }
 
     if(!is_numeric($uID)){
@@ -34,10 +31,7 @@
       }
     } 
     else{
-        $data = "User doesn't exist";
-        $type = "Error";
-        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"User doesn't exist");
     }
 
 ?>
@@ -61,11 +55,8 @@
         }
     } 
     else {
-        $data = "No events found for user";
-        $type = "Error";
-        $return = ["Version"=>$version,"Type"=>$type,"Data"=>$data];
+        $return = ["Version"=>$version,"Type"=>"Error","Data"=>"No event found for the user"];
         die(json_encode($return));
     }
-    $Contents = array("Type"=>"Ok","My events"=>$eventList);
-    echo json_encode($Contents);
+    calendarWrite($version,$eventList);
 ?>
