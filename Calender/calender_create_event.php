@@ -1,8 +1,4 @@
 <?php
-    require_once("../db.php");
-?>
-
-<?php
     if(isset($_GET['createEvent'])){ 
         
         #Event title
@@ -76,13 +72,9 @@
         #Inserting the data into the table
             $stmt = $conn->prepare("INSERT INTO `event` (uID, title, description, startDate, endDate) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("sssss", $uID, $title, $description, $startDate, $endDate);
-
             $stmt->execute();
         #
     }
     else{
-
     }
-    
-    
 ?>

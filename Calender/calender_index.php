@@ -33,7 +33,6 @@
     else{
         errorWrite($version,"User doesn't exist");
     }
-
 ?>
 
 <?php
@@ -55,8 +54,7 @@
         }
     } 
     else {
-        $return = ["Version"=>$version,"Type"=>"Error","Data"=>"No event found for the user"];
-        die(json_encode($return));
+        errorWrite($version,"No events found for the user");
     }
     calendarWrite($version,$eventList);
 ?>
