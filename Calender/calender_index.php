@@ -30,17 +30,20 @@
 
 <?php
     if(!empty($_GET['createEvent'])){
-        require("calender_create_event.php");
+        require_once("calender_create_event.php");
     }
 
     if(!empty($_GET['deleteEvent'])){
-        require("calender_delete_event.php");
+        require_once("calender_delete_event.php");
     }
 
     if(!empty($_GET['eventInvite'])){
-        require("calender_event_invite.php");
+        require_once("calender_event_invite.php");
     }
 
+    if(!empty($_GET['eventHandle'])){
+        require_once("calender_event_handle.php");
+    }
 
     $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
     $result = $conn->query($sql);

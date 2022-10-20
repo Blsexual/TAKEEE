@@ -1,5 +1,5 @@
 <?php
-    if(isset($_GET['eventAccept'])){ 
+    if(!empty($_GET['eventAccept'])){ 
 
     }
 ?>
