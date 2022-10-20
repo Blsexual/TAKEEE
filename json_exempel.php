@@ -29,3 +29,11 @@
     }
 
 ?>
+
+<?php #How to display the data in calendar
+    function loginWrite($version,$user){
+        $data = ["Welcome"=>$user];
+        $contents = ["Version"=>$version,"Type"=>"Ok","Data"=>$data];
+        die(json_encode($contents));
+    }
+?>
