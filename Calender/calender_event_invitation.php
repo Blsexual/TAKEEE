@@ -23,7 +23,7 @@
         errorWrite($version,"Didn't specify which recipient to invite");
     }
 
-    $stmt = $conn->prepare("SELECT `ID`,`name` FROM `user` WHERE `ID`=?");
+    $stmt = $conn->prepare("SELECT `ID`, `name` FROM `user` WHERE `ID`=?");
     $stmt->bind_param("i", $rID);
     $stmt->execute();
     $result = $stmt->get_result();
