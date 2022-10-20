@@ -34,25 +34,17 @@
   if ($bID != 0){
     $makeentry = "INSERT INTO blog_entry(title,contents,date,bID,uID) VALUES ('$title','$content','$date','$bID','$uID')";       //creates the new entries
     $result = $conn->query($makeentry); 
-    $type = "ok";
-    $dataB = array("entry created");
-    $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-    echo json_encode($return);  
+    $data = ["Result"=>"Entry created"];
+    jsonWrite($version,$data);
   }
   else if($bID == 0){
     $makeblog = "INSERT INTO blog(title,description,date,uID) VALUES ('$title','$content','$date','$uID')";       //creates the new blogs
     $result = $conn->query($makeblog); 
-    echo "test";
-    $type = "ok";
-    $dataB = array("Blog created");
-    $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-    echo json_encode($return);
+    $data = ["Result"=>"Blog created"];
+    jsonWrite($version,$data);
   }
   else{
-    $type = "Error";
-    $dataB = array("wrong inputs");             //error output
-    $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-    die(json_encode($return));
+    errorWrite($version,"Wrong inputs");
   }
   
   //   ?title=x&content=x&uID=x

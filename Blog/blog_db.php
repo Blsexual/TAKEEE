@@ -1,7 +1,9 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+?>
 
+<?php
     $bID = 0;
 
     if(!empty($_GET['bID'])){
@@ -29,10 +31,7 @@
         }
     } 
     else {
-        $type = "Error";
-        $dataB = array("No Bloggs found");
-        $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataB];
-        die(json_encode($return));
+        errorWrite($version,"No blogs found");
     }
     
     /*---------------------------------------
@@ -51,18 +50,14 @@
             }
         } 
         else {
-            $type = "Error";
-            $dataBP = array("No Blogg posts found");
-            $return = ["Version"=>$version,"Type"=>$type,"Blogg"=>$dataBP];
-            die(json_encode($return));
+            errorWrite($version,"No blog posts found");
         }
 
-        $contents = array("Version"=>$version,"Type"=>"Ok","Blogg"=>$bloggList,"Blogg posts"=>$bloggPostList);
+        $data = ["Blog"=>$bloggList,"Blog entry"=>$bloggPostList];
+        jsonWrite($version,$data);
     }
     else{
-        $contents = array("Version"=>$version,"Type"=>"Ok","Blogg"=>$bloggList);
+        $data = ["Blog"=>$bloggList];
+        jsonWrite($version,$data);
     }
-
-    echo json_encode($contents);
-
 ?>

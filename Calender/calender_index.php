@@ -54,5 +54,6 @@
     else {
         errorWrite($version,"No events found for the user");
     }
-    calendarWrite($version,$eventList);
+    $data = ["My events"=>$eventList];
+    jsonWrite($version,$data);
 ?>

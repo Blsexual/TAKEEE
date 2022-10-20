@@ -9,10 +9,7 @@
     ----------------------------------*/
     $ID = $_REQUEST['ID'];
     if (empty($_GET)){
-        $data = ["error"=>"No ID was given"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"No ID was given");
     }
     $sql = "SELECT * FROM wiki_entry where (ID) = $ID";
     $result = mysqli_query($conn, $sql);
@@ -26,10 +23,7 @@
             $emparray[] = $row;
         }
     } else{
-        $data = ["error"=>"We could not find the page you are looking for"];
-        $type = "error";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$data];
-        die(json_encode($return));
+        errorWrite($version,"We could not find the page you were looking for");
     }
 
     $sql = "SELECT MAX(editDate) AS editDate,title,contents,date,wID,oID,uID,ID FROM wiki_entry_history where (oID) = $ID";
@@ -41,18 +35,15 @@
             $test[] = $row;
         }
     } else{
-        $type = "ok";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$emparray];
-        die(json_encode($return)); // Send data as json
+        $data = ["Wiki entry"=>$emparray];
+        jsonWrite($version,$data);
     }
     if($test[0]["ID"] == NULL){
-        $type = "ok";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$emparray];
-        die(json_encode($return)); // Send data as json
+        $data = ["Wiki entry"=>$emparray];
+        jsonWrite($version,$data);
     }
-    $type = "ok";
-        $return = ["version"=>$version,"type"=>$type,"data"=>$test];
-        die(json_encode($return)); // Send data as json
+    $data = ["Wiki entry"=>$test];
+    jsonWrite($version,$data);
     
     
 ?>
