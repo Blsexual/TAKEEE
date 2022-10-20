@@ -4,6 +4,10 @@
 ?>
 
 <?php   //comment
+
+    if(!empty($_GET['token'])){
+
+    }
     if(!empty($_GET['uID'])){
         $uID = $_GET['uID'];
         $_SESSION['uID'] = $uID;
@@ -56,7 +60,6 @@
         }
         errorWrite($version,"Not a valid action");
     }
-
     errorWrite($version,"No action made");
 
 
