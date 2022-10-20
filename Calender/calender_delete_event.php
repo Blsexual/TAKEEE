@@ -29,6 +29,5 @@
         }
         errorWrite($version,"Didn't specify which event to delete");
     }
-    
     errorWrite($version,"Didn't specify which event to delete");
 ?>
