@@ -7,5 +7,6 @@
         if($eventHandle == "eventDecline"){
             require("calender_event_decline.php");
         }
+        errorWrite($version,"Not a valid action, either accept or decline");
     }
 ?>
