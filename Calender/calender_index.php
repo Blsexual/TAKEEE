@@ -29,34 +29,35 @@
 ?>
 
 <?php
-    if(!empty($_GET['createEvent'])){
-        require_once("calender_create_event.php");
-    }
-
-    if(!empty($_GET['deleteEvent'])){
-        require_once("calender_delete_event.php");
-    }
-
-    if(!empty($_GET['eventInvite'])){
-        require_once("calender_event_invite.php");
-    }
-
-    if(!empty($_GET['eventHandle'])){
-        require_once("calender_event_handle.php");
-    }
-
-    $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
-    $result = $conn->query($sql);
-    
-    if ($result->num_rows > 0) {
-        $eventList = [];
-        while($row = $result->fetch_assoc()) {
-            $eventList[] = $row;
+    if (!empty($_GET['action'])){
+        $action = $_GET['action'];
+        if($action == "showEvent"){
+            require("calender_show_event.php");
         }
-    } 
-    else {
-        errorWrite($version,"No events found for the user");
+        
+        if($action == "createEvent"){
+            require("calender_create_event.php");
+        }
+        
+        if($action == "deleteEvent"){
+            require("calender_delete_event.php");
+        }
+        
+        if($action == "eventInvite"){
+            require("calender_event_invite.php");
+        }
+
+        if($action == "eventInvitation"){
+            require("calender_event_invitation.php");
+        }
+
+        if($action == "eventHandle"){
+            require("calender_event_handle.php");
+        }
+        errorWrite($version,"Not a valid action");
     }
-    $data = ["My events"=>$eventList];
-    jsonWrite($version,$data);
+
+    errorWrite($version,"No action made");
+
+
 ?>
