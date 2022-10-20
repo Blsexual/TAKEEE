@@ -1,5 +1,5 @@
 <?php
-    if(!empty($_GET['eventHandle'])){ 
+    if(!empty($_GET['action'])){ 
         if(!empty($_GET['eventAccept'])){
             require("calender_event_accept.php");
         }
