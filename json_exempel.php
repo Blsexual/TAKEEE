@@ -13,7 +13,7 @@
     }
 ?>
 
-<?php
+<?php #How to display the data in calendar
     function calendarWrite($version,$event){
         $data = ["My events"=>$event];
         $contents = ["Version"=>$version,"Type"=>"Ok","Data"=>$data];
@@ -21,8 +21,8 @@
     }
 ?>
 
-<?php #How to display the data in blog
-    function wikiWrite($version,$wiki, $wikiEntry){
+<?php #How to display the data in wiki
+    function wikiWrite($version,$wiki,$wikiEntry){
         $data = ["Wiki"=>$wiki,"Wiki entry"=>$wikiEntry];
         $contents = ["Version"=>$version,"Type"=>"Ok","Data"=>$data];
         die(json_encode($contents));
