@@ -32,7 +32,6 @@
 /*-----------------------------------------------------------
         Connect
 -----------------------------------------------------------*/
-
     $sql = "SELECT * FROM user WHERE name = '$username'";
     $result = $conn->query($sql);
 
@@ -40,11 +39,11 @@
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            if(password_verify($pass, $row['password'])){
+            if((password_verify($pass, $row['password']) && $row['endUser'][0] == "1") || (password_verify($pass, $row['password']) && $row['admin'][0] == "1")){
                 $_SESSION["user"] = $row["ID"];
     
                 // JSON Return
-                $data = ["Username"=>$username];
+                $data = ["Action"=>"Log in succsess","User"=>$row];
                 jsonWrite($version,$data);
             }
         }
