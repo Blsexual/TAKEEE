@@ -44,6 +44,10 @@
         require("calender_delete_event.php");
     }
 
+    if(isset($_GET['eventInvite'])){
+         require("calender_event_invite.php");
+     }
+
     $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
     $result = $conn->query($sql);
     
