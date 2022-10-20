@@ -1,7 +1,9 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+?>
 
+<?php
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
@@ -20,9 +22,7 @@
     $result = $conn->query($sql);                       // Sends question to database
 
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {          // output data of each row
-            $res = $row;
-        }
+        $res = $result->fetch_assoc();        // output data of each row
     } else{
         // JSON Return
         errorWrite($version,"we can not find the page you are looking for");

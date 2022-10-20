@@ -1,10 +1,13 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+?>
+
+<?php
     /*----------------------------------
         Variables
     ----------------------------------*/
-    $ID = $_REQUEST["ID"];
+    $ID = $_REQUEST['ID'];
     if (empty($_GET)){
         $data = ["error"=>"No ID was given"];
         $type = "error";
