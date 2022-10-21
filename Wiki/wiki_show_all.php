@@ -1,7 +1,7 @@
 <?php
     require_once("../db.php");
 
-    $ver = "0.1";
+    $ver = "0.1"; // WILL DELETE THIS
     $sql = "SELECT * FROM `wiki`";
     $result = $conn->query($sql);
     

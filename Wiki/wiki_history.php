@@ -3,7 +3,7 @@
     /*----------------------------------
         Variables
     ----------------------------------*/
-    $ver = "0.1";
+    $ver = "0.1"; // WILL DELETE THIS
     $ID = $_REQUEST["ID"];
     if (!isset($_REQUEST['ID'])){
         die("Error: Inget ID data har identifierats");
