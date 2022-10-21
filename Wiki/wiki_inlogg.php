@@ -4,9 +4,6 @@
 ?>
 
 <?php 
-    $data = [];
-    $type = "";
-
 /*-----------------------------------------------------------
         Get Input
 -----------------------------------------------------------*/
@@ -32,7 +29,6 @@
 /*-----------------------------------------------------------
         Connect
 -----------------------------------------------------------*/
-
     $sql = "SELECT * FROM user WHERE name = '$username'";
     $result = $conn->query($sql);
 
@@ -40,11 +36,17 @@
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            if(password_verify($pass, $row['password'])){
-                $_SESSION["user"] = $row["ID"];
-    
+            if((password_verify($pass, $row['password']) && $row['endUser'][0] == "1") || (password_verify($pass, $row['password']) && $row['admin'][0] == "1")){
+                $token = bin2hex(random_bytes(20));
+
+                $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
+                $id = $row['ID'];
+                $sql = "UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $id";
+
+                $conn->query($sql);
+
                 // JSON Return
-                $data = ["Username"=>$username];
+                $data = ["Action"=>"Log in succsess","User"=>$row];
                 jsonWrite($version,$data);
             }
         }
