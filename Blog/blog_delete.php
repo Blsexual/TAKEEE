@@ -29,6 +29,8 @@
         else if ($bID != 0){
             $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
             $conn->query($del);
+            $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $bID ";   // deletes blogs by specific id
+            $conn->query($del);
             $data = ["Action"=>"Blog deleted"];
             jsonWrite($version,$data);
         }
