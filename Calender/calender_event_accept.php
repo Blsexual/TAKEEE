@@ -3,7 +3,7 @@
         $iID = $_GET['invitationID'];
     }
     else{
-        errorWrite($version,"Didn't specify which invitation that was accepted");
+        errorWrite($version,"Didn't specify which invitation to accept");
     }
 
     $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=?");
@@ -22,7 +22,7 @@
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {           
-        errorWrite($version,"Have already accepted invitation");
+        errorWrite($version,"Invitation already accepted");
     }
     $stmt->close();
     
@@ -30,6 +30,6 @@
     $stmt->bind_param("i", $iID);
     $stmt->execute();
 
-    $data = ["Action"=>"Invite accepted"];
+    $data = ["Action"=>"Invitation accepted"];
     jsonWrite($version,$data);
 ?>
