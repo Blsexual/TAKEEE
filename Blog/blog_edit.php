@@ -9,9 +9,6 @@
     $title = 0;
     $content = 0;
 
-    /*---------------------------------------
-        updating entries and blogs
-    ----------------------------------------*/
 
     if(!empty($_GET['eID'])){
         $eID = $_GET['eID'];
@@ -26,76 +23,81 @@
     ----------------------------------------*/
 
 
-    if($eID != 0){
-        $eselect = "SELECT title,contents FROM blog_entry WHERE blog_entry.ID = '$eID'";
-        $result = $conn->query($eselect);
+        if($eID != 0){
+            $eselect = "SELECT title,contents FROM blog_entry WHERE blog_entry.ID = '$eID'";
+            $result = $conn->query($eselect);
 
-        
+            
 
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {  
-                $title = $row["title"];
-                $content = $row["contents"];
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {              // gets old title and content for entety
+                    $title = $row["title"];
+                    $content = $row["contents"];
 
+                }
+            } 
+            else {
+                errorWrite($version,"No blog entrys found");
             }
-        } 
-        else {
-            errorWrite($version,"No blog entrys found");
+
+            echo $title;
+            echo $content;
         }
 
-        echo $title;
-        echo $content;
-    }
+        if($bID != 0){
+            $eselect = "SELECT title,description FROM blog WHERE blog.ID = '$bID'";
+            $result = $conn->query($eselect);
 
-    if($bID != 0){
-        $eselect = "SELECT title,description FROM blog WHERE blog.ID = '$bID'";
-        $result = $conn->query($eselect);
+            
 
-        
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {          // gets old title and content for blog
+                    $title = $row["title"];
+                    $content = $row["description"];
 
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {  
-                $title = $row["title"];
-                $content = $row["description"];
-
+                }
+            } 
+            else {
+                errorWrite($version,"No blogs found");
             }
-        } 
-        else {
-            errorWrite($version,"No blogs found");
+
+            echo $title;
+            echo $content;
+        }
+    #
+
+    /*---------------------------------------
+        updating entries and blogs
+    ----------------------------------------*/
+
+
+
+        if(!empty($_GET['title'])){     //gets the new content and title
+            $title = $_GET['title'];
+        }
+        
+        if(!empty($_GET['content'])){
+            $content = $_GET['content'];
         }
 
-        echo $title;
-        echo $content;
-    }
 
 
-
-    if(!empty($_GET['title'])){     //gets the new content and title
-        $title = $_GET['title'];
-    }
-    
-    if(!empty($_GET['content'])){
-        $content = $_GET['content'];
-    }
-
-
-
-    if ($eID != 0){
-        $del = "UPDATE blog_entry SET title = '$title', contents = '$content' WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
-        $conn->query($del);
-        $data = ["Action"=>"Entry Updated"];
-        jsonWrite($version,$data);
-    }
-    else if ($bID != 0){
-        $del = "UPDATE blog SET title = '$title', description = '$content' WHERE blog.ID = $bID ";   // deletes blogs by specific id
-        $conn->query($del);
-        $data = ["Action"=>"Blog updated"];
-        jsonWrite($version,$data);
-    }
-    else{
-        errorWrite($version,"Wrong inputs");
-    }
-
+        if ($eID != 0){
+            $del = "UPDATE blog_entry SET title = '$title', contents = '$content' WHERE blog_entry.ID = $eID ";  // updates entries
+            $conn->query($del);
+            $data = ["Action"=>"Entry Updated"];
+            jsonWrite($version,$data);
+        }
+        else if ($bID != 0){
+            $del = "UPDATE blog SET title = '$title', description = '$content' WHERE blog.ID = $bID ";   // updates blogs
+            $conn->query($del);
+            $data = ["Action"=>"Blog updated"];
+            jsonWrite($version,$data);
+        }
+        else{
+            errorWrite($version,"Wrong inputs");
+        }
+    #
 
 ?>
 

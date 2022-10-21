@@ -11,31 +11,32 @@
         deleteng entries and blogs
     ----------------------------------------*/
 
-    if(!empty($_GET['eID'])){
-        $eID = $_GET['eID'];
-    }
-    
-    if(!empty($_GET['bID'])){
-        $bID = $_GET['bID'];
-    }
+        if(!empty($_GET['eID'])){
+            $eID = $_GET['eID'];
+        }
+        
+        if(!empty($_GET['bID'])){
+            $bID = $_GET['bID'];
+        }
 
 
-    if ($eID != 0){
-        $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
-        $conn->query($del);
-        $data = ["Action"=>"Entry deleted"];
-        jsonWrite($version,$data);
-    }
-    else if ($bID != 0){
-        $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
-        $conn->query($del);
-        $data = ["Action"=>"Blog deleted"];
-        jsonWrite($version,$data);
-    }
-    else{
-        errorWrite($version,"Wrong inputs");
-    }
+        if ($eID != 0){
+            $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
+            $conn->query($del);
+            $data = ["Action"=>"Entry deleted"];
+            jsonWrite($version,$data);
+        }
+        else if ($bID != 0){
+            $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
+            $conn->query($del);
+            $data = ["Action"=>"Blog deleted"];
+            jsonWrite($version,$data);
+        }
+        else{
+            errorWrite($version,"Wrong inputs");
+        }
 
+    #
 
 
     // ?eID=x
