@@ -1,12 +1,11 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+    require_once("calender_login.php");
 ?>
 
 <?php   //comment
-    if(!empty($_GET['token'])){
-
-    }
+    /* 
     if(!empty($_GET['uID'])){
         $uID = $_GET['uID'];
         $_SESSION['uID'] = $uID;
@@ -22,13 +21,15 @@
         errorWrite($version,"Not a valid user");
     }
 
-    $sql = "SELECT `ID` FROM user WHERE `ID`=$uID";
-    $result = $conn->query($sql);
-    
+    $stmt = $conn->prepare("SELECT `ID` FROM user WHERE `ID`=?");
+    $stmt->bind_param("i", $uID);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows == 0) {
         errorWrite($version,"User doesn't exist");
     }
+     */
 ?>
 
 <?php
