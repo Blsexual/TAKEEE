@@ -1,6 +1,9 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+    require_once("../login_check.php");
+
+    
 
     /*---------------------------------------
                 gets the data
@@ -23,13 +26,13 @@
             $bID = $_GET['bID'];
         }
 
-        
-        $uID = $_SESSION['uID'];
-        echo $uID;
+        $token = $_GET['token'];
+        $uID = $_GET['uID'];
         
 
         $date = date("Y/m/d H:i:s");
 
+        checkToken($token,$uID,"010",$version, $conn);
     #
 
     /*---------------------------------------
