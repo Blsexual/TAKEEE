@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Värd: 127.0.0.1
--- Tid vid skapande: 19 okt 2022 kl 14:32
+-- Tid vid skapande: 20 okt 2022 kl 14:30
 -- Serverversion: 10.4.24-MariaDB
 -- PHP-version: 8.1.6
 
@@ -98,7 +98,7 @@ CREATE TABLE `event_invitation` (
   `ID` int(11) NOT NULL,
   `uID` int(11) NOT NULL COMMENT 'the invited persons ID',
   `eID` int(11) NOT NULL COMMENT 'the event ID',
-  `accepted` tinyint(4) DEFAULT NULL COMMENT '1 = stay yes\r\n0 = REMOVE\r\nNULL = pending'
+  `accepted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = stay yes\r\n0 = pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 -- --------------------------------------------------------
@@ -115,15 +115,17 @@ CREATE TABLE `user` (
   `admin` varchar(3) COLLATE utf8_swedish_ci NOT NULL,
   `endUser` varchar(3) COLLATE utf8_swedish_ci NOT NULL,
   `description` text COLLATE utf8_swedish_ci NOT NULL,
-  `avatar` varchar(255) COLLATE utf8_swedish_ci NOT NULL
+  `avatar` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `validUntil` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
 -- Dumpning av Data i tabell `user`
 --
 
-INSERT INTO `user` (`ID`, `name`, `password`, `email`, `admin`, `endUser`, `description`, `avatar`) VALUES
-(1, 'root', '$2y$10$3QYV6xl41UM7JNJLjXvwseoYAbIr1lZi.RnyM4EZVyr.hueSbjEFi', 'root@root.se', '111', '000', 'root', '');
+INSERT INTO `user` (`ID`, `name`, `password`, `email`, `admin`, `endUser`, `description`, `avatar`, `token`, `validUntil`) VALUES
+(1, 'root', '$2y$10$HqO7.j659YsTD3jYlc2KeOwwFhqrXLSAqNWldiLwYBbGQl52fye2S', 'root@root.se', '111', '000', 'root', '', '', '2022-10-20 14:17:09');
 
 -- --------------------------------------------------------
 
