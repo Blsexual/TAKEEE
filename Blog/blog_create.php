@@ -23,9 +23,10 @@
             $bID = $_GET['bID'];
         }
 
-        if(!empty($_GET['uID'])){
-            $uID = $_GET['uID'];
-        }
+        
+        $uID = $_SESSION['uID'];
+        echo $uID;
+        
 
         $date = date("Y/m/d H:i:s");
 
