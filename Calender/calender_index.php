@@ -1,11 +1,14 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
-    require_once("calender_login.php");
+    require_once("../login_check.php");
 ?>
 
 <?php   //comment
-    /* 
+    if(!empty($_GET['token'])){
+
+    }
+    
     if(!empty($_GET['uID'])){
         $uID = $_GET['uID'];
         $_SESSION['uID'] = $uID;
@@ -29,36 +32,40 @@
     if ($result->num_rows == 0) {
         errorWrite($version,"User doesn't exist");
     }
-     */
+
 ?>
 
 <?php
-    if (!empty($_GET['action'])){
-        $action = $_GET['action'];
-        if($action == "showEvent"){
-            require("calender_show_event.php");
-        }
-        
-        if($action == "createEvent"){
-            require("calender_create_event.php");
-        }
-        
-        if($action == "deleteEvent"){
-            require("calender_delete_event.php");
-        }
-        
-        if($action == "eventInvite"){
-            require("calender_event_invite.php");
-        }
+    if(!empty($_GET)){
+        checkToken();
+        if(!empty($_GET['action'])){
+            $action = $_GET['action'];
+            if($action == "login"){
+                require_once("calender_login.php");
+            }
 
-        if($action == "eventInvitation"){
-            require("calender_event_invitation.php");
-        }
+            if($action == "showEvent"){
+                require_once("calender_show_event.php");
+            }
+            
+            if($action == "createEvent"){
+                require_once("calender_create_event.php");
+            }
+            
+            if($action == "deleteEvent"){
+                require_once("calender_delete_event.php");
+            }
 
-        if($action == "eventHandle"){
-            require("calender_event_handle.php");
+            if($action == "eventInvitation"){
+                require_once("calender_event_invitation.php");
+            }
+            
+            if($action == "eventHandle"){
+                require_once("calender_event_handle.php");
+            }
+            errorWrite($version,"Not a valid action");
         }
-        errorWrite($version,"Not a valid action");
+        errorWrite($version,"Wrong action made");
     }
     errorWrite($version,"No action made");
 ?>
