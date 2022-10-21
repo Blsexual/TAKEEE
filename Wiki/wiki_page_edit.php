@@ -1,6 +1,7 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+    require_once("../login_check.php");
 ?>
 
 <?php
@@ -12,9 +13,15 @@
     $title = $_GET["title"];
     $contents = $_GET["contents"];  // html?
     $page = $_GET["page"];
+    $token = $_GET["token"];
 
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
+
+/*-----------------------------------------------------------
+        Check Token
+-----------------------------------------------------------*/
+    checkToken($token, $user, "100", $version, $conn);
 
 /*-----------------------------------------------------------
         Connection
