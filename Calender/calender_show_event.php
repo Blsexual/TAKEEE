@@ -1,9 +1,4 @@
 <?php
-    require_once("../db.php");
-    require_once("../json_exempel.php");
-?>
-
-<?php
     $sql = "SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = $uID";
     $result = $conn->query($sql);
     
