@@ -11,8 +11,11 @@
     if (empty($_GET)){
         errorWrite($version,"No ID was given");
     }
-    $sql = "SELECT * FROM wiki_entry where (ID) = $ID";
-    $result = mysqli_query($conn, $sql);
+
+    $stmt = $conn->prepare("SELECT * FROM wiki_entry where (ID) = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $emparray = [];
     /*----------------------------------
@@ -25,7 +28,7 @@
     } else{
         errorWrite($version,"We could not find the page you were looking for");
     }
-
+    
     $sql = "SELECT MAX(editDate) AS editDate,title,contents,date,wID,oID,uID,ID FROM wiki_entry_history where (oID) = $ID";
     $result = mysqli_query($conn, $sql);
 
@@ -35,10 +38,6 @@
             $test[] = $row;
         }
     } else{
-        $data = ["Wiki entry"=>$emparray];
-        jsonWrite($version,$data);
-    }
-    if($test[0]["ID"] == NULL){
         $data = ["Wiki entry"=>$emparray];
         jsonWrite($version,$data);
     }
