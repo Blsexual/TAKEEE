@@ -5,7 +5,7 @@
     if(!empty($_GET["username"])){
         $username = $_GET["username"];
     } else{
-        errorWrite($version,"")
+        errorWrite($version,"");
     }
     if(!empty($_GET["password"])){
         $password = $_GET["password"];
