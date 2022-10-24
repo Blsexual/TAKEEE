@@ -37,15 +37,20 @@
     } else{
         $avatar = "unset";
     }
-
+    /*---------------------------------------------
+                Check If username is in use
+    ---------------------------------------------*/
     $stmt = $conn->prepare("SELECT * FROM user WHERE name = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if($result->num_rows > 0){
+    if($result->num_rows > 0){ 
         errorWrite($version,"Username already in use");
     } else{
+        /*---------------------------------------------
+                If its not in use insert the user
+        ---------------------------------------------*/
         $stmt = $conn->prepare("INSERT INTO user (name,password,email,admin,endUser,description,avatar) values(?,?,?,?,?,?,?)");
         $stmt->bind_param("sssssss", $username,$password,$email,$admin,$endUser,$description,$avatar);
         $stmt->execute();
