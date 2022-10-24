@@ -1,6 +1,7 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
+    require_once("../login_check.php");
 ?>
 
 <?php
@@ -10,10 +11,13 @@
 
     $user = $_REQUEST["user"];      // user = user ID
     $page = $_GET["page"];          // wiki_entry ID
+    $user = $_GET["uID"];
+    $token = $_GET["token"];
 
 /*-----------------------------------------------------------
         Is the user allowed to remove?
 -----------------------------------------------------------*/
+    checkToken($token, $user, "100", $version, $conn);
 
     $sql = "SELECT user.admin, user.endUser, wiki_entry.uID FROM user, wiki_entry WHERE user.ID = $user AND wiki_entry.uID = $user AND wiki_entry.ID = $page";       // gets the user for purposes to check if they are allowed to use the service 
     $result = $conn->query($sql);                       // Sends question to database

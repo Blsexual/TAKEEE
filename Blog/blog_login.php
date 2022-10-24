@@ -40,7 +40,7 @@
                 $conn->query($sql);
 
                 // JSON Return
-                $data = ["Action"=>"Log in succsess","User"=>$row];
+                $data = ["Action"=>"Log in succsess","User"=>$row, "Token"=>$token];
                 jsonWrite($version,$data);
             }
         }
