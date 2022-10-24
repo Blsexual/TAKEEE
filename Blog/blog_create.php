@@ -46,33 +46,44 @@
         creating new entries and blogs
     ----------------------------------------*/
 
-        if ($res["UserType"] == "admin"){
-            if($bID == 0){
-                $makeblog = "INSERT INTO blog(title,description,date,uID) VALUES ('$title','$content','$date','$uID')";       //creates the new blogs
-                $result = $conn->query($makeblog); 
-                $data = ["Action"=>"Blog created"];
-                jsonWrite($version,$data);
+    if ($res["UserType"] == "admin"){
+        if($bID != 0){
+            $stmt = $conn->prepare("SELECT `ID` FROM `Blog` WHERE `ID`=?");
+            $stmt->bind_param("i", $bID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result->num_rows == 0) {           
+                errorWrite($version,"Could not find Blog");
             }
-            else{
-                errorWrite($version,"Wrong inputs");
-            }
+            $stmt->close();
+
+            $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,bID,uID) VALUES (?,?,?,?,?)");  //creates the new entries
+            $stmt->bind_param("sssii", $title, $content, $date, $bID, $uID);   
+            $stmt->execute();    
+
+            $data = ["Action"=>"Entry created"];
+            jsonWrite($version,$data);
         }
-        else if ($res["UserType"] == "endUser"){
-            if ($bID != 0){
-                $makeentry = "INSERT INTO blog_entry(title,contents,date,bID,uID) VALUES ('$title','$content','$date','$bID','$uID')";       //creates the new entries
-                $result = $conn->query($makeentry); 
-                $data = ["Action"=>"Entry created"];
-                jsonWrite($version,$data);
-            }
-            else{
-                errorWrite($version,"Wrong inputs");
-            }
-        } 
+    }
+    else if($res["UserType"] == "admin"){
+        if($bID == 0){
+            $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
+            $stmt->bind_param("sssi", $title, $content, $date, $uID);   
+            $stmt->execute();         
+
+            $data = ["Action"=>"Entry created"];
+            jsonWrite($version,$data);
+        }
         else{
-            errorWrite($version,"no user");
+            errorWrite($version,"Wrong inputs");
         }
+    } 
+    else{
+        errorWrite($version,"no user");
+    }
 
 
-    #
-    //   ?title=x&content=x&uID=x
+#
+//   ?title=x&content=x&uID=x
 ?>
