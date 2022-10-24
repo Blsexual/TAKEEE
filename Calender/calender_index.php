@@ -47,26 +47,42 @@
             $token = $_GET['token'];
             $uID = $_GET['uID'];
             checkToken($token,$uID,"001",$version,$conn);
-
-            if($action == "showEvent"){
-                require_once("calender_show_event.php");
-            }
             
-            if($action == "createEvent"){
-                require_once("calender_create_event.php");
-            }
-            
-            if($action == "deleteEvent"){
-                require_once("calender_delete_event.php");
-            }
-
-            if($action == "eventInvitation"){
-                require_once("calender_event_invitation.php");
-            }
-            
-            if($action == "eventHandle"){
-                require_once("calender_event_handle.php");
-            }
+            /*----------------------------------------------------------------------
+                Shows a list of all events for the user
+            ----------------------------------------------------------------------*/
+                if($action == "showEvent"){
+                    require_once("calender_show_event.php");
+                }
+            #
+            /*----------------------------------------------------------------------
+                Allows the user to create a new event
+            ----------------------------------------------------------------------*/
+                if($action == "createEvent"){
+                    require_once("calender_create_event.php");
+                }
+            #
+            /*----------------------------------------------------------------------
+                Allows the user to delete one of their events
+            ----------------------------------------------------------------------*/
+                if($action == "deleteEvent"){
+                    require_once("calender_delete_event.php");
+                }
+            #
+            /*----------------------------------------------------------------------
+                Allows a user to invite another user to see a specified event
+            ----------------------------------------------------------------------*/
+                if($action == "eventInvitation"){
+                    require_once("calender_event_invitation.php");
+                }
+            #
+            /*----------------------------------------------------------------------
+                
+            ----------------------------------------------------------------------*/
+                if($action == "eventHandle"){
+                    require_once("calender_event_handle.php");
+                }
+            #
             errorWrite($version,"Not a valid action");
         }
         errorWrite($version,"Wrong action made");
