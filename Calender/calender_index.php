@@ -44,6 +44,8 @@
                 require_once("calender_login.php");
             }
 
+            $token = $_GET['token'];
+            $uID = $_GET['uID'];
             checkToken($token,$uID,"001",$version,$conn);
 
             if($action == "showEvent"){
