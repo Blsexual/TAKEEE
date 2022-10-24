@@ -29,8 +29,8 @@
                 $token = bin2hex(random_bytes(20));
 
                 $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
-                $ID = $row['ID'];
-                $sql = "UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $ID";
+                $uID = $row['ID'];
+                $sql = "UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $uID";
 
                 $conn->query($sql);
 
