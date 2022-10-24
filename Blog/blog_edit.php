@@ -3,25 +3,38 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    $res = checkToken($token,$uID,"010",$version, $conn);       // får tag om man är admin eller slutanvändare
 
-    $eID = 0;
-    $bID = 0;
-    $title = 0;
-    $content = 0;
-    $uID = 0;
-    $token = "";
+    /*---------------------------------------
+                Gets the data
+    ----------------------------------------*/
 
-
-    if(!empty($_GET['eID'])){
-        $eID = $_GET['eID'];
-    }
-    
-    if(!empty($_GET['bID'])){
-        $bID = $_GET['bID'];
-    }
+        $eID = 0;
+        $bID = 0;
+        $title = 0;
+        $content = 0;
+        $uID = 0;
+        $token = "";
 
 
+        if(!empty($_GET['eID'])){
+            $eID = $_GET['eID'];
+        }
+        
+        if(!empty($_GET['bID'])){
+            $bID = $_GET['bID'];
+        }
+
+        if(!empty($_GET['token'])){
+            $token = $_GET['token'];
+        }
+
+        if(!empty($_GET['uID'])){
+            $uID = $_GET['uID'];
+        }
+
+        $res = checkToken($token,$uID,"010",$version, $conn);       // gets if you are admin or enduser
+
+    #
 
     /*---------------------------------------
         getting the old title and content
@@ -64,8 +77,6 @@
                 errorWrite($version,"No blogs found");
             }
 
-            echo $title;
-            echo $content;
         }
     #
 
