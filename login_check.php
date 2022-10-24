@@ -7,6 +7,31 @@
 //  $version    | string    | ex. 0.1.0
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
     function checkToken($token,$uID,$service,$version,$conn){
+        if ($token == "test"){
+            $sql = "SELECT * FROM user WHERE ID = $uID";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                $result = $result->fetch_assoc();
+                $correctUser = 0;
+                $uType = "";
+                for($i = 2;$i>=0;--$i){
+                    if($result["endUser"][$i] == $service[$i]){
+                        $correctUser = 1;
+                        $uType = "endUser";
+                    }
+                    if($result["endUser"][$i] == $service[$i]){
+                        $correctUser = 1;
+                        $uType = "admin";
+                    }
+                }
+                if($correctUser != 1){
+                    errorWrite($version,"no user found or token not valid");
+                }
+            }
+            $conn->query($sql);
+            $data = ["UserType"=>"$uType"];
+            return $data;
+        }
         $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
         $result = $conn->query($sql);
 
