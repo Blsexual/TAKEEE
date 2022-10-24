@@ -1,6 +1,6 @@
 <?php
     require_once("db.php");
-    require_once("../json_exempel.php");
+    require_once("json_exempel.php");
 
     if(!empty($_GET["username"])){
         $username = $_GET["username"];
@@ -50,6 +50,8 @@
         $stmt->bind_param("sssssss", $username,$password,$email,$admin,$endUser,$description,$avatar);
         $stmt->execute();
         $result = $stmt->get_result();
+        $data = ["Result"=>"User was added successfully"];
+        jsonWrite($version, $data);
     }
 
 ?>
