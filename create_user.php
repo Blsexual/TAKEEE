@@ -8,7 +8,7 @@
         errorWrite($version,"No username given");
     }
     if(!empty($_GET["password"])){
-        $password = $_GET["password"];
+        $password = password_hash($_GET["password"],PASSWORD_DEFAULT);
     } else{
         errorWrite($version,"No password given");
     }
