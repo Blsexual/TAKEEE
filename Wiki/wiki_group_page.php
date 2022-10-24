@@ -26,6 +26,7 @@
 
     $sql = "SELECT * FROM wiki_entry where (wID) = $ID";
     $result = mysqli_query($conn, $sql);
+    
     /*----------------------------------
         Fetch entries
     ----------------------------------*/

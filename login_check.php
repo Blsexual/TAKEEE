@@ -7,10 +7,10 @@
 //  $version    | string    | ex. 0.1.0
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
     function checkToken($token,$uID,$service,$version,$conn){
-        if(!is_numeric($uID)){
+        if(!is_numeric($uID)){ // So $uID dont make error if is string
             errorWrite($version,"Not a valid user");
         }
-        if ($token == "test"){
+        if ($token == "test"){ // Temp for testing perpesess
             $sql = "SELECT * FROM user WHERE ID = $uID";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -57,25 +57,25 @@
             }
 
             #Checks if the end date is before the start date
-            $date = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
-            $pattern = ['/:/i','/-/i','/ /i']; //kommentera skiten!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $now = preg_replace($pattern, "", $date);
-            $tokenEnd = preg_replace($pattern, "", $result["validUntil"]);
-            
-            $now = (int)$now;
-            $tokenEnd = (int)$tokenEnd;
+                $date = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
+                $pattern = ['/:/i','/-/i','/ /i']; // Removes ":","-" and " "
+                $now = preg_replace($pattern, "", $date);
+                $tokenEnd = preg_replace($pattern, "", $result["validUntil"]);
+                
+                $now = (int)$now;
+                $tokenEnd = (int)$tokenEnd;
 
-            if($now > $tokenEnd){
-                errorWrite($version,"token not valid");
-            } else{
-                $ID = $result["ID"];
-                $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
-                $sql = "UPDATE user SET validUntil = '$date' WHERE ID = $ID";
+                if($now > $tokenEnd){
+                    errorWrite($version,"token not valid");
+                } else{
+                    $ID = $result["ID"];
+                    $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
+                    $sql = "UPDATE user SET validUntil = '$date' WHERE ID = $ID";
 
-                $conn->query($sql);
-                $data = ["UserType"=>"$uType"];
-                return $data;
-            }
+                    $conn->query($sql);
+                    $data = ["UserType"=>"$uType"];
+                    return $data;
+                }
             #
         } else{
             errorWrite($version,"no user found");
