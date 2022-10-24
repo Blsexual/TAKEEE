@@ -3,8 +3,7 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    $res = checkToken($token,$uID,"010",$version, $conn);       // får tag om man är admin eller slutanvändare
-
+    
     /*---------------------------------------
                 Gets the data
     ----------------------------------------*/
@@ -14,6 +13,8 @@
         $bID = 0;
         $uID = 0;
         $token = "";
+
+        
 
         if(!empty($_GET['title'])){
             $title = $_GET['title'];
@@ -36,6 +37,8 @@
         }
         
         $date = date("Y/m/d H:i:s");
+
+        $res = checkToken($token,$uID,"010",$version, $conn);       // gets if you are admin or enduser
 
     #
 
