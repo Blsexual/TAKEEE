@@ -3,7 +3,7 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    
+
     /*---------------------------------------
                 Gets the data
     ----------------------------------------*/
@@ -13,6 +13,7 @@
         $uID = 0;
         $token = "";
 
+        
         if(!empty($_GET['eID'])){
             $eID = $_GET['eID'];
         }
