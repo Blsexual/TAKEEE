@@ -7,6 +7,9 @@
 //  $version    | string    | ex. 0.1.0
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
     function checkToken($token,$uID,$service,$version,$conn){
+        if(!is_numeric($uID)){
+            errorWrite($version,"Not a valid user");
+        }
         if ($token == "test"){
             $sql = "SELECT * FROM user WHERE ID = $uID";
             $result = $conn->query($sql);
