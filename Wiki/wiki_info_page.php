@@ -1,48 +1,59 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
-?>
-
-<?php
+    
     /*----------------------------------
         Variables
     ----------------------------------*/
-    $ID = $_REQUEST['ID'];
-    if (empty($_GET)){
+    if (isset($_REQUEST['ID'])){
+        $ID = $_REQUEST["ID"];
+    }
+    if (empty($ID)){
         errorWrite($version,"No ID was given");
     }
 
     $stmt = $conn->prepare("SELECT * FROM wiki_entry where (ID) = ?");
     $stmt->bind_param("i", $ID);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $resultInfoPage = $stmt->get_result();
 
     $emparray = [];
     /*----------------------------------
         Fetch data
     ----------------------------------*/
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)){
+    if ($resultInfoPage->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($resultInfoPage)){
             $emparray[] = $row;
         }
     } else{
         errorWrite($version,"We could not find the page you were looking for");
     }
-    
-    $sql = "SELECT MAX(editDate) AS editDate,title,contents,date,wID,oID,uID,ID FROM wiki_entry_history where (oID) = $ID";
-    $result = mysqli_query($conn, $sql);
+
+    $stmt = $conn->prepare("SELECT MAX(editDate) AS editDate,title,contents,date,wID,oID,uID,ID FROM wiki_entry_history where (oID) = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $resultHistory = $stmt->get_result();
 
     $test = [];
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)){
-            $test[] = $row;
+    $nullData = false;
+    if ($resultHistory->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($resultHistory)){
+            if ($row['ID'] != NULL){
+                $test[] = $row;
+            } else {
+                $nullData = true; // If no history exists, this will prepare for wiki_entry to output
+            }
         }
     } else{
-        $data = ["Wiki entry"=>$emparray];
+        $nullData = true; // If no history exists, this will prepare for wiki_entry to output
+    }
+    if ($nullData = true){
+        $data = ["Wiki entry"=>$emparray]; // Wiki entry gets output (wiki_entry)
+        jsonWrite($version,$data);
+    } else{
+        $data = ["Wiki entry"=>$test]; // Edited wiki gets output (wiki_entry_history)
         jsonWrite($version,$data);
     }
-    $data = ["Wiki entry"=>$test];
-    jsonWrite($version,$data);
     
     
 ?>

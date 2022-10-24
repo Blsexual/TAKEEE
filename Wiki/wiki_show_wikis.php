@@ -5,17 +5,9 @@
     /*----------------------------------
         Variables
     ----------------------------------*/
-    if (isset($_REQUEST['ID'])){
-        $ID = $_REQUEST["ID"];
-    }
-    if (empty($ID)){
-        errorWrite($version,"No ID was given");
-    }
 
-    $stmt = $conn->prepare("SELECT * FROM wiki_entry_history where (oID) = ?");
-    $stmt->bind_param("i", $ID);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM `wiki`";
+    $result = $conn->query($sql);
 
     $emparray = [];
     /*----------------------------------
@@ -26,7 +18,7 @@
             $emparray[] = $row;
         }
     } else{
-        errorWrite($version,"We could not find the page you were looking for");
+        errorWrite($version,"No wiki's found");
     }
 
     $data = ["Wiki entry"=>$emparray];

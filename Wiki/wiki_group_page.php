@@ -1,31 +1,39 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
-?>
-
-<?php
+    
     /*----------------------------------
         Variables
     ----------------------------------*/
+    if (isset($_REQUEST['ID'])){
         $ID = $_REQUEST["ID"];
-        if (empty($_GET)){
-            errorWrite($version,"Wrong username or password was given");
-        }
-    #
+    }
+    if (empty($ID)){
+        errorWrite($version,"No ID was given");
+    }
 
-    $sql = "SELECT * FROM wiki where (ID) = $ID";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM wiki where (ID) = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $emparray = [];
     /*----------------------------------
         Fetch data
     ----------------------------------*/
-    while ($row = mysqli_fetch_assoc($result)){
-        $emparray[] = $row;
+    if ($result->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($result)){
+            $emparray[] = $row;
+        }
+    } else{
+        errorWrite($version,"We could not find the page you were looking for");
     }
 
-    $sql = "SELECT * FROM wiki_entry where (wID) = $ID";
-    $result = mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("SELECT * FROM wiki_entry where (wID) = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     /*----------------------------------
         Fetch entries
     ----------------------------------*/
