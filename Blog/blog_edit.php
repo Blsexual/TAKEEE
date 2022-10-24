@@ -1,13 +1,16 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
-?>
+    require_once("../login_check.php");
 
-<?php
+    $res = checkToken($token,$uID,"010",$version, $conn);       // får tag om man är admin eller slutanvändare
+
     $eID = 0;
     $bID = 0;
     $title = 0;
     $content = 0;
+    $uID = 0;
+    $token = "";
 
 
     if(!empty($_GET['eID'])){
@@ -17,6 +20,8 @@
     if(!empty($_GET['bID'])){
         $bID = $_GET['bID'];
     }
+
+
 
     /*---------------------------------------
         getting the old title and content
@@ -40,8 +45,6 @@
                 errorWrite($version,"No blog entrys found");
             }
 
-            echo $title;
-            echo $content;
         }
 
         if($bID != 0){
@@ -81,22 +84,32 @@
         }
 
 
-
-        if ($eID != 0){
-            $del = "UPDATE blog_entry SET title = '$title', contents = '$content' WHERE blog_entry.ID = $eID ";  // updates entries
-            $conn->query($del);
-            $data = ["Action"=>"Entry Updated"];
-            jsonWrite($version,$data);
+        if ($res["UserType"] == "endUser"){
+            if ($eID != 0){
+                $del = "UPDATE blog_entry SET title = '$title', contents = '$content' WHERE blog_entry.ID = $eID ";  // updates entries
+                $conn->query($del);
+                $data = ["Action"=>"Entry Updated"];
+                jsonWrite($version,$data);
+            }
+            else{
+                errorWrite($version,"Wrong inputs");
+            }
         }
-        else if ($bID != 0){
-            $del = "UPDATE blog SET title = '$title', description = '$content' WHERE blog.ID = $bID ";   // updates blogs
-            $conn->query($del);
-            $data = ["Action"=>"Blog updated"];
-            jsonWrite($version,$data);
+        else if ($res["UserType"] == "admin"){
+            if ($bID != 0){
+                $del = "UPDATE blog SET title = '$title', description = '$content' WHERE blog.ID = $bID ";   // updates blogs
+                $conn->query($del);
+                $data = ["Action"=>"Blog updated"];
+                jsonWrite($version,$data);
+            }
+            else{
+                errorWrite($version,"Wrong inputs");
+            }
         }
-        else{
-            errorWrite($version,"Wrong inputs");
+        else {
+            errorWrite($version,"No user");
         }
+       
     #
 
 ?>

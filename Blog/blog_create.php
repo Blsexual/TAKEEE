@@ -3,10 +3,10 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    
+    $res = checkToken($token,$uID,"010",$version, $conn);       // får tag om man är admin eller slutanvändare
 
     /*---------------------------------------
-                gets the data
+                Gets the data
     ----------------------------------------*/
 
         $title = "No Title";
@@ -35,19 +35,15 @@
             $uID = $_GET['uID'];
         }
         
-        
-
         $date = date("Y/m/d H:i:s");
 
-        $res = checkToken($token,$uID,"010",$version, $conn);
-        print_r($res);
     #
 
     /*---------------------------------------
         creating new entries and blogs
     ----------------------------------------*/
 
-        if ($res["UserType"] == "endUser"){
+        if ($res["UserType"] == "admin"){
             if($bID == 0){
                 $makeblog = "INSERT INTO blog(title,description,date,uID) VALUES ('$title','$content','$date','$uID')";       //creates the new blogs
                 $result = $conn->query($makeblog); 
@@ -58,7 +54,7 @@
                 errorWrite($version,"Wrong inputs");
             }
         }
-        else if ($res["UserType"] == "admin"){
+        else if ($res["UserType"] == "endUser"){
             if ($bID != 0){
                 $makeentry = "INSERT INTO blog_entry(title,contents,date,bID,uID) VALUES ('$title','$content','$date','$bID','$uID')";       //creates the new entries
                 $result = $conn->query($makeentry); 
@@ -69,6 +65,9 @@
                 errorWrite($version,"Wrong inputs");
             }
         } 
+        else{
+            errorWrite($version,"no user");
+        }
 
 
     #
