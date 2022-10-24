@@ -1,13 +1,13 @@
 <?php
-//  checkToken($token,$userID,$service,$conn)
+//  checkToken($token,$uID,$service,$conn)
 //  If successfull return as json "UserType"="admin" or "endUser" if unsuccsessful runs errorWrite() with a error message
 //  $token      | string    | ex. d801881dccef34fd79f5b5dd1d33699413d4c912
-//  $userID     | int       | ex. 1
+//  $uID     | int       | ex. 1
 //  $service    | string    | ex. 100 = wiki, 010 = blog, 001 = calander
 //  $version    | string    | ex. 0.1.0
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
-    function checkToken($token,$userID,$service,$version,$conn){
-        $sql = "SELECT * FROM user WHERE ID = $userID AND token = '$token'";
+    function checkToken($token,$uID,$service,$version,$conn){
+        $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

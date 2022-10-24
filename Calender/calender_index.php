@@ -5,6 +5,7 @@
 ?>
 
 <?php   //comment
+/* 
     if(!empty($_GET['token'])){
 
     }
@@ -32,17 +33,18 @@
     if ($result->num_rows == 0) {
         errorWrite($version,"User doesn't exist");
     }
-
+ */
 ?>
 
 <?php
     if(!empty($_GET)){
-        checkToken();
         if(!empty($_GET['action'])){
             $action = $_GET['action'];
             if($action == "login"){
                 require_once("calender_login.php");
             }
+
+            checkToken($token,$uID,"001",$version,$conn);
 
             if($action == "showEvent"){
                 require_once("calender_show_event.php");
