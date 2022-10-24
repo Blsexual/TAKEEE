@@ -1,15 +1,13 @@
 <?php
     require_once("../db.php");
     require_once("../json_exempel.php");
-?>
-
-<?php
+    
     $bID = 0;
 
     if(!empty($_GET['bID'])){
         $bID = $_GET["bID"];
     }
-    echo $bID;
+    
 
     /*---------------------------------------
                     Blogs

@@ -35,7 +35,6 @@
 
                 $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
                 $id = $row['ID'];
-                $_SESSION['uID'] = $row['ID'];
                 $sql = "UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $id";
 
                 $conn->query($sql);
