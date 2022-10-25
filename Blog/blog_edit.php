@@ -42,8 +42,10 @@
 
 
         if($eID != 0){
-            $eselect = "SELECT title,contents FROM blog_entry WHERE blog_entry.ID = '$eID'";
-            $result = $conn->query($eselect);
+            $stmt = $conn->prepare("SELECT title,contents FROM blog_entry WHERE blog_entry.ID = ?");
+            $stmt->bind_param("i", $eID); 
+            $stmt->execute();  
+            $result = $stmt->get_result();
 
             
 
@@ -61,8 +63,10 @@
         }
 
         if($bID != 0){
-            $eselect = "SELECT title,description FROM blog WHERE blog.ID = '$bID'";
-            $result = $conn->query($eselect);
+            $stmt = $conn->prepare("SELECT title,description FROM blog WHERE blog.ID = ?");
+            $stmt->bind_param("i", $bID); 
+            $stmt->execute();  
+            $result = $stmt->get_result();
 
             
 
@@ -97,8 +101,9 @@
 
         if ($res["UserType"] == "endUser"){
             if ($eID != 0){
-                $del = "UPDATE blog_entry SET title = '$title', contents = '$content' WHERE blog_entry.ID = $eID ";  // updates entries
-                $conn->query($del);
+                $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
+                $stmt->bind_param("ssi", $title, $content, $eID); 
+                $stmt->execute();  
                 $data = ["Action"=>"Entry Updated"];
                 jsonWrite($version,$data);
             }
@@ -108,8 +113,9 @@
         }
         else if ($res["UserType"] == "admin"){
             if ($bID != 0){
-                $del = "UPDATE blog SET title = '$title', description = '$content' WHERE blog.ID = $bID ";   // updates blogs
-                $conn->query($del);
+                $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.ID = ? "); // updates blogs
+                $stmt->bind_param("ssi", $title, $content, $bID); 
+                $stmt->execute(); 
                 $data = ["Action"=>"Blog updated"];
                 jsonWrite($version,$data);
             }

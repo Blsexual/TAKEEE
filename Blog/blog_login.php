@@ -23,8 +23,10 @@
 /*-----------------------------------------------------------
         Connect
 -----------------------------------------------------------*/
-    $sql = "SELECT * FROM user WHERE name = '$username'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM user WHERE name = ?");
+    $stmt->bind_param("s", $username); 
+    $stmt->execute(); 
+    $result = $stmt->get_result();
 
     $userA = [];
     if ($result->num_rows > 0) {
@@ -35,9 +37,9 @@
 
                 $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
                 $id = $row['ID'];
-                $sql = "UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $id";
-
-                $conn->query($sql);
+                $stmt = $conn->prepare("UPDATE user SET token = ?, validUntil = ?  WHERE ID = ?");
+                $stmt->bind_param("ssi", $token, $date, $id); 
+                $stmt->execute(); 
 
                 // JSON Return
                 $data = ["Action"=>"Log in succsess","User"=>$row, "Token"=>$token];
