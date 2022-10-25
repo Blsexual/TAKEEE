@@ -81,9 +81,9 @@
                     require_once("calender_event_handle.php");
                 }
             #
-            errorWrite($version,"Not a valid action");
+            errorWrite($version,"No a valid action made");
         }
-        errorWrite($version,"Wrong action made");
+        errorWrite($version,"Invalid action made");
     }
     errorWrite($version,"No action made");
 ?>
