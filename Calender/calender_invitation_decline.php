@@ -1,0 +1,55 @@
+<?php
+    /*----------------------------------------------------------------------
+        Checks if the invitation is set
+    ----------------------------------------------------------------------*/
+        if(!empty($_GET['invitationID'])){
+            $iID = $_GET['invitationID'];
+        }
+        else{
+            errorWrite($version,"Didn't specify which invitation to decline");
+        }
+    #
+
+    /*----------------------------------------------------------------------
+        Checks if the invitation exists
+    ----------------------------------------------------------------------*/
+        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=?");
+        $stmt->bind_param("i",$iID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {           
+            errorWrite($version,"Could not find invitation");
+        }
+        $stmt->close();
+    #
+
+    /*----------------------------------------------------------------------
+        Checks if it is the recipent declining the invitation
+    ----------------------------------------------------------------------*/
+        $stmt = $conn->prepare("SELECT `rID` FROM `event_invitation` WHERE `rID`=?");
+        $stmt->bind_param("i",$uID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {           
+            errorWrite($version,"Only recipient can decline");
+        }
+        $stmt->close();
+    #
+
+    /*----------------------------------------------------------------------
+        Deletes specified invitation
+    ----------------------------------------------------------------------*/
+    $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=?");
+    $stmt->bind_param("i",$iID);
+    $stmt->execute();
+    #
+
+    /*----------------------------------------------------------------------
+        Outputs json
+    ----------------------------------------------------------------------*/
+        $data = ["Action"=>"Invitation declined"];
+        jsonWrite($version,$data);
+    #
+?>

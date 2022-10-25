@@ -53,7 +53,7 @@
                 }
             }
             if($correctUser != 1){
-                errorWrite($version,"no user found");
+                errorWrite($version,"no user found or token not valid");
             }
 
             #Checks if the end date is before the start date
@@ -78,7 +78,7 @@
             }
             #
         } else{
-            errorWrite($version,"no user found");
+            errorWrite($version,"no user found or token not valid");
         }
 
 

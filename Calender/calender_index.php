@@ -44,8 +44,16 @@
                 require_once("calender_login.php");
             }
 
+            if(empty($_GET['token'])){
+                errorWrite($version,"No set token");
+            }
             $token = $_GET['token'];
+            
+            if(empty($_GET['uID'])){
+                errorWrite($version,"No set user");
+            }
             $uID = $_GET['uID'];
+
             checkToken($token,$uID,"001",$version,$conn);
             
             /*----------------------------------------------------------------------
@@ -72,9 +80,9 @@
             /*----------------------------------------------------------------------
                 Shows all events on the timeline
             ----------------------------------------------------------------------*/
-            if($action == "sortTimeline"){
-                require_once("calender_sort_timeline.php");
-            }
+                if($action == "sortTimeline"){
+                    require_once("calender_sort_timeline.php");
+                }
             #
             /*----------------------------------------------------------------------
                 Allows a user to invite another user to see a specified event
@@ -90,7 +98,7 @@
                     require_once("calender_event_handle.php");
                 }
             #
-            errorWrite($version,"No a valid action made");
+            errorWrite($version,"No valid action made");
         }
         errorWrite($version,"Invalid action made");
     }
