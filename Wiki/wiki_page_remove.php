@@ -15,12 +15,12 @@
     $token = $_GET["token"];
 
 /*-----------------------------------------------------------
-        Is the user allowed to remove?
+        Check Token
 -----------------------------------------------------------*/
     checkToken($token, $user, "100", $version, $conn);
-
-    $sql = "";       // gets the user for purposes to check if they are allowed to use the service 
-    $result = $conn->query($sql);                       // Sends question to database
+/*-----------------------------------------------------------
+        Is the user allowed to remove?
+-----------------------------------------------------------*/
 
     $stmt = $conn->prepare("SELECT user.admin, user.endUser, wiki_entry.uID FROM user, wiki_entry WHERE user.ID = ? AND wiki_entry.uID = ? AND wiki_entry.ID = ?");
     $stmt->bind_param("iii", $user, $user, $page);

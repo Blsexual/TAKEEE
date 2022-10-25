@@ -15,10 +15,14 @@
     $user = $_GET["uID"];
     $token = $_GET["token"];
 
-    checkToken($token, $user, "100", $version, $conn);
-
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
+
+/*-----------------------------------------------------------
+        Check Token
+-----------------------------------------------------------*/
+
+    checkToken($token, $user, "100", $version, $conn);
 
 /*-----------------------------------------------------------
         Connection

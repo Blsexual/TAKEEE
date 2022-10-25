@@ -10,7 +10,7 @@
         if(!is_numeric($uID)){ // So $uID dont make error if is string
             errorWrite($version,"Not a valid user");
         }
-        if ($token == "test"){ // Temp for testing perpesess
+        if ($token == "test"){ // Temp for testing
             $sql = "SELECT * FROM user WHERE ID = $uID";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {

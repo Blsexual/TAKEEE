@@ -1,29 +1,32 @@
 <?php
+//?username=?&password=?&email=?&admin=?&endUser=?&desc=optional&avatar=optional
+
+
     require_once("db.php");
     require_once("json_exempel.php");
 
     if(!empty($_GET["username"])){
-        $username = $_GET["username"];
+        $username = $_GET["username"];      // Name of user
     } else{
         errorWrite($version,"No username given");
     }
     if(!empty($_GET["password"])){
-        $password = password_hash($_GET["password"],PASSWORD_DEFAULT);
+        $password = password_hash($_GET["password"],PASSWORD_DEFAULT); // Password of user
     } else{
         errorWrite($version,"No password given");
     }
     if(!empty($_GET["email"])){
-        $email = $_GET["email"];
+        $email = $_GET["email"];        // Email of user
     } else{
         errorWrite($version,"No email given");
     }
     if(!empty($_GET["admin"])){
-        $admin = $_GET["admin"];
+        $admin = $_GET["admin"];        // 000 | 100 wiki | 010 blog | 001 calender
     } else{
         errorWrite($version,"Admin privilliges not defined");
     }
     if(!empty($_GET["endUser"])){
-        $endUser = $_GET["endUser"];
+        $endUser = $_GET["endUser"];    // 000 | 100 wiki | 010 blog | 001 calender
     } else{
         errorWrite($version,"End user privilliges not defined");
     }
