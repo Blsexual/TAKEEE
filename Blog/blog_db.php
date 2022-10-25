@@ -15,12 +15,16 @@
 
         if ($bID == -1){
             $selectBlog = "SELECT * FROM blog";
+            $result = $conn->query($selectBlog);
         }
         else{
-            $selectBlog = "SELECT * FROM blog WHERE blog.ID = '$bID'";
+            $stmt = $conn->prepare("SELECT * FROM blog WHERE blog.ID = ?");
+            $stmt->bind_param("i", $bID); 
+            $stmt->execute();  
+            $result = $stmt->get_result();  
         }
 
-        $result = $conn->query($selectBlog);
+        
 
         if ($result->num_rows > 0) {
             $bloggList = [];
@@ -42,8 +46,10 @@
             jsonWrite($version,$data); 
         }
         else{
-            $entry = "SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = '$bID' AND blog_entry.bID = '$bID'";
-            $result = $conn->query($entry);
+            $stmt = $conn->prepare("SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = ? AND blog_entry.bID = ?");
+            $stmt->bind_param("ii", $bID, $bID); 
+            $stmt->execute();  
+            $result = $stmt->get_result();
             
         
             if ($result->num_rows > 0) {

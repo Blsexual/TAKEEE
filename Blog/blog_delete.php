@@ -39,8 +39,9 @@
 
         if ($res["UserType"] == "endUser"){
             if ($eID != 0){
-                $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $eID ";  // deletes entries by specific id
-                $conn->query($del);
+                $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.ID = ? ");  // deletes entries by specific id
+                $stmt->bind_param("i", $eID); 
+                $stmt->execute();  
                 $data = ["Action"=>"Entry deleted"];
                 jsonWrite($version,$data);
             }
@@ -50,10 +51,14 @@
         }
         else if ($res["UserType"] == "admin"){
             if ($bID != 0){
-                $del = "DELETE FROM blog WHERE blog.ID = $bID ";   // deletes blogs by specific id
-                $conn->query($del);
-                $del = "DELETE FROM blog_entry WHERE blog_entry.ID = $bID ";   // Fix this
-                $conn->query($del);
+                $stmt = $conn->prepare("DELETE FROM blog WHERE blog.ID = ?"); // deletes blogs by specific id
+                $stmt->bind_param("i", $bID); 
+                $stmt->execute(); 
+
+                $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.bID = ?"); // deletes entries from the blog when deleted
+                $stmt->bind_param("i", $bID); 
+                $stmt->execute(); 
+                
                 $data = ["Action"=>"Blog deleted"];
                 jsonWrite($version,$data);
             }
