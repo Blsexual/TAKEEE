@@ -12,8 +12,6 @@
         $bID = 0;
         $title = 0;
         $content = 0;
-        $uID = 0;
-        $token = "";
 
 
         if(!empty($_GET['eID'])){
@@ -23,16 +21,6 @@
         if(!empty($_GET['bID'])){
             $bID = $_GET['bID'];
         }
-
-        if(!empty($_GET['token'])){
-            $token = $_GET['token'];
-        }
-
-        if(!empty($_GET['uID'])){
-            $uID = $_GET['uID'];
-        }
-
-        $res = checkToken($token,$uID,"010",$version, $conn);       // gets if you are admin or enduser
 
     #
 

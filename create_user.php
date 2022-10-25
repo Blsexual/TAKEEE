@@ -6,7 +6,9 @@
 
     require_once("db.php");
     require_once("json_exempel.php");
+    require_once("login_check.php");
 
+    
     if(!empty($_GET["username"])){
         $username = $_GET["username"];      // Name of user
     } else{
