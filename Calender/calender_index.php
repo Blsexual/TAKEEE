@@ -70,6 +70,13 @@
                 }
             #
             /*----------------------------------------------------------------------
+                Shows all events on the timeline
+            ----------------------------------------------------------------------*/
+            if($action == "sortTimeline"){
+                require_once("calender_sort_timeline.php");
+            }
+            #
+            /*----------------------------------------------------------------------
                 Allows a user to invite another user to see a specified event
             ----------------------------------------------------------------------*/
                 if($action == "eventInvitation"){
