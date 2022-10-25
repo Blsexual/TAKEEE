@@ -9,8 +9,8 @@
     }
     $endDate = $_GET['endDate'];
 
-    $stmt = $conn->prepare("SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `startDate` BETWEEN '0000-00-00 00:00:00' AND ? AND `endDate` BETWEEN ? AND '9999-12-30 23:59:59' ORDER BY `startDate` asc");
-    $stmt->bind_param("ss", $endDate,$startDate);
+    $stmt = $conn->prepare("SELECT `ID`, `uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = ? AND `startDate` BETWEEN '0000-00-00 00:00:00' AND ? AND `endDate` BETWEEN ? AND '9999-12-30 23:59:59' ORDER BY `startDate` asc");
+    $stmt->bind_param("iss",$uID,$endDate,$startDate);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -19,11 +19,13 @@
         while($row = $result->fetch_assoc()) {
             $eventList[] = $row;
         }
+        $data["My events"] = $eventList;
     } 
-    else {
-        errorWrite($version,"No events found for the user between those times");
+    
+    require_once("calender_sort_timeline_accepted.php");
+    
+    if(!empty($data)){
+        jsonWrite($version,$data); 
     }
-    $data = ["My events"=>$eventList];
-    jsonWrite($version,$data);
-
+    errorWrite($version,"No events found for the user");
 ?>
