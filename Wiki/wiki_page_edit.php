@@ -1,10 +1,12 @@
 <?php
+/*-----------------------------------------------------------
+        Imports
+-----------------------------------------------------------*/
+
     require_once("../db.php");
     require_once("../json_exempel.php");
     require_once("../login_check.php");
-?>
 
-<?php
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
@@ -26,8 +28,10 @@
 /*-----------------------------------------------------------
         Connection
 -----------------------------------------------------------*/
-    $sql = "SELECT date FROM wiki_entry WHERE ID = $page";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT date FROM wiki_entry WHERE ID = ?");
+    $stmt->bind_param("i", $page);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {          // output data of each row
@@ -39,9 +43,10 @@
         errorWrite($version,"we cant find the page you are looking for");
     }
 
-    $sql = "INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES($page,$wiki,$user,'$title','$contents','$date','$todayDate')";
-
-    $result = $conn->query($sql);       // Sends question to database
+    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES(?,?,?,?,?,?,?)");
+    $stmt->bind_param("iiissss", $page,$wiki,$user,$title,$contents,$date,$todayDate);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     
 ?>
