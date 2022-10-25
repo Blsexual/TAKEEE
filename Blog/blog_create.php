@@ -3,7 +3,7 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    
+    echo "hej";
     /*---------------------------------------
                 Gets the data
     ----------------------------------------*/
@@ -11,9 +11,6 @@
         $title = "No Title";
         $content = "No content";  // sets base variables
         $bID = 0;
-        $uID = 0;
-        $token = "";
-
         
 
         if(!empty($_GET['title'])){
@@ -28,17 +25,8 @@
             $bID = $_GET['bID'];
         }
 
-        if(!empty($_GET['token'])){
-            $token = $_GET['token'];
-        }
 
-        if(!empty($_GET['uID'])){
-            $uID = $_GET['uID'];
-        }
-        
         $date = date("Y/m/d H:i:s");
-
-        $res = checkToken($token,$uID,"010",$version, $conn);       // gets if you are admin or enduser
 
     #
 
@@ -46,7 +34,7 @@
         creating new entries and blogs
     ----------------------------------------*/
 
-    if ($res["UserType"] == "admin"){
+    if ($res["UserType"] == "endUser"){
         if($bID != 0){
             $stmt = $conn->prepare("SELECT `ID` FROM `Blog` WHERE `ID`=?");
             $stmt->bind_param("i", $bID);
@@ -72,7 +60,7 @@
             $stmt->bind_param("sssi", $title, $content, $date, $uID);   
             $stmt->execute();         
 
-            $data = ["Action"=>"Entry created"];
+            $data = ["Action"=>"Blog created"];
             jsonWrite($version,$data);
         }
         else{
