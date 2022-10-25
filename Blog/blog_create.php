@@ -3,7 +3,7 @@
     require_once("../json_exempel.php");
     require_once("../login_check.php");
 
-    echo "hej";
+
     /*---------------------------------------
                 Gets the data
     ----------------------------------------*/
@@ -53,8 +53,11 @@
             $data = ["Action"=>"Entry created"];
             jsonWrite($version,$data);
         }
+        else{
+            errorWrite($version,"Wrong inputs");
+        }
     }
-    else if($res["UserType"] == "admin"){
+    if($res["UserType"] == "admin"){
         if($bID == 0){
             $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
             $stmt->bind_param("sssi", $title, $content, $date, $uID);   
