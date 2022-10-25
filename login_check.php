@@ -80,7 +80,5 @@
         } else{
             errorWrite($version,"no user found");
         }
-
-
     }
 ?>

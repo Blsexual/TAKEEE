@@ -1,4 +1,6 @@
 <?php
+// Connecting into the database
+
     session_start();
     error_reporting(0); //Haha get trolled
     $version = "0.1.1";

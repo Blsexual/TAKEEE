@@ -1,4 +1,6 @@
 <?php
+// Create users
+
 //?username=?&password=?&email=?&admin=?&endUser=?&desc=optional&avatar=optional
 
 
