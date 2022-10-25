@@ -2,10 +2,10 @@
     /*----------------------------------
         Variables
     ----------------------------------*/
-    if (isset($_REQUEST['ID'])){
+    if (isset($_REQUEST['ID'])){ // Input check
         $ID = $_REQUEST["ID"];
     }
-    if (empty($ID)){
+    if (empty($ID)){ // Input check
         errorWrite($version,"No ID was given");
     }
 

@@ -6,8 +6,9 @@
         Variables
     ----------------------------------*/
 
-    $sql = "SELECT * FROM `wiki`";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM `wiki`");
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     $emparray = [];
     /*----------------------------------
@@ -18,9 +19,9 @@
             $emparray[] = $row;
         }
     } else{
-        errorWrite($version,"No wiki's found");
+        errorWrite($version,"No wiki's found"); //Output json error message
     }
 
     $data = ["Wiki entry"=>$emparray];
-    jsonWrite($version,$data);
+    jsonWrite($version,$data); //Output json message with data
 ?>

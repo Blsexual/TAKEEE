@@ -26,25 +26,26 @@
         errorWrite($version,"We could not find the page you were looking for");
     }
 
-    $stmt = $conn->prepare("SELECT MAX(editDate) AS editDate,title,contents,date,wID,oID,uID,ID FROM wiki_entry_history where (oID) = ?");
+    $stmt = $conn->prepare("SELECT * FROM wiki_entry_history where (oID) = ?");
     $stmt->bind_param("i", $ID);
     $stmt->execute();
     $resultHistory = $stmt->get_result();
 
     $test = [];
     $nullData = false;
+    $highestID = 0;
     if ($resultHistory->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($resultHistory)){
-            if ($row['ID'] != NULL){
-                $test[] = $row;
-            } else {
-                $nullData = true; // If no history exists, this will prepare for wiki_entry to output
+            if ((int)$row['ID'] > (int)$highestID){
+                $highestID = $row['ID'];
+                $test = $row;
             }
         }
     } else{
         $nullData = true; // If no history exists, this will prepare for wiki_entry to output
     }
-    if ($nullData = true){
+
+    if ($nullData == true){
         $data = ["Wiki entry"=>$emparray]; // Wiki entry gets output (wiki_entry)
         jsonWrite($version,$data);
     } else{
