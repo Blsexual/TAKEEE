@@ -1,13 +1,5 @@
 <?php
 /*-----------------------------------------------------------
-        Imports
------------------------------------------------------------*/
-
-    require_once("../db.php");
-    require_once("../json_exempel.php");
-    require_once("../login_check.php");
-
-/*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
     $user = $_REQUEST["user"];      // user = user ID
@@ -19,11 +11,6 @@
 
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
-
-/*-----------------------------------------------------------
-        Check Token
------------------------------------------------------------*/
-    checkToken($token, $user, "100", $version, $conn);
 
 /*-----------------------------------------------------------
         Connection
