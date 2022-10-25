@@ -14,7 +14,7 @@
     $contents = $_GET["contents"];  // html?
     $user = $_GET["uID"];
     $token = $_GET["token"];
-    
+
     checkToken($token, $user, "100", $version, $conn);
 
     $date = getdate();              // get the date in a array 

@@ -19,8 +19,13 @@
 -----------------------------------------------------------*/
     checkToken($token, $user, "100", $version, $conn);
 
-    $sql = "SELECT user.admin, user.endUser, wiki_entry.uID FROM user, wiki_entry WHERE user.ID = $user AND wiki_entry.uID = $user AND wiki_entry.ID = $page";       // gets the user for purposes to check if they are allowed to use the service 
+    $sql = "";       // gets the user for purposes to check if they are allowed to use the service 
     $result = $conn->query($sql);                       // Sends question to database
+
+    $stmt = $conn->prepare("SELECT user.admin, user.endUser, wiki_entry.uID FROM user, wiki_entry WHERE user.ID = ? AND wiki_entry.uID = ? AND wiki_entry.ID = ?");
+    $stmt->bind_param("iii", $user, $user, $page);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $res = $result->fetch_assoc();        // output data of each row
@@ -30,15 +35,19 @@
     }
 
     if($res["admin"][0] == "1" ){   // If you are a admin
-        $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
-        $conn->query($sql);
+        $stmt = $conn->prepare("DELETE FROM wiki_entry WHERE wiki_entry.ID = $page");
+        $stmt->bind_param("i", $page);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         // JSON Return
         $data = ["Result"=>"wiki deleted"];
         jsonWrite($version,$data);
     } else if ($res["endUser"][0] == "1"){  // If you are a enduser
-        $sql = "DELETE FROM wiki_entry WHERE wiki_entry.ID = $page";
-        $conn->query($sql);
+        $stmt = $conn->prepare("DELETE FROM wiki_entry WHERE wiki_entry.ID = $page");
+        $stmt->bind_param("i", $page);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         // JSON Return
         $data = ["Result"=>"wiki deleted"];
