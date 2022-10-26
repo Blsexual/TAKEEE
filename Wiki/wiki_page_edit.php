@@ -2,7 +2,7 @@
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
-    $uID = $_REQUEST["user"];      // user = user ID
+    $uID = $_REQUEST["uID"];      // user = user ID
     $wiki = $_GET["wiki"];          // wiki = wiki ID
     $title = $_GET["title"];
     $contents = $_GET["contents"];  // html?
@@ -34,6 +34,8 @@
     $stmt->bind_param("iiissss", $page,$wiki,$uID,$title,$contents,$date,$todayDate);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
+    $data = ["Result"=>"Page edited successfully"];
+    jsonWrite($version,$data);
     
 ?>

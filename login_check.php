@@ -21,14 +21,11 @@
                 $correctUser = 0;
                 $uType = "";
                 for($i = 2;$i>=0;--$i){
-
-                    if($result["endUser"][$i] == $service[$i] && $result["admin"][$i] != "0"){
-
+                    if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
                         $correctUser = 1;
                         $uType = "endUser";
                     }
                     if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
-
                         $correctUser = 1;
                         $uType = "admin";
                     }
@@ -50,7 +47,7 @@
             $uType = "";
             for($i = 2;$i>=0;--$i){
 
-                if($result["endUser"][$i] == $service[$i] && $result["admin"][$i] != "0"){
+                if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
                     $correctUser = 1;
                     $uType = "endUser";
                 }

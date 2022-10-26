@@ -9,7 +9,7 @@
                 Checks if handle is accept
             ----------------------------------------------------------------------*/
                 if($eventHandle == "accept"){
-                    require("calender_event_accept.php");
+                    require("calender_invitation_accept.php");
                 }
             #
 
@@ -17,7 +17,7 @@
                 Checks if handle is decline
             ----------------------------------------------------------------------*/
                 if($eventHandle == "decline"){
-                    require("calender_event_decline.php");
+                    require("calender_invitation_decline.php");
                 }
             #
             

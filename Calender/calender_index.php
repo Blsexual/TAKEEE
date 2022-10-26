@@ -55,7 +55,6 @@
             $uID = $_GET['uID'];
 
             $userType = checkToken($token,$uID,"001",$version,$conn);
-            echo $userType['userType'];
             if($userType['userType'] == "endUser"){
                 /*----------------------------------------------------------------------
                     Shows a list of all events for the user
@@ -95,8 +94,8 @@
                 /*----------------------------------------------------------------------
                     
                 ----------------------------------------------------------------------*/
-                    if($action == "eventHandle"){
-                        require_once("calender_event_handle.php");
+                    if($action == "invitationHandle"){
+                        require_once("calender_invitation_handle.php");
                     }
                 #
             }
