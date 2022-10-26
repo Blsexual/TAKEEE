@@ -10,12 +10,44 @@
         if(!empty($_GET['action'])){
             $action = $_GET['action'];
             if($action == "login"){
-                require_once("calender_login.php");
+                require_once("wiki_login.php");
             }
+
+            /*----------------------------------------------------------------------
+                Shows all wikis
+            ----------------------------------------------------------------------*/
+                if($action == "showWikis"){
+                    require_once("wiki_show_wikis.php");
+                }
+            #
+
+            /*----------------------------------------------------------------------
+                Shows all entrys on a wiki
+            ----------------------------------------------------------------------*/
+                if($action == "showWikiEntrys"){
+                    require_once("wiki_group_page.php");
+                }
+            #
+
+            /*----------------------------------------------------------------------
+                Shows a entry
+            ----------------------------------------------------------------------*/
+                if($action == "showEntry"){
+                    require_once("wiki_info_page.php");
+                }
+            #
+
+            /*----------------------------------------------------------------------
+                Shows a entrys history
+            ----------------------------------------------------------------------*/
+                if($action == "showHistory"){
+                    require_once("wiki_history.php");
+                }
+            #
 
             $token = $_GET['token'];
             $uID = $_GET['uID'];
-            checkToken($token,$uID,"100",$version,$conn);
+            $res = checkToken($token,$uID,"100",$version,$conn);
             
             /*----------------------------------------------------------------------
                 Allows the user to create a new entry
@@ -38,35 +70,8 @@
                     require_once("wiki_page_remove.php");
                 }
             #
-            /*----------------------------------------------------------------------
-                Shows all wikis
-            ----------------------------------------------------------------------*/
-            if($action == "showWikis"){
-                require_once("wiki_show_wikis.php");
-            }
-            #
-            /*----------------------------------------------------------------------
-                Shows all entrys on a wiki
-            ----------------------------------------------------------------------*/
-                if($action == "showWikiEntrys"){
-                    require_once("wiki_group_page.php");
-                }
-            #
-            /*----------------------------------------------------------------------
-            /*----------------------------------------------------------------------
-                Shows a entry
-            ----------------------------------------------------------------------*/
-                if($action == "showEntry"){
-                    require_once("wiki_info_page.php");
-                }
-            #
-            /*----------------------------------------------------------------------
-                Shows a entrys history
-            ----------------------------------------------------------------------*/
-                if($action == "showHistory"){
-                    require_once("wiki_history.php");
-                }
-            #
+
+
             errorWrite($version,"No a valid action made");
         }
         errorWrite($version,"Invalid action made");

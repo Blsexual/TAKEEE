@@ -73,7 +73,7 @@
                     $sql = "UPDATE user SET validUntil = '$date' WHERE ID = $ID";
 
                     $conn->query($sql);
-                    $data = ["UserType"=>"$uType"];
+                    $data = ["userType"=>"$uType"];
                     return $data;
                 }
             #
