@@ -6,11 +6,14 @@
 //  $service    | string    | ex. 100 = wiki, 010 = blog, 001 = calander
 //  $version    | string    | ex. 0.1.0
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
+
     function checkToken($token,$uID,$service,$version,$conn){
+
         if(!is_numeric($uID)){ // So $uID dont make error if is string
             errorWrite($version,"Not a valid user");
         }
         if ($token == "test"){ // Temp for testing
+
             $sql = "SELECT * FROM user WHERE ID = $uID";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -18,11 +21,14 @@
                 $correctUser = 0;
                 $uType = "";
                 for($i = 2;$i>=0;--$i){
+
                     if($result["endUser"][$i] == $service[$i] && $result["admin"][$i] != "0"){
+
                         $correctUser = 1;
                         $uType = "endUser";
                     }
                     if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
+
                         $correctUser = 1;
                         $uType = "admin";
                     }
@@ -37,17 +43,19 @@
         }
         $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
         $result = $conn->query($sql);
-
+        echo "what";
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
             $correctUser = 0;
             $uType = "";
             for($i = 2;$i>=0;--$i){
+
                 if($result["endUser"][$i] == $service[$i] && $result["admin"][$i] != "0"){
                     $correctUser = 1;
                     $uType = "endUser";
                 }
                 if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
+
                     $correctUser = 1;
                     $uType = "admin";
                 }

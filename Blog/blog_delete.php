@@ -27,7 +27,7 @@
         Deleteng entries and blogs
     ----------------------------------------*/
 
-        if ($res["UserType"] == "endUser"){
+        if ($res["userType"] == "endUser"){
             if ($eID != 0){
                 $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.ID = ? ");  // deletes entries by specific id
                 $stmt->bind_param("i", $eID); 
@@ -39,7 +39,7 @@
                 errorWrite($version,"Wrong inputs");
             }
         }
-        else if ($res["UserType"] == "admin"){
+        else if ($res["userType"] == "admin"){
             if ($bID != 0){
                 $stmt = $conn->prepare("DELETE FROM blog WHERE blog.ID = ?"); // deletes blogs by specific id
                 $stmt->bind_param("i", $bID); 
