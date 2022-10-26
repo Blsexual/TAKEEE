@@ -32,7 +32,7 @@
                 }
             }
             $conn->query($sql);
-            $data = ["UserType"=>"$uType"];
+            $data = ["userType"=>"$uType"];
             return $data;
         }
         $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
@@ -47,7 +47,7 @@
                     $correctUser = 1;
                     $uType = "endUser";
                 }
-                if($result["endUser"][$i] == $service[$i]){
+                if($result["admin"][$i] == $service[$i]){
                     $correctUser = 1;
                     $uType = "admin";
                 }
