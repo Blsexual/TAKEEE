@@ -24,7 +24,7 @@
             /*----------------------------------------------------------------------
                 Shows all entrys on a wiki
             ----------------------------------------------------------------------*/
-                if($action == "showWikiEntrys"){
+                if($action == "showWikiEntries"){
                     require_once("wiki_group_page.php");
                 }
             #
