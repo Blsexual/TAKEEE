@@ -3,7 +3,7 @@ function innit(){
 }
 
 function indexcheck(){
-    fetch('calender_index.php').then(function (response) {
+    fetch('calender_index.php?uID=1&token=test&action=showEvent').then(function (response) {
     // The API call was successful!
     return response.json();
     console.log()
