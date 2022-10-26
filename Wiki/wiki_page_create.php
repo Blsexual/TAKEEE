@@ -15,7 +15,7 @@
         Connection
 -----------------------------------------------------------*/
     $stmt = $conn->prepare("INSERT INTO wiki_entry (wID,uID,title,contents,date) VALUES(?,?,?,?,?)");
-    $stmt->bind_param("iisss", $wiki,$date,$user,$title,$contents,$todayDate);
+    $stmt->bind_param("iisss", $wiki,$user,$title,$contents,$todayDate);
     $stmt->execute();
     $result = $stmt->get_result();
     

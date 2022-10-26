@@ -2,7 +2,7 @@
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
-    $user = $_REQUEST["user"];      // user = user ID
+    $uID = $_REQUEST["user"];      // user = user ID
     $wiki = $_GET["wiki"];          // wiki = wiki ID
     $title = $_GET["title"];
     $contents = $_GET["contents"];  // html?
@@ -31,7 +31,7 @@
     }
 
     $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES(?,?,?,?,?,?,?)");
-    $stmt->bind_param("iiissss", $page,$wiki,$user,$title,$contents,$date,$todayDate);
+    $stmt->bind_param("iiissss", $page,$wiki,$uID,$title,$contents,$date,$todayDate);
     $stmt->execute();
     $result = $stmt->get_result();
     

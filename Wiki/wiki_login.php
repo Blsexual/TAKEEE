@@ -19,7 +19,7 @@
 /*-----------------------------------------------------------
         Connect
 -----------------------------------------------------------*/
-    $stmt = $conn->prepare("SELECT * FROM user WHERE name = '$username'");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE name = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,7 +33,7 @@
 
                 $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
                 $ID = $row['ID'];
-                $stmt = $conn->prepare("UPDATE user SET token = '$token', validUntil = '$date'  WHERE ID = $ID");
+                $stmt = $conn->prepare("UPDATE user SET token = ?, validUntil = ?  WHERE ID = ?");
                 $stmt->bind_param("ssi", $token,$date,$ID);
                 $stmt->execute();
                 $result = $stmt->get_result();
