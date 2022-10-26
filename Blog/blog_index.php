@@ -10,10 +10,6 @@
                 require_once("blog_login.php");
             }
 
-            $token = $_GET['token'];
-            $uID = $_GET['uID'];
-            $res = checkToken($token,$uID,"010",$version,$conn);
-            
             /*----------------------------------------------------------------------
                 Shows all blogs and whats in a blog
             ----------------------------------------------------------------------*/
@@ -21,6 +17,13 @@
                     require_once("blog_db.php");
                 }
             #
+
+            $token = $_GET['token'];
+            $uID = $_GET['uID'];
+            $res = checkToken($token,$uID,"010",$version,$conn);
+            print_r($res);
+            
+            
             /*----------------------------------------------------------------------
                 Allows the user to create a new blog or entety
             ----------------------------------------------------------------------*/
@@ -46,7 +49,13 @@
                 creates new users
             ----------------------------------------------------------------------*/
                 if($action == "createUser"){
-                    require_once("../create_user.php");
+                    if ($res["userType"] == "admin"){
+                        require_once("../create_user.php");
+                    }
+                    else{
+                        errorWrite($version,"No permission to use command");
+                    }
+                    
                 }
             #
             

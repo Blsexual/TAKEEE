@@ -87,7 +87,7 @@
         }
 
 
-        if ($res["UserType"] == "endUser"){
+        if ($res["userType"] == "endUser"){
             if ($eID != 0){
                 $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
                 $stmt->bind_param("ssi", $title, $content, $eID); 
@@ -99,7 +99,7 @@
                 errorWrite($version,"Wrong inputs");
             }
         }
-        else if ($res["UserType"] == "admin"){
+        else if ($res["userType"] == "admin"){
             if ($bID != 0){
                 $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.ID = ? "); // updates blogs
                 $stmt->bind_param("ssi", $title, $content, $bID); 

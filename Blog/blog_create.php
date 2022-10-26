@@ -34,7 +34,7 @@
         creating new entries and blogs
     ----------------------------------------*/
 
-    if ($res["UserType"] == "endUser"){
+    if ($res["userType"] == "endUser"){
         if($bID != 0){
             $stmt = $conn->prepare("SELECT `ID` FROM `Blog` WHERE `ID`=?");
             $stmt->bind_param("i", $bID);
@@ -57,7 +57,7 @@
             errorWrite($version,"Wrong inputs");
         }
     }
-    if($res["UserType"] == "admin"){
+    if($res["userType"] == "admin"){
         if($bID == 0){
             $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
             $stmt->bind_param("sssi", $title, $content, $date, $uID);   
