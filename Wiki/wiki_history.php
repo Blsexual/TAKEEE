@@ -22,7 +22,7 @@
         Fetch data
     ----------------------------------*/
     if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)){
+        while ($row = $result->fetch_assoc()){
             $emparray[] = $row;
         }
     } else{

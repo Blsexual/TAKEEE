@@ -22,7 +22,7 @@
         Fetch data
     ----------------------------------*/
     if ($resultInfoPage->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($resultInfoPage)){
+        while ($row = $resultInfoPage->fetch_assoc()){
             $emparray[] = $row;
         }
     } else{
@@ -38,7 +38,7 @@
     $nullData = false;
     $highestID = 0;
     if ($resultHistory->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($resultHistory)){
+        while ($row = $resultHistory->fetch_assoc()){
             if ((int)$row['ID'] > (int)$highestID){
                 $highestID = $row['ID'];
                 $test = $row;

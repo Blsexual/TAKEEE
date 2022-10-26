@@ -22,7 +22,7 @@
         Fetch data
     ----------------------------------*/
     if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)){
+        while ($row = $result->fetch_assoc()){
             $emparray[] = $row;
         }
     } else{
@@ -38,7 +38,7 @@
         Fetch entries
     ----------------------------------*/
     $entryArray =[];
-    while ($row = mysqli_fetch_assoc($result)){
+    while ($row = $result->fetch_assoc()){
         $entryArray[] = $row;
     }
     $data = ["wiki"=>$emparray, "wiki_entry"=>$entryArray];
