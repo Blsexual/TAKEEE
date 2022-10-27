@@ -41,6 +41,14 @@
                     }
                 #
                 /*----------------------------------------------------------------------
+                    Allows the user to edit one of their events
+                ----------------------------------------------------------------------*/
+                if($action == "editEvent"){
+                    require_once("calender_edit_event.php");
+                    errorWrite($version,"Something went wrong in edit event");
+                }
+                #
+                /*----------------------------------------------------------------------
                     Allows the user to delete one of their events
                 ----------------------------------------------------------------------*/
                     if($action == "deleteEvent"){
