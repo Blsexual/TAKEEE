@@ -3,7 +3,7 @@
         Shows other peoples events that the end user has agreed to see
     ----------------------------------------------------------------------*/ 
         #Gets which of the events the end user has accepted
-            $stmt = $conn->prepare("SELECT event.ID AS eID, event.uID AS cID FROM `event` INNER JOIN `event_invitation` ON event_invitation.eID = event.ID AND event_invitation.accepted = 1 AND event_invitation.rID = ?");
+            $stmt = $conn->prepare("SELECT event.ID AS eID, event.uID AS cID FROM `event` INNER JOIN `event_invitation` ON event_invitation.eID = event.ID AND event_invitation.accepted = 0 AND event_invitation.rID = ?");
             $stmt->bind_param("i", $uID);
             $stmt->execute();
             $result1 = $stmt->get_result();
@@ -22,7 +22,7 @@
                                 $row2 = $result2->fetch_assoc();
                                 $name = $row2['name'];
                                 $stmt->close();
-                                $stmt = $conn->prepare("SELECT event.ID AS eID, event.uID AS cID, event.title, event.description, event.startDate, event.endDate FROM `event` INNER JOIN `event_invitation` ON event_invitation.eID = event.ID AND event_invitation.accepted = 1 AND event_invitation.rID = ? AND event.uID = ? AND `startDate` BETWEEN '0000-00-00 00:00:00' AND ? AND `endDate` BETWEEN ? AND '9999-12-30 23:59:59' ORDER BY `startDate` asc");
+                                $stmt = $conn->prepare("SELECT event.ID AS eID, event.uID AS cID, event.title, event.description, event.startDate, event.endDate FROM `event` INNER JOIN `event_invitation` ON event_invitation.eID = event.ID AND event_invitation.accepted = 0 AND event_invitation.rID = ? AND event.uID = ? AND `startDate` BETWEEN '0000-00-00 00:00:00' AND ? AND `endDate` BETWEEN ? AND '9999-12-30 23:59:59' ORDER BY `startDate` asc");
                                 $stmt->bind_param("iiss", $uID, $cID,$endDate,$startDate);
                                 $stmt->execute();
                                 $result3 = $stmt->get_result();
@@ -38,7 +38,7 @@
                         #
                     }
                 }
-                $data["Accepted events"] = $eventList;
+                $data["Event invitations"] = $eventList;
             #
         #
     #
