@@ -99,10 +99,26 @@
                 /*----------------------------------------------------------------------
                     
                 ----------------------------------------------------------------------*/
-                    if($action == "eventHandle"){
-                        require_once("calender_event_handle.php");
+                    if($action == "invitationHandle"){
+                        require_once("calender_invitation_handle.php");
                         errorWrite($version,"Something went wrong in event handle");
                     }
+                #
+                /*----------------------------------------------------------------------
+                    
+                ----------------------------------------------------------------------*/
+                    if($action == "invitationLeave"){
+                        require_once("calender_invitation_leave.php");
+                        errorWrite($version,"Something went wrong in invitaion leave");
+                    }
+                #
+                /*----------------------------------------------------------------------
+                    
+                ----------------------------------------------------------------------*/
+                if($action == "invitationCancel"){
+                    require_once("calender_invitation_cancel.php");
+                    errorWrite($version,"Something went wrong in invitaion leave");
+                }
                 #
             }
             else{
