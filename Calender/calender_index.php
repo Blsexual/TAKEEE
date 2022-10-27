@@ -115,10 +115,18 @@
                 /*----------------------------------------------------------------------
                     
                 ----------------------------------------------------------------------*/
-                if($action == "invitationCancel"){
-                    require_once("calender_invitation_cancel.php");
-                    errorWrite($version,"Something went wrong in invitaion leave");
-                }
+                    if($action == "invitationCancel"){
+                        require_once("calender_invitation_cancel.php");
+                        errorWrite($version,"Something went wrong in invitaion cancel");
+                    }
+                #
+                /*----------------------------------------------------------------------
+                    
+                ----------------------------------------------------------------------*/
+                    if($action == "invitationRevoke"){
+                        require_once("calender_invitation_revoke.php");
+                        errorWrite($version,"Something went wrong in invitaion revoke");
+                    }
                 #
             }
             else{
