@@ -1,11 +1,11 @@
 <?php
-    if(empty($_GET['eventID'])){
+    if(empty($_GET['eID'])){
         errorWrite($version,"Must select an event");
     }
 
     $stmt = $conn->prepare("SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = ? AND `ID` = ?");
-    $stmt->bind_param("ii", $uID,$eventID);
-    $eventID = $_GET['eventID'];
+    $stmt->bind_param("ii", $uID,$eID);
+    $eID = $_GET['eID'];
 
     $stmt->execute();
     $result = $stmt->get_result();
@@ -106,7 +106,7 @@
         Creates the event using all the inserted data
     ----------------------------------------------------------------------*/ 
         $stmt = $conn->prepare("UPDATE `event` SET `title` = ?, `description` = ?, `startDate` = ?, `endDate` = ? WHERE `ID` = ? AND `uID` = ?");
-        $stmt->bind_param("ssssii", $title, $description, $startDate, $endDate, $eventID, $uID);
+        $stmt->bind_param("ssssii", $title, $description, $startDate, $endDate, $eID, $uID);
         if($stmt->execute() === TRUE){
 
             $data = ["Action"=>"Event succesfully edited"];
