@@ -4,38 +4,6 @@
     require_once("../login_check.php");
 ?>
 
-<?php   //comment
-/* 
-    if(!empty($_GET['token'])){
-
-    }
-    
-    if(!empty($_GET['uID'])){
-        $uID = $_GET['uID'];
-        $_SESSION['uID'] = $uID;
-    }
-    elseif(!empty($_SESSION['uID'])){
-        $uID = $_SESSION['uID'];
-    }
-    else{
-        errorWrite($version,"No selected user");
-    }
-
-    if(!is_numeric($uID)){
-        errorWrite($version,"Not a valid user");
-    }
-
-    $stmt = $conn->prepare("SELECT `ID` FROM user WHERE `ID`=?");
-    $stmt->bind_param("i", $uID);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 0) {
-        errorWrite($version,"User doesn't exist");
-    }
- */
-?>
-
 <?php
     if(!empty($_GET)){
         if(!empty($_GET['action'])){
@@ -112,14 +80,7 @@
                         errorWrite($version,"Something went wrong in invitaion leave");
                     }
                 #
-                /*----------------------------------------------------------------------
-                    
-                ----------------------------------------------------------------------*/
-                    if($action == "invitationCancel"){
-                        require_once("calender_invitation_cancel.php");
-                        errorWrite($version,"Something went wrong in invitaion cancel");
-                    }
-                #
+                
                 /*----------------------------------------------------------------------
                     
                 ----------------------------------------------------------------------*/
