@@ -18,6 +18,9 @@
     $res = checkToken($token,$uID,"111",$version,$conn);
 
     if($res["userType"] == "admin"){
+        if(!empty($_GET["rID"])){
+            $rID = $_GET["rID"];
+        }
         if(!empty($_GET["name"])){
             $name = $_GET["name"]; 
         } else{
@@ -53,16 +56,26 @@
         } else{
             errorWrite($version,"No avatar given");
         }
-        for($i=0;$i>=2;$i++){
+        
+        for($i=0;$i<=2;$i++){
+            echo "yest";
             if($endUser[$i] == $admin[$i] && $endUser[$i] != "0"){
                 errorWrite($version,"A user can not be a admin and end user on the same platform");
+            }
+            // Get user så jag kan kolla om hen får göra usern till en viss typ av user
+            if($endUser[$i] != $user["admin"][$i]){
+
             }
         }
         // Blogs problem fuck you haha elidon och erik sug en stor ...
         if($endUser[1] == "1"){
 
         }
-
+        $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ? WHERE user.ID = ? "); // updates entries
+        $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
+        $stmt->execute();  
+        $data = ["Action"=>"User Updated"];
+        jsonWrite($version,$data);
     } else{
         errorWrite($version,"You are not allowed to do this");
     }
