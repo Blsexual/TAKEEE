@@ -6,7 +6,7 @@
             $iID = $_GET['invitationID'];
         }
         else{
-            errorWrite($version,"Didn't specify which invitation to decline");
+            errorWrite($version,"Didn't specify which invitation to leave");
         }
     #
 
@@ -27,13 +27,13 @@
     /*----------------------------------------------------------------------
         Checks if the invitation is already accepted
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
+        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=? AND `accepted`=0");
         $stmt->bind_param("i",$iID);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {           
-            errorWrite($version,"Invitation already accepted");
+            errorWrite($version,"Has not accepted invitation");
         }
         $stmt->close();
     #
@@ -47,7 +47,7 @@
         $result = $stmt->get_result();
 
         if ($result->num_rows == 0) {           
-            errorWrite($version,"Only recipient can decline");
+            errorWrite($version,"Only recipient can leave");
         }
         $stmt->close();
     #
@@ -55,7 +55,7 @@
     /*----------------------------------------------------------------------
         Deletes specified invitation
     ----------------------------------------------------------------------*/
-    $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=0");
+    $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
     $stmt->bind_param("i",$iID);
     $stmt->execute();
     #
@@ -63,7 +63,7 @@
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Action"=>"Invitation declined"];
+        $data = ["Action"=>"Left invitation"];
         jsonWrite($version,$data);
     #
 ?>
