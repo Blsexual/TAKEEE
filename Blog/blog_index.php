@@ -6,9 +6,6 @@
     if(!empty($_GET)){
         if(!empty($_GET['action'])){
             $action = $_GET['action'];
-            if($action == "login"){
-                require_once("blog_login.php");
-            }
 
             /*----------------------------------------------------------------------
                 Shows all blogs and whats in a blog
@@ -21,7 +18,6 @@
             $token = $_GET['token'];
             $uID = $_GET['uID'];
             $res = checkToken($token,$uID,"010",$version,$conn);
-            print_r($res);
             
             
             /*----------------------------------------------------------------------
@@ -43,19 +39,6 @@
             ----------------------------------------------------------------------*/
                 if($action == "edit"){
                     require_once("blog_edit.php");
-                }
-            #
-            /*----------------------------------------------------------------------
-                creates new users
-            ----------------------------------------------------------------------*/
-                if($action == "createUser"){
-                    if ($res["userType"] == "admin"){
-                        require_once("../create_user.php");
-                    }
-                    else{
-                        errorWrite($version,"No permission to use command");
-                    }
-                    
                 }
             #
             
