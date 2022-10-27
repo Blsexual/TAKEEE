@@ -1,8 +1,8 @@
 <?php
-    if(empty($_GET['eventID'])){
+    if(empty($_GET['eID'])){
         errorWrite($version,"Didn't specify what event to delete");
     }
-    $ID = $_GET['eventID'];
+    $ID = $_GET['eID'];
     $stmt = $conn->prepare("SELECT `ID` FROM `event` WHERE `ID`=? AND `uID`=?");
     $stmt->bind_param("ii", $ID,$uID);
     $stmt->execute();

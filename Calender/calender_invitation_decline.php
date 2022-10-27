@@ -2,8 +2,8 @@
     /*----------------------------------------------------------------------
         Checks if the invitation is set
     ----------------------------------------------------------------------*/
-        if(!empty($_GET['invitationID'])){
-            $iID = $_GET['invitationID'];
+        if(!empty($_GET['iID'])){
+            $iID = $_GET['iID'];
         }
         else{
             errorWrite($version,"Didn't specify which invitation to decline");

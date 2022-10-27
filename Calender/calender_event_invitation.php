@@ -2,8 +2,8 @@
     /*----------------------------------------------------------------------
         Checks if eventID is set
     ----------------------------------------------------------------------*/
-        if(!empty($_GET['eventID'])){
-            $eID = $_GET['eventID'];
+        if(!empty($_GET['eID'])){
+            $eID = $_GET['eID'];
         }
         else{
             errorWrite($version,"Didn't specify which event to invite to");
