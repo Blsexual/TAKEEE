@@ -61,6 +61,7 @@
                 ----------------------------------------------------------------------*/
                     if($action == "showEvent"){
                         require_once("calender_show_event.php");
+                        errorWrite($version,"Something went wrong in show event");
                     }
                 #
                 /*----------------------------------------------------------------------
@@ -68,6 +69,7 @@
                 ----------------------------------------------------------------------*/
                     if($action == "createEvent"){
                         require_once("calender_create_event.php");
+                        errorWrite($version,"Something went wrong in create event");
                     }
                 #
                 /*----------------------------------------------------------------------
@@ -75,6 +77,7 @@
                 ----------------------------------------------------------------------*/
                     if($action == "deleteEvent"){
                         require_once("calender_delete_event.php");
+                        errorWrite($version,"Something went wrong in delete event");
                     }
                 #
                 /*----------------------------------------------------------------------
@@ -82,6 +85,7 @@
                 ----------------------------------------------------------------------*/
                     if($action == "sortTimeline"){
                         require_once("calender_sort_timeline.php");
+                        errorWrite($version,"Something went wrong in sort timeline");
                     }
                 #
                 /*----------------------------------------------------------------------
@@ -89,13 +93,15 @@
                 ----------------------------------------------------------------------*/
                     if($action == "eventInvitation"){
                         require_once("calender_event_invitation.php");
+                        errorWrite($version,"Something went wrong in event invitation");
                     }
                 #
                 /*----------------------------------------------------------------------
                     
                 ----------------------------------------------------------------------*/
-                    if($action == "invitationHandle"){
-                        require_once("calender_invitation_handle.php");
+                    if($action == "eventHandle"){
+                        require_once("calender_event_handle.php");
+                        errorWrite($version,"Something went wrong in event handle");
                     }
                 #
             }

@@ -16,12 +16,6 @@
     /*----------------------------------------------------------------------
         Checks the dates to make sure they're valid
     ----------------------------------------------------------------------*/ 
-        #Returns an error if an end date has been set without a start date
-            if((!empty($_GET['endDate'])) and (empty($_GET['startDate']))){
-                errorWrite($version,"Cannot set an end date without a start date");
-            }   
-        #
-
         #Specifies what characters to remove from a string
             $pattern = ['/:/i','/-/i','/ /i']; 
         #
@@ -51,19 +45,16 @@
         $stmt->execute();
         $result = $stmt->get_result();
 
+        $eventList = [];
         if ($result->num_rows > 0) {
-            $eventList = [];
             while($row = $result->fetch_assoc()) {
                 $eventList[] = $row;
             }
-            $data["My events"] = $eventList;
         } 
+        $data["My events"] = $eventList;
     #
-    
+    require_once("calender_sort_timeline_invited.php");
     require_once("calender_sort_timeline_accepted.php");
     
-    if(!empty($data)){
-        jsonWrite($version,$data); 
-    }
-    errorWrite($version,"No events found for the user");
+    jsonWrite($version,$data); 
 ?>
