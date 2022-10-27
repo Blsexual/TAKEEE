@@ -2,10 +2,12 @@
     /*----------------------------------------------------------------------
         Sets the title of the event
     ----------------------------------------------------------------------*/
-        if(empty($_GET['title'])){
+        if(!empty($_GET['title'])){
+            $title = $_GET['title'];
+        }
+        else{
             errorWrite($version,"No title given");
         }
-        $title = $_GET['title'];
 
     #
         
@@ -21,31 +23,170 @@
     /*----------------------------------------------------------------------
         Sets the starting date of the event
     ----------------------------------------------------------------------*/
-        if(empty($_GET['startDate'])){
+        if(!empty($_GET['startDate'])){
+            $startDate = $_GET['startDate'];
+        }
+        else{
             errorWrite($version,"No start date given");
         }
-        $startDate = $_GET['startDate'];
     #
     
     /*----------------------------------------------------------------------
-        Extracts the different values of the starting date. Year, Month, etc
+        Checks each character of the start date and reconsctructs them into a valid string
     ----------------------------------------------------------------------*/
-        $changeYear = substr($startDate,0,4);
-        $changeMonth = substr($startDate,5,2);
-        $changeDay = substr($startDate,8,2);
-        $changeHour = substr($startDate,11,2);
-        $changeMinute = substr($startDate,14,2);
+        $newStartDate = NULL;
+        if(is_numeric(substr($startDate,0,4))){
+            $newStartDate = $newStartDate.(substr($startDate,0,4));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($startDate,4,1) == "-"){
+            $newStartDate = $newStartDate.(substr($startDate,4,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($startDate,5,2))){
+            if((substr($startDate,5,2) < 1) or ((substr($startDate,5,2) > 12))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newStartDate = $newStartDate.(substr($startDate,5,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($startDate,7,1) == "-"){
+            $newStartDate = $newStartDate.(substr($startDate,7,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($startDate,8,2))){
+            if((substr($startDate,8,2) < 1) or ((substr($startDate,8,2) > 31))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newStartDate = $newStartDate.(substr($startDate,8,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($startDate,10,1) == " "){
+            $newStartDate = $newStartDate.(substr($startDate,10,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($startDate,11,2))){
+            if((substr($startDate,11,2) < 0) or ((substr($startDate,11,2) > 23))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newStartDate = $newStartDate.(substr($startDate,11,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($startDate,13,1) == ":"){
+            $newStartDate = $newStartDate.(substr($startDate,13,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($startDate,14,2))){
+            if((substr($startDate,14,2) < 0) or ((substr($startDate,14,2) > 59))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newStartDate = $newStartDate.(substr($startDate,14,2));
+
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        $startDate = $newStartDate;
     #
     
     /*----------------------------------------------------------------------
-        Sets the end date of the event
+    Sets the end date of the event
     ----------------------------------------------------------------------*/
         if(!empty($_GET['endDate'])){
             $endDate = $_GET['endDate'];
         }
         else{
-            errorWrite($version,"No start date given");
+            errorWrite($version,"No end date given");
         }
+    #
+
+    /*----------------------------------------------------------------------
+        Checks each character of the end date and reconsctructs them into a valid string
+    ----------------------------------------------------------------------*/
+        $newEndDate = NULL;
+        if(is_numeric(substr($endDate,0,4))){
+            $newEndDate = $newEndDate.(substr($endDate,0,4));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($endDate,4,1) == "-"){
+            $newEndDate = $newEndDate.(substr($endDate,4,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($endDate,5,2))){
+            if((substr($endDate,5,2) < 1) or ((substr($endDate,5,2) > 12))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newEndDate = $newEndDate.(substr($endDate,5,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($endDate,7,1) == "-"){
+            $newEndDate = $newEndDate.(substr($endDate,7,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($endDate,8,2))){
+            if((substr($endDate,8,2) < 1) or ((substr($endDate,8,2) > 31))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newEndDate = $newEndDate.(substr($endDate,8,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($endDate,10,1) == " "){
+            $newEndDate = $newEndDate.(substr($endDate,10,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($endDate,11,2))){
+            if((substr($endDate,11,2) < 0) or ((substr($endDate,11,2) > 23))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newEndDate = $newEndDate.(substr($endDate,11,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(substr($endDate,13,1) == ":"){
+            $newEndDate = $newEndDate.(substr($endDate,13,1));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        if(is_numeric(substr($endDate,14,2))){
+            if((substr($endDate,14,2) < 0) or ((substr($endDate,14,2) > 59))){
+                errorWrite($version,"Not a valid date");
+            }
+            $newEndDate = $newEndDate.(substr($endDate,14,2));
+        }
+        else{
+            errorWrite($version,"Not a valid date");
+        }
+        $endDate = $newEndDate;
     #
 
     /*----------------------------------------------------------------------

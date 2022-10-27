@@ -1,30 +1,50 @@
 <?php
+    if(empty($_GET['eventID'])){
+        errorWrite($version,"Must select an event");
+    }
+
+    $stmt = $conn->prepare("SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = ? AND `ID` = ?");
+    $stmt->bind_param("ii", $uID,$eventID);
+    $eventID = $_GET['eventID'];
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows > 0) {
+        $event = $result->fetch_assoc();
+    }
+    $stmt->close();
     /*----------------------------------------------------------------------
         Sets the title of the event
     ----------------------------------------------------------------------*/
-        if(empty($_GET['title'])){
-            errorWrite($version,"No title given");
+        if(!empty($_GET['title'])){
+            $title = $_GET['title'];
         }
-        $title = $_GET['title'];
-
+        else{
+            $title = $event['title'];
+        }
     #
         
     /*----------------------------------------------------------------------
         Sets the description of the event
     ----------------------------------------------------------------------*/
-        $description = "";
         if(!empty($_GET['description'])){
             $description = $_GET['description'];
+        }
+        else{
+            $description = $event['description'];
         }
     #
     
     /*----------------------------------------------------------------------
         Sets the starting date of the event
     ----------------------------------------------------------------------*/
-        if(empty($_GET['startDate'])){
-            errorWrite($version,"No start date given");
+        if(!empty($_GET['startDate'])){
+            $startDate = $_GET['startDate'];
         }
-        $startDate = $_GET['startDate'];
+        else{
+            $startDate = $event['startDate'];
+        }
     #
     
     /*----------------------------------------------------------------------
@@ -44,7 +64,7 @@
             $endDate = $_GET['endDate'];
         }
         else{
-            errorWrite($version,"No start date given");
+            $endDate = $event['endDate'];
         }
     #
 
@@ -85,10 +105,18 @@
     /*----------------------------------------------------------------------
         Creates the event using all the inserted data
     ----------------------------------------------------------------------*/ 
-        $stmt = $conn->prepare("INSERT INTO `event` (uID, title, description, startDate, endDate) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("issss", $uID, $title, $description, $startDate, $endDate);
-        $stmt->execute();
-        $data = ["Action"=>"Created a new event"];
-        jsonWrite($version,$data);
+        $stmt = $conn->prepare("UPDATE `event` SET `title` = ?, `description` = ?, `startDate` = ?, `endDate` = ? WHERE `ID` = ? AND `uID` = ?");
+        $stmt->bind_param("ssssii", $title, $description, $startDate, $endDate, $eventID, $uID);
+        if($stmt->execute() === TRUE){
+
+            $data = ["Action"=>"Event succesfully edited"];
+            jsonWrite($version,$data);
+        }
+        else{
+            errorWrite($version,"No");
+        }
+        
+        $result = $stmt->get_result();
+            
     #
 ?>
