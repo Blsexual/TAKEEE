@@ -27,26 +27,26 @@
     /*----------------------------------------------------------------------
         Checks if the invitation is already accepted
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=? AND `accepted`=0");
+        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
         $stmt->bind_param("i",$iID);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {           
-            errorWrite($version,"Invitation has not been accepted");
+            errorWrite($version,"Invitation is already accepted");
         }
         $stmt->close();
     #
 
     /*----------------------------------------------------------------------
-        Checks if it is the recipent declining the invitation
+        Checks if it is the creator cancelling the invitation
     ----------------------------------------------------------------------*/
         $stmt = $conn->prepare("SELECT `event_invitation`.`eID`, `event`.`uID` AS cID FROM `event` INNER JOIN `event_invitation` ON `event`.`ID`=`event_invitation`.`eID` AND `event`.`uID`=?");
         $stmt->bind_param("i",$uID);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows == 0) {
+        if ($result->num_rows > 0) {
             errorWrite($version,"Only creator can cancel");
         }
         $stmt->close();
@@ -55,7 +55,7 @@
     /*----------------------------------------------------------------------
         Deletes specified invitation
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
+        $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=0");
         $stmt->bind_param("i",$iID);
         $stmt->execute();
     #

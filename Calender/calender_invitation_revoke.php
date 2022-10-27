@@ -6,7 +6,7 @@
             $iID = $_GET['invitationID'];
         }
         else{
-            errorWrite($version,"Didn't specify which invitation to leave");
+            errorWrite($version,"Didn't specify which invitation to cancel");
         }
     #
 
@@ -25,7 +25,7 @@
     #
 
     /*----------------------------------------------------------------------
-        Checks if the invitation is not accepted
+        Checks if the invitation has not been accepted
     ----------------------------------------------------------------------*/
         $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=? AND `accepted`=0");
         $stmt->bind_param("i",$iID);
@@ -33,21 +33,21 @@
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {           
-            errorWrite($version,"Has not accepted invitation");
+            errorWrite($version,"Invitation has not been accepted");
         }
         $stmt->close();
     #
 
     /*----------------------------------------------------------------------
-        Checks if it is the recipent leaving the invitation
+        Checks if it is the creator cancelling the invitation
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `rID` FROM `event_invitation` WHERE `rID`=?");
+        $stmt = $conn->prepare("SELECT `event_invitation`.`eID`, `event`.`uID` AS cID FROM `event` INNER JOIN `event_invitation` ON `event`.`ID`=`event_invitation`.`eID` AND `event`.`uID`=?");
         $stmt->bind_param("i",$uID);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows == 0) {           
-            errorWrite($version,"Only recipient can leave");
+        if ($result->num_rows > 0) {
+            errorWrite($version,"Only creator can revoke");
         }
         $stmt->close();
     #
@@ -55,15 +55,15 @@
     /*----------------------------------------------------------------------
         Deletes specified invitation
     ----------------------------------------------------------------------*/
-    $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
-    $stmt->bind_param("i",$iID);
-    $stmt->execute();
+        $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `ID`=? AND `accepted`=1");
+        $stmt->bind_param("i",$iID);
+        $stmt->execute();
     #
 
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Action"=>"Left invitation"];
+        $data = ["Action"=>"Revoked invitation"];
         jsonWrite($version,$data);
     #
 ?>
