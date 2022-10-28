@@ -13,12 +13,12 @@
     if (empty($user)){
         errorWrite($version,"No user ID was found");
     }
-    /*if (isset($_GET['wiki'])){ // wiki = wiki ID
-        $wiki = $_GET["wiki"];
+    if (isset($_GET['contents'])){ // contents
+        $contents = $_GET["contents"];
     }
-    if (empty($wiki)){
-        errorWrite($version,"No wiki ID was found");
-    }*/
+    if (empty($contents)){
+        errorWrite($version,"No content was found");
+    }
     if (isset($_GET['title'])){ // title
         $title = $_GET["title"];
     }
@@ -41,31 +41,67 @@
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
 
-    $stmt = $conn->prepare("INSERT INTO wiki_entry (wID,uID,title,date) VALUES($wiki,$user,'$title','$todayDate')");
+    $int = $user;
+    $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex) VALUES(?,?,?)");
+    $stmt->bind_param("isi", $user, $title, $int);
     $stmt->execute();
-    $resultHistory = $stmt->get_result(); 
+    $resultID = $stmt->get_result(); 
 
+    $stmt = $conn->prepare("SELECT ID FROM wiki");
+    $stmt->execute();
+    $resultID = $stmt->get_result();
+
+    $wikiID = 0;
+    if ($resultID->num_rows > 0) {
+        while ($row = $resultID->fetch_assoc()){
+            if ((int)$row['ID'] > (int)$wikiID){
+                (int)$wikiID = (int)$row['ID'];
+            }
+        }
+    }
+
+    $stmt = $conn->prepare("INSERT INTO wiki_entry (wID,uID) VALUES(?,?)");
+    $stmt->bind_param("ii", $wikiID, $user);
+    $stmt->execute();
+    $resultID = $stmt->get_result();
 
     $stmt = $conn->prepare("SELECT ID FROM wiki_entry");
     $stmt->execute();
     $resultID = $stmt->get_result();
 
-    $highestID = 0;
+    $oID = 0;
     if ($resultID->num_rows > 0) {
         while ($row = $resultID->fetch_assoc()){
-            if ((int)$row['ID'] > (int)$highestID){
-                $highestID = $row;
-                //$test = $row;
+            if ((int)$row['ID'] > (int)$oID){
+                (int)$oID = (int)$row['ID'];
             }
         }
     }
 
+    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,title,contents,date) VALUES(?,?,?,?)");
+    $stmt->bind_param("isss", $oID, $title, $contents, $todayDate);
+    $stmt->execute();
+    $resultID = $stmt->get_result();
+
+    $stmt = $conn->prepare("SELECT ID FROM wiki_entry");
+    $stmt->execute();
+    $resultID = $stmt->get_result();
+
+    $wikiIndex = 0;
+    if ($resultID->num_rows > 0) {
+        while ($row = $resultID->fetch_assoc()){
+            if ((int)$row['ID'] > (int)$wikiIndex){
+                (int)$wikiIndex = (int)$row['ID'];
+            }
+        }
+    }
+
+    $stmt = $conn->prepare("UPDATE wiki set wikiIndex = $wikiIndex where ID = $wikiID");
+    $stmt->execute();
+    $resultHistory = $stmt->get_result();
     /*-----------------------------------------------------------
         Connection
     -----------------------------------------------------------*/
-    $stmt = $conn->prepare("INSERT INTO wiki (uID,wikiIndex,title) VALUES($user,'$wiki','$title')");
-    $stmt->execute();
-    $resultHistory = $stmt->get_result(); 
 
     jsonWrite($version,"Wiki was created");
 ?>
