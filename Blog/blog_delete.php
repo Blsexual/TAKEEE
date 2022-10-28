@@ -8,18 +8,17 @@
                 Gets the data
     ----------------------------------------*/
 
+        $suID = 0;
         $eID = 0;
-        $bID = 0;
 
-
-        
         if(!empty($_GET['eID'])){
             $eID = $_GET['eID'];
         }
-        
-        if(!empty($_GET['bID'])){
-            $bID = $_GET['bID'];
+        if(!empty($_GET['duID'])){
+            $duID = $_GET['duID'];
         }
+        
+
 
     #
 
@@ -40,13 +39,13 @@
             }
         }
         else if ($res["userType"] == "admin"){
-            if ($bID != 0){
+            if ($duID != 0){
                 $stmt = $conn->prepare("DELETE FROM blog WHERE blog.ID = ?"); // deletes blogs by specific id
-                $stmt->bind_param("i", $bID); 
+                $stmt->bind_param("i", $duID); 
                 $stmt->execute(); 
 
-                $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.bID = ?"); // deletes entries from the blog when deleted
-                $stmt->bind_param("i", $bID); 
+                $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.uID = ?"); // deletes entries from the blog when deleted
+                $stmt->bind_param("i", $duID); 
                 $stmt->execute(); 
                 
                 $data = ["Action"=>"Blog deleted"];

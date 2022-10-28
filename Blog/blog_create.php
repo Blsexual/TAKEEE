@@ -9,8 +9,8 @@
     ----------------------------------------*/
 
         $title = "No Title";
-        $content = "No content";  // sets base variables
-        $bID = 0;
+        $content = "No content"; 
+        $duID = 0;                  // sets base variables
         
 
         if(!empty($_GET['title'])){
@@ -20,9 +20,9 @@
         if(!empty($_GET['content'])){
             $content = $_GET['content'];
         }
-        
-        if(!empty($_GET['bID'])){
-            $bID = $_GET['bID'];
+
+        if(!empty($_GET['duID'])){
+            $duID = $_GET['duID'];
         }
 
 
@@ -34,47 +34,46 @@
         creating new entries and blogs
     ----------------------------------------*/
 
-    if ($res["userType"] == "endUser"){
-        if($bID != 0){
-            $stmt = $conn->prepare("SELECT `ID` FROM `Blog` WHERE `ID`=?");
-            $stmt->bind_param("i", $bID);
-            $stmt->execute();
-            $result = $stmt->get_result();
-    
-            if ($result->num_rows == 0) {           
-                errorWrite($version,"Could not find Blog");
-            }
-            $stmt->close();
+        if ($res["userType"] == "endUser"){
 
-            $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,bID,uID) VALUES (?,?,?,?,?)");  //creates the new entries
-            $stmt->bind_param("sssii", $title, $content, $date, $bID, $uID);   
+            $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
+            $stmt->bind_param("sssi", $title, $content, $date, $uID);   
             $stmt->execute();    
 
             $data = ["Action"=>"Entry created"];
             jsonWrite($version,$data);
         }
-        else{
-            errorWrite($version,"Wrong inputs");
-        }
-    }
-    if($res["userType"] == "admin"){
-        if($bID == 0){
-            $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
-            $stmt->bind_param("sssi", $title, $content, $date, $uID);   
-            $stmt->execute();         
+        if($res["userType"] == "admin"){
+            if ($duID != 0){
+                $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
+                $stmt->bind_param("s", $duID);
+                $stmt->execute();
+                $result = $stmt->get_result();  
 
-            $data = ["Action"=>"Blog created"];
-            jsonWrite($version,$data);
+                if ($result->num_rows > 0) {
+                    errorWrite($version,"user already has a blog ");
+                } 
+
+                else{
+                    $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
+                    $stmt->bind_param("sssi", $title, $content, $date, $duID);
+                    $stmt->execute();  
+                }
+                
+                $data = ["Action"=>"Blog created"];
+                jsonWrite($version,$data);
+            }
+            else{
+                errorWrite($version,"need a user ID for the new blog");
+            }
+            
         }
-        else{
-            errorWrite($version,"Wrong inputs");
-        }
-    } 
-    else{
+
+
         errorWrite($version,"no user");
-    }
+    
 
 
-#
+    #
 //   ?title=x&content=x&uID=x
 ?>

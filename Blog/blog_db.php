@@ -2,10 +2,10 @@
     require_once("../db.php");
     require_once("../json_exempel.php");
     
-    $bID = 0;
+    $uID = 0;
 
-    if(!empty($_GET['bID'])){
-        $bID = $_GET["bID"];
+    if(!empty($_GET['uID'])){
+        $uID = $_GET["uID"];
     }
     
 
@@ -13,13 +13,13 @@
                     Blogs
     ----------------------------------------*/
 
-        if ($bID == -1){
+        if ($uID == -1){
             $selectBlog = "SELECT * FROM blog";
             $result = $conn->query($selectBlog);
         }
         else{
-            $stmt = $conn->prepare("SELECT * FROM blog WHERE blog.ID = ?");
-            $stmt->bind_param("i", $bID); 
+            $stmt = $conn->prepare("SELECT * FROM blog WHERE blog.uID = ?");
+            $stmt->bind_param("i", $uID); 
             $stmt->execute();  
             $result = $stmt->get_result();  
         }
@@ -41,13 +41,13 @@
                 blog entries
     ----------------------------------------*/
 
-        if ($bID == -1){
+        if ($uID == -1){
             $data = ["Blog"=>$bloggList];
             jsonWrite($version,$data); 
         }
         else{
-            $stmt = $conn->prepare("SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.ID = ? AND blog_entry.bID = ?");
-            $stmt->bind_param("ii", $bID, $bID); 
+            $stmt = $conn->prepare("SELECT blog_entry.title,blog_entry.contents FROM blog_entry INNER JOIN blog ON blog.uID = ? AND blog_entry.uID = ?");
+            $stmt->bind_param("ii", $uID, $uID); 
             $stmt->execute();  
             $result = $stmt->get_result();
             

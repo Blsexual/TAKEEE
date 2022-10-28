@@ -15,8 +15,30 @@
                 }
             #
 
-            $token = $_GET['token'];
-            $uID = $_GET['uID'];
+            /*----------------------------------------------------------------------
+                logs in
+            ----------------------------------------------------------------------*/
+                if($action == "login"){
+                    require_once("../login.php");
+                }
+            #
+
+
+            
+            
+
+            if(!empty($_GET["token"])){
+                $token = $_GET['token'];
+            } else{
+                errorWrite($version,"no token was given");
+            }
+            
+            if(!empty($_GET["uID"])){
+                $uID = $_GET['uID'];
+            } else{
+                errorWrite($version,"no uID was given");
+            }
+
             $res = checkToken($token,$uID,"010",$version,$conn);
             
             
@@ -38,7 +60,12 @@
                 Shows all events on the timeline
             ----------------------------------------------------------------------*/
                 if($action == "edit"){
-                    require_once("blog_edit.php");
+                    if ($res["userType"] == "endUser"){
+                        require_once("blog_edit.php");
+                    }
+                    else{
+                        errorWrite($version,"Not a valid user");
+                    }
                 }
             #
             

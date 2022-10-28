@@ -9,7 +9,7 @@
     ----------------------------------------*/
 
         $eID = 0;
-        $bID = 0;
+        $duID = 0;
         $title = 0;
         $content = 0;
 
@@ -18,9 +18,6 @@
             $eID = $_GET['eID'];
         }
         
-        if(!empty($_GET['bID'])){
-            $bID = $_GET['bID'];
-        }
 
     #
 
@@ -50,9 +47,9 @@
 
         }
 
-        if($bID != 0){
-            $stmt = $conn->prepare("SELECT title,description FROM blog WHERE blog.ID = ?");
-            $stmt->bind_param("i", $bID); 
+        if($uID != 0){
+            $stmt = $conn->prepare("SELECT title,description FROM blog WHERE blog.uID = ?");
+            $stmt->bind_param("i", $uID); 
             $stmt->execute();  
             $result = $stmt->get_result();
 
@@ -87,33 +84,26 @@
         }
 
 
-        if ($res["userType"] == "endUser"){
-            if ($eID != 0){
-                $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
-                $stmt->bind_param("ssi", $title, $content, $eID); 
-                $stmt->execute();  
-                $data = ["Action"=>"Entry Updated"];
-                jsonWrite($version,$data);
-            }
-            else{
-                errorWrite($version,"Wrong inputs");
-            }
+
+        if ($eID != 0){
+            $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
+            $stmt->bind_param("ssi", $title, $content, $eID); 
+            $stmt->execute();  
+            $data = ["Action"=>"Entry Updated"];
+            jsonWrite($version,$data);
         }
-        else if ($res["userType"] == "admin"){
-            if ($bID != 0){
-                $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.ID = ? "); // updates blogs
-                $stmt->bind_param("ssi", $title, $content, $bID); 
-                $stmt->execute(); 
-                $data = ["Action"=>"Blog updated"];
-                jsonWrite($version,$data);
-            }
-            else{
-                errorWrite($version,"Wrong inputs");
-            }
+        else if ($uID != 0){
+            $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.uID = ? "); // updates blogs
+            $stmt->bind_param("ssi", $title, $content, $uID); 
+            $stmt->execute(); 
+            $data = ["Action"=>"Blog updated"];
+            jsonWrite($version,$data);
         }
-        else {
-            errorWrite($version,"No user");
+        else{
+            errorWrite($version,"Wrong inputs");
         }
+
+        
        
     #
 
