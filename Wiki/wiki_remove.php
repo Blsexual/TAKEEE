@@ -30,6 +30,13 @@
         errorWrite($version,"You are not allowed to create this wiki");
     }
 
+    $stmt = $conn->prepare("SELECT ID FROM wiki WHERE ID = $wikiID");
+    $stmt->execute();
+    $resultID = $stmt->get_result();
+    if ($resultID->num_rows <= 0){
+        errorWrite($version,"This wiki ID doesn't exist");
+    }
+
     /*$stmt = $conn->prepare("SELECT * FROM wiki WHERE ID = ?");
     $stmt->bind_param("i", $wikiID);
     $stmt->execute();

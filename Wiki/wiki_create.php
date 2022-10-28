@@ -41,7 +41,7 @@
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
 
-    $int = $user; // This is bad.
+    $int = $user;
     $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex) VALUES(?,?,?)");
     $stmt->bind_param("isi", $user, $title, $int);
     $stmt->execute();
