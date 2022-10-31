@@ -10,7 +10,7 @@ $page = $_GET["page"];          // wiki_entry ID
 -----------------------------------------------------------*/
 
     if($res["userType"] != "admin"){
-        $stmt = $conn->prepare("SELECT wiki_entry_history WHERE uID = ? AND oID = ?");
+        $stmt = $conn->prepare("SELECT wiki_entry_history WHERE uID = ? AND ID = ?");
         $stmt->bind_param("ii", $user, $page);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -18,6 +18,10 @@ $page = $_GET["page"];          // wiki_entry ID
         if ($result->num_rows > 0) {
             $res = $result->fetch_assoc();        // output data of each row
         } else{
+            $stmt = $conn->prepare("SELECT wiki_entry_history,wiki_entry WHERE wiki_entry_history.ID = ? AND wiki_entry.uID = ?");
+            $stmt->bind_param("ii", $user, $page);
+            $stmt->execute();
+            $result = $stmt->get_result();
             // JSON Return
             errorWrite($version,"we can not find the page you are looking for");
         }
