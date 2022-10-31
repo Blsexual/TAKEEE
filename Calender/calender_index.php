@@ -9,7 +9,7 @@
         if(!empty($_GET['action'])){
             $action = $_GET['action'];
             if($action == "login"){
-                require_once("calender_login.php");
+                require_once("calendar_login.php");
             }
 
             if(empty($_GET['token'])){
@@ -28,7 +28,7 @@
                     Shows a list of all events for the user
                 ----------------------------------------------------------------------*/
                     if($action == "showEvent"){
-                        require_once("calender_show_event.php");
+                        require_once("calendar_show_event.php");
                         errorWrite($version,"Something went wrong in show event");
                     }
                 #
@@ -36,7 +36,7 @@
                     Allows the user to create a new event
                 ----------------------------------------------------------------------*/
                     if($action == "createEvent"){
-                        require_once("calender_create_event.php");
+                        require_once("calendar_create_event.php");
                         errorWrite($version,"Something went wrong in create event");
                     }
                 #
@@ -44,7 +44,7 @@
                     Allows the user to edit one of their events
                 ----------------------------------------------------------------------*/
                 if($action == "editEvent"){
-                    require_once("calender_edit_event.php");
+                    require_once("calendar_edit_event.php");
                     errorWrite($version,"Something went wrong in edit event");
                 }
                 #
@@ -52,7 +52,7 @@
                     Allows the user to delete one of their events
                 ----------------------------------------------------------------------*/
                     if($action == "deleteEvent"){
-                        require_once("calender_delete_event.php");
+                        require_once("calendar_delete_event.php");
                         errorWrite($version,"Something went wrong in delete event");
                     }
                 #
@@ -60,7 +60,7 @@
                     Shows all events on the timeline
                 ----------------------------------------------------------------------*/
                     if($action == "sortTimeline"){
-                        require_once("calender_sort_timeline.php");
+                        require_once("calendar_sort_timeline.php");
                         errorWrite($version,"Something went wrong in sort timeline");
                     }
                 #
@@ -68,7 +68,7 @@
                     Allows a user to invite another user to see a specified event
                 ----------------------------------------------------------------------*/
                     if($action == "eventInvitation"){
-                        require_once("calender_event_invitation.php");
+                        require_once("calendar_event_invitation.php");
                         errorWrite($version,"Something went wrong in event invitation");
                     }
                 #
@@ -76,7 +76,7 @@
                     
                 ----------------------------------------------------------------------*/
                     if($action == "invitationHandle"){
-                        require_once("calender_invitation_handle.php");
+                        require_once("calendar_invitation_handle.php");
                         errorWrite($version,"Something went wrong in event handle");
                     }
                 #
@@ -84,7 +84,7 @@
                     
                 ----------------------------------------------------------------------*/
                     if($action == "invitationLeave"){
-                        require_once("calender_invitation_leave.php");
+                        require_once("calendar_invitation_leave.php");
                         errorWrite($version,"Something went wrong in invitaion leave");
                     }
                 #
@@ -93,7 +93,7 @@
                     
                 ----------------------------------------------------------------------*/
                     if($action == "invitationRevoke"){
-                        require_once("calender_invitation_revoke.php");
+                        require_once("calendar_invitation_revoke.php");
                         errorWrite($version,"Something went wrong in invitaion revoke");
                     }
                 #

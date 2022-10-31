@@ -13,8 +13,8 @@
     } 
     $data["My events"] = $eventList;
     
-    require_once("calender_show_event_invited.php");
-    require_once("calender_show_event_accepted.php");
+    require_once("calendar_show_event_invited.php");
+    require_once("calendar_show_event_accepted.php");
     
     jsonWrite($version,$data);
 ?>
