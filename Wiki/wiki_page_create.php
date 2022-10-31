@@ -60,11 +60,11 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
-    
-    $data = ["Result"=>"Page created successfully"];
-    jsonWrite($version,$data);
-    
-    //errorWrite($version,"Bad input")
-    
+    if($result){
+        $data = ["Result"=>"Page created successfully"];
+        jsonWrite($version,$data);
+    } else{
+        errorWrite($version,"Something went wrong");
+    }
     
 ?>
