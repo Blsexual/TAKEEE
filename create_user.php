@@ -39,12 +39,12 @@
             errorWrite($version,"No email given");
         }
         if(!empty($_GET["admin"])){
-            $admin = $_GET["admin"];        // 000 | 100 wiki | 010 blog | 001 calender
+            $admin = $_GET["admin"];        // 000 | 100 wiki | 010 blog | 001 calendar
         } else{
             errorWrite($version,"Admin privilliges not defined");
         }
         if(!empty($_GET["endUser"])){
-            $endUser = $_GET["endUser"];    // 000 | 100 wiki | 010 blog | 001 calender
+            $endUser = $_GET["endUser"];    // 000 | 100 wiki | 010 blog | 001 calendar
         } else{
             errorWrite($version,"End user privilliges not defined");
         }
