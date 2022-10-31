@@ -28,6 +28,12 @@
 
         $date = date("Y/m/d H:i:s");
 
+
+        $stmt = $conn->prepare("SELECT locked FROM user uID = ?");  //creates the new entries
+        $stmt->bind_param("i", $uID);   
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
+        print_r($result)
     #
 
     /*---------------------------------------
@@ -35,7 +41,6 @@
     ----------------------------------------*/
 
         if ($res["userType"] == "endUser"){
-
             $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
             $stmt->bind_param("sssi", $title, $content, $date, $uID);   
             $stmt->execute();    

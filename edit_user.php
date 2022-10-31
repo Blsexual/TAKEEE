@@ -8,13 +8,15 @@
 ---------------------------------------------------------------*/
     if(!empty($_GET["token"])){
         $token = $_GET['token'];      // Name of user
-    } else{
+    } 
+    else{
         errorWrite($version,"No token given");
     }
 
     if(!empty($_GET["uID"])){
         $uID = $_GET['uID'];      // Name of user
-    } else{
+    } 
+    else{
         errorWrite($version,"No userID given");
     }
     
@@ -30,38 +32,51 @@
         }
         if(!empty($_GET["name"])){
             $name = $_GET["name"]; 
-        } else{
+        } 
+        else{
             errorWrite($version,"No name given");
         }
         if(!empty($_GET["password"])){
             $password = $_GET["password"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No password given");
         }
         if(!empty($_GET["email"])){
             $email = $_GET["email"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No email given");
         }
         if(!empty($_GET["admin"])){
             $admin = $_GET["admin"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No admin given");
         }
         if(!empty($_GET["endUser"])){
             $endUser = $_GET["endUser"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No endUser given");
         }
         if(!empty($_GET["description"])){
             $description = $_GET["description"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No description given");
         }
         if(!empty($_GET["avatar"])){
             $avatar = $_GET["avatar"];
-        } else{
+        } 
+        else{
             errorWrite($version,"No avatar given");
+        }
+        if(!empty($_GET["locked"])){
+            $locked = $_GET["locked"];
+        } 
+        else{
+            $locked = 0
         }
 
 /*------------------------------------------------------------------------
@@ -80,16 +95,32 @@
                 errorWrite($version,"You are not allowed to make a user a admin for a platform you are not admin on");
             }
         }
-        // Blogs problem fuck you haha elidon och erik sug en stor ...
-        if($endUser[1] == "1"){
-
+/*------------------------------------------------------------------------
+                            Blogs lock user
+------------------------------------------------------------------------*/  
+  
+        if($endUser[1] == "1"){    
+            if ($locked != 0){
+                $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 1 WHERE user.ID = ? "); // updates entries
+                $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
+                $stmt->execute();  
+                $data = ["Action"=>"User Updated"];
+                jsonWrite($version,$data);
+            } 
+            $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 0 WHERE user.ID = ? "); // updates entries
+            $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
+            $stmt->execute();  
+            $data = ["Action"=>"User Updated"];
+            jsonWrite($version,$data);
         }
+#
         $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ? WHERE user.ID = ? "); // updates entries
         $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
         $stmt->execute();  
         $data = ["Action"=>"User Updated"];
         jsonWrite($version,$data);
-    } else{
+    } 
+    else{
         errorWrite($version,"You are not allowed to do this");
     }
 
