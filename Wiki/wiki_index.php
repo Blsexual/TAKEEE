@@ -64,6 +64,13 @@
                 }
             #
             /*----------------------------------------------------------------------
+                Allows the user to delete a edit on a entry
+            ----------------------------------------------------------------------*/
+                if($action == "deleteEditEntry"){
+                    require_once("wiki_page_edit_remove.php");
+                }
+            #
+            /*----------------------------------------------------------------------
                 Allows the original user to delete one of their entrys
             ----------------------------------------------------------------------*/
                 if($action == "deleteEntry"){
