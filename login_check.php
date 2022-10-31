@@ -8,18 +8,18 @@
 //  $conn       | object    | ex. $conn = new mysqli($servername, $username, $password,$db)
 
     function checkToken($token,$uID,$service,$version,$conn){
-
         if(!is_numeric($uID)){ // So $uID dont make error if is string
             errorWrite($version,"Not a valid user");
         }
         if ($token == "test"){ // Temp for testing
-
             $sql = "SELECT * FROM user WHERE ID = $uID";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 $result = $result->fetch_assoc();
                 $correctUser = 0;
                 $uType = "";
+                $admin = $result["admin"];
+                $endUser = $result["endUser"];
                 for($i = 2;$i>=0;--$i){
                     if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
                         $correctUser = 1;
@@ -35,28 +35,27 @@
                 }
             }
             $conn->query($sql);
-            $data = ["userType"=>"$uType"];
+            $data = ["userType"=>"$uType","admin"=>"$admin","endUser"=>"$endUser"];
             return $data;
         }
         $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
         $result = $conn->query($sql);
-        echo "what";
+        
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
             $correctUser = 0;
-            $uType = "";
             for($i = 2;$i>=0;--$i){
-
                 if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
                     $correctUser = 1;
                     $uType = "endUser";
                 }
                 if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
-
                     $correctUser = 1;
                     $uType = "admin";
                 }
             }
+            $admin = $result["admin"];
+            $endUser = $result["endUser"];
             if($correctUser != 1){
                 errorWrite($version,"no user found or token not valid");
             }
@@ -76,9 +75,9 @@
                     $ID = $result["ID"];
                     $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
                     $sql = "UPDATE user SET validUntil = '$date' WHERE ID = $ID";
-
                     $conn->query($sql);
-                    $data = ["userType"=>"$uType"];
+                    $data = ["userType"=>"$uType","admin"=>"$admin","endUser"=>"$endUser"];
+                    
                     return $data;
                 }
             #

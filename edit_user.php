@@ -56,15 +56,19 @@
         } else{
             errorWrite($version,"No avatar given");
         }
-        
+        print_r($res);
         for($i=0;$i<=2;$i++){
-            echo "yest";
-            if($endUser[$i] == $admin[$i] && $endUser[$i] != "0"){
+            if($endUser[$i] == $admin[$i] && $endUser[$i] != "0" && $res["admin"][$i] != "0"){
                 errorWrite($version,"A user can not be a admin and end user on the same platform");
             }
             // Get user så jag kan kolla om hen får göra usern till en viss typ av user
-            if($endUser[$i] != $user["admin"][$i]){
-
+            if($endUser[$i] == "1" && $res["admin"][$i] != "1"){
+                print_r($res["admin"][$i]);
+                errorWrite($version,"You are not allowed to make a user a user for a platform you are not admin on");
+            }
+            if($admin[$i] == "1" && $res["admin"][$i] != "1"){
+                print_r($res["admin"][$i]);
+                errorWrite($version,"You are not allowed to make a user a admin for a platform you are not admin on");
             }
         }
         // Blogs problem fuck you haha elidon och erik sug en stor ...
