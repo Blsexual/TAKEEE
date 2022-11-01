@@ -23,10 +23,6 @@
                 }
             #
 
-
-            
-            
-
             if(!empty($_GET["token"])){
                 $token = $_GET['token'];
             } else{

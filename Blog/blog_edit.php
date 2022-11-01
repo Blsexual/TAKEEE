@@ -9,7 +9,6 @@
     ----------------------------------------*/
 
         $eID = 0;
-        $duID = 0;
         $title = 0;
         $content = 0;
 
@@ -19,6 +18,16 @@
         }
         
 
+        $stmt = $conn->prepare("SELECT locked FROM user WHERE ID = ?");  //gets if the user is locked
+        $stmt->bind_param("i", $uID);   
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {    
+                $lock= $row["locked"];
+            }
+        } 
     #
 
     /*---------------------------------------
@@ -27,12 +36,11 @@
 
 
         if($eID != 0){
+            
             $stmt = $conn->prepare("SELECT title,contents FROM blog_entry WHERE blog_entry.ID = ?");
             $stmt->bind_param("i", $eID); 
             $stmt->execute();  
             $result = $stmt->get_result();
-
-            
 
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {              // gets old title and content for entety
@@ -84,24 +92,30 @@
         }
 
 
-
-        if ($eID != 0){
-            $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
-            $stmt->bind_param("ssi", $title, $content, $eID); 
-            $stmt->execute();  
-            $data = ["Action"=>"Entry Updated"];
-            jsonWrite($version,$data);
-        }
-        else if ($uID != 0){
-            $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.uID = ? "); // updates blogs
-            $stmt->bind_param("ssi", $title, $content, $uID); 
-            $stmt->execute(); 
-            $data = ["Action"=>"Blog updated"];
-            jsonWrite($version,$data);
+        if ($lock == 0){
+            if ($eID != 0){
+                $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
+                $stmt->bind_param("ssi", $title, $content, $eID); 
+                $stmt->execute();  
+                $data = ["Action"=>"Entry Updated"];
+                jsonWrite($version,$data);
+            }
+            else if ($uID != 0){
+                $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.uID = ? "); // updates blogs
+                $stmt->bind_param("ssi", $title, $content, $uID); 
+                $stmt->execute(); 
+                $data = ["Action"=>"Blog updated"];
+                jsonWrite($version,$data);
+            }
+            else{
+                errorWrite($version,"Wrong inputs");
+            }
         }
         else{
-            errorWrite($version,"Wrong inputs");
+            $data = ["Blog"=>"user is locked"];
+            jsonWrite($version,$data); 
         }
+        
 
         
        

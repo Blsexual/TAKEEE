@@ -10,8 +10,9 @@
 
         $title = "No Title";
         $content = "No content"; 
-        $duID = 0;                  // sets base variables
-        
+        $duID = 0;
+        $fID = $uID;                  // sets base variables
+        $date = date("Y/m/d H:i:s");
 
         if(!empty($_GET['title'])){
             $title = $_GET['title'];
@@ -23,17 +24,21 @@
 
         if(!empty($_GET['duID'])){
             $duID = $_GET['duID'];
+            $fID = $_GET['duID'];
         }
 
 
-        $date = date("Y/m/d H:i:s");
-
-
-        $stmt = $conn->prepare("SELECT locked FROM user uID = ?");  //creates the new entries
-        $stmt->bind_param("i", $uID);   
+        $stmt = $conn->prepare("SELECT locked FROM user WHERE ID = ?");  //gets if the user is locked
+        $stmt->bind_param("i", $fID);   
         $stmt->execute(); 
         $result = $stmt->get_result(); 
-        print_r($result)
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {    
+                $lock= $row["locked"];
+            }
+        } 
+
     #
 
     /*---------------------------------------
@@ -41,37 +46,47 @@
     ----------------------------------------*/
 
         if ($res["userType"] == "endUser"){
-            $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
-            $stmt->bind_param("sssi", $title, $content, $date, $uID);   
-            $stmt->execute();    
-
-            $data = ["Action"=>"Entry created"];
-            jsonWrite($version,$data);
-        }
-        if($res["userType"] == "admin"){
-            if ($duID != 0){
-                $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
-                $stmt->bind_param("s", $duID);
-                $stmt->execute();
-                $result = $stmt->get_result();  
-
-                if ($result->num_rows > 0) {
-                    errorWrite($version,"user already has a blog ");
-                } 
-
-                else{
-                    $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the new blogs
-                    $stmt->bind_param("sssi", $title, $content, $date, $duID);
-                    $stmt->execute();  
-                }
-                
-                $data = ["Action"=>"Blog created"];
+            if($lock == 0){
+                $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
+                $stmt->bind_param("sssi", $title, $content, $date, $uID);   
+                $stmt->execute();    
+    
+                $data = ["Action"=>"Entry created"];
                 jsonWrite($version,$data);
             }
             else{
-                errorWrite($version,"need a user ID for the new blog");
+                $data = ["Blog"=>"you are locked"];
+                jsonWrite($version,$data);;
             }
-            
+        }
+        if($res["userType"] == "admin"){
+            if($lock == 0){                      
+                if ($duID != 0){
+                    $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
+                    $stmt->bind_param("s", $duID);
+                    $stmt->execute();
+                    $result = $stmt->get_result();  
+
+                    if ($result->num_rows > 0) {
+                        errorWrite($version,"user already has a blog ");                // if user allready has a blog
+                    } 
+                    else{
+                        $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
+                        $stmt->bind_param("sssi", $title, $content, $date, $duID);
+                        $stmt->execute();  
+                    }
+                    
+                    $data = ["Action"=>"Blog created"];
+                    jsonWrite($version,$data);
+                }
+                else{
+                    errorWrite($version,"need a user ID for the new blog");
+                }
+            }
+            else{
+                $data = ["Blog"=>"user is locked"];
+                jsonWrite($version,$data); 
+            }
         }
 
 
