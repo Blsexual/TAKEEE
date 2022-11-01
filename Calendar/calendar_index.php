@@ -65,7 +65,7 @@
                     }
                 #
                 /*----------------------------------------------------------------------
-                    Allows a user to invite another user to see a specified event
+                    Allows a user to send an ivitation to another user to see a specified event
                 ----------------------------------------------------------------------*/
                     if($action == "eventInvitation"){
                         require_once("calendar_event_invitation.php");
@@ -73,7 +73,7 @@
                     }
                 #
                 /*----------------------------------------------------------------------
-                    
+                    Allows a user to either accept decline or cancel an invite
                 ----------------------------------------------------------------------*/
                     if($action == "invitationHandle"){
                         require_once("calendar_invitation_handle.php");
@@ -81,7 +81,7 @@
                     }
                 #
                 /*----------------------------------------------------------------------
-                    
+                    Allows a user to leave an accepted invitation
                 ----------------------------------------------------------------------*/
                     if($action == "invitationLeave"){
                         require_once("calendar_invitation_leave.php");
@@ -90,7 +90,7 @@
                 #
                 
                 /*----------------------------------------------------------------------
-                    
+                    Allows a user to revoke an accepted invitation
                 ----------------------------------------------------------------------*/
                     if($action == "invitationRevoke"){
                         require_once("calendar_invitation_revoke.php");
