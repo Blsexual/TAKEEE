@@ -2,18 +2,59 @@
     require_once("../db.php");
     require_once("../json_exempel.php");
     
-    $uID = 0;
+    /*---------------------------------------
+                Gets the data
+    ----------------------------------------*/
 
-    if(!empty($_GET['uID'])){
-        $uID = $_GET["uID"];
-    }
-    
+        if(empty($_GET["uID"])){
+            $uID = 0;
+        }
+        else{
+            if(!is_numeric($_GET["uID"])){
+                errorWrite($version,"Not a valid uID");
+            }
+            $uID = $_GET['uID'];
+        }
+
+        if ($uID == 0){
+            $selectBlog = "SELECT * FROM blog";
+            $result = $conn->query($selectBlog);
+            if ($result->num_rows > 0) {
+                $bloggList = [];
+                while($row = $result->fetch_assoc()) {  //shows all the possible blogs
+                    $bloggList[] = $row;
+                }
+            } 
+            $data = ["Blog"=>$bloggList];
+            jsonWrite($version,$data); 
+        }
+
+        $stmt = $conn->prepare("SELECT locked FROM user WHERE ID = ?");  //gets if the user is locked
+        $stmt->bind_param("i", $uID);   
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {    
+                $lock= $row["locked"];
+            }
+            if ($lock !=0){
+                $data = ["Blog"=>"User is locked"];
+                jsonWrite($version,$data); 
+            }
+        } 
+        else{
+            $data = ["Blog"=>"User does not exist"];
+            jsonWrite($version,$data);
+        }
+
+    #
 
     /*---------------------------------------
                     Blogs
     ----------------------------------------*/
 
-        if ($uID == -1){
+        if ($uID == 0){
             $selectBlog = "SELECT * FROM blog";
             $result = $conn->query($selectBlog);
         }
@@ -33,7 +74,8 @@
             }
         } 
         else {
-            errorWrite($version,"No blogs found");
+            $data = ["Blog"=>"No blogs found"];
+            jsonWrite($version,$data);
         }
     #
     
@@ -41,7 +83,7 @@
                 blog entries
     ----------------------------------------*/
 
-        if ($uID == -1){
+        if ($uID == 0){
             $data = ["Blog"=>$bloggList];
             jsonWrite($version,$data); 
         }
