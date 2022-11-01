@@ -20,7 +20,7 @@
         errorWrite($version,"No userID given");
     }
     
-    $res = checkToken($token,$uID,"010",$version,$conn);
+    $res = checkToken($token,$uID,"111",$version,$conn);
 
     if ($res["userType"] == "admin"){
         if(!empty($_GET["username"])){
@@ -57,6 +57,23 @@
             $avatar = $_GET["avatar"];
         } else{
             $avatar = "unset";
+        }
+
+        /*------------------------------------------------------------------------
+                    Making sure the actions are allowed to be made
+        ------------------------------------------------------------------------*/
+        for($i=0;$i<=2;$i++){
+            if($endUser[$i] == $admin[$i] && $endUser[$i] != "0" && $res["admin"][$i] != "0"){
+                errorWrite($version,"A user can not be a admin and end user on the same platform");
+            }
+            // Checks so the user is allowed to make a endUser for something
+            if($endUser[$i] == "1" && $res["admin"][$i] != "1"){
+                errorWrite($version,"You are not allowed to make a user for a platform you are not admin on");
+            }
+            // Checks so the user is allowed to make a admin
+            if($admin[$i] == "1" && $res["admin"][$i] != "1"){
+                errorWrite($version,"You are not allowed to make a admin for a platform you are not admin on");
+            }
         }
         /*---------------------------------------------
                     Check If username is in use
