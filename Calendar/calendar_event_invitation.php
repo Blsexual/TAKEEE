@@ -27,8 +27,8 @@
     /*----------------------------------------------------------------------
         Checks if recipentID is set
     ----------------------------------------------------------------------*/
-        if(!empty($_GET['recipientID'])){
-            $rID = $_GET['recipientID'];
+        if(!empty($_GET['rID'])){
+            $rID = $_GET['rID'];
         }
         else{
             errorWrite($version,"Didn't specify which recipient to invite");

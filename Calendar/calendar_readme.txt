@@ -37,7 +37,6 @@ Delete an event | action=deleteEvent
 
 Show all of the users events and their invitations and events they've accepted | action=showEvent
     calendar_index.php?uID=#&token=#&action=showEvent
-
 #
 
 Show all of the users events and their invitations and events they've accepted and sort them based on a timeline | action=sortTimeline
@@ -45,4 +44,26 @@ Show all of the users events and their invitations and events they've accepted a
 
     startDate | The date when the timeline starts | Required input
     endDate |  The date when the timeline ends | Required input
+#
+
+Allows a user to send an ivitation to another user to see a specified event | action=eventInvitation
+    calendar_index.php?uID=#&token=#&action=eventInvitation&eID=#&rID=#
+
+    eID | The ID of the event that the recipient is invited to | Required input
+    rID | The ID of the recipient that is reciving the invitation| Required input
+#
+
+Show all of the users events and their invitations and events they've accepted | action=invitationHandle
+    calendar_index.php?uID=#&token=#&action=invitationHandle
+
+#
+
+Show all of the users events and their invitations and events they've accepted | action=invitationLeave
+    calendar_index.php?uID=#&token=#&action=invitationLeave
+
+#
+
+Show all of the users events and their invitations and events they've accepted | action=invitationRevoke
+    calendar_index.php?uID=#&token=#&action=invitationRevoke
+    
 #

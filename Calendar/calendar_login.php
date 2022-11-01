@@ -9,8 +9,8 @@
         errorWrite($version, "No username was given");
     }
     
-    if(!empty($_GET["pass"])){
-        $pass = $_GET["pass"];
+    if(!empty($_GET["password"])){
+        $pass = $_GET["password"];
     } else{
         errorWrite($version, "No password was given");
     }
