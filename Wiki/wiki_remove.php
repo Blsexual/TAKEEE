@@ -48,15 +48,26 @@
     $stmt->execute();
     $resultID = $stmt->get_result();
 
+    $stmt = $conn->prepare("SELECT ID FROM wiki_entry WHERE wID = ?");
+    $stmt->bind_param("i", $wID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows > 0){
+        while($row =$result->fetch_assoc()){
+            $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE oID = ?");
+            $stmt->bind_param("i", $row["ID"]);
+            $stmt->execute();
+            $resultID = $stmt->get_result();
+        }
+    }
+
     $stmt = $conn->prepare("DELETE FROM wiki_entry WHERE wID = ?");
     $stmt->bind_param("i", $wID);
     $stmt->execute();
     $resultID = $stmt->get_result();
 
-    $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE oID = ?");
-    $stmt->bind_param("i", $wID);
-    $stmt->execute();
-    $resultID = $stmt->get_result();
+    
 
     jsonWrite($version,"Wiki was removed");
 ?>

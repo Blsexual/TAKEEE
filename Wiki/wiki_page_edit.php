@@ -2,16 +2,13 @@
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
-    $uID = $_REQUEST["uID"];      // user = user ID
     $wiki = $_GET["wiki"];          // wiki = wiki ID
     $title = $_GET["title"];
     $contents = $_GET["contents"];  // html?
     $page = $_GET["page"];
     $token = $_GET["token"];
 
-    $date = getdate();              // get the date in a array 
-    $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"]." ".$date["hours"].":".$date["minutes"].":".$date["seconds"];      // Creates a date variable the database can handle (yyyy-mm-dd)
-
+    $todayDate = date("Y-m-d h:i:s");
 /*-----------------------------------------------------------
         Connection
 -----------------------------------------------------------*/
