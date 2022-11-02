@@ -36,17 +36,12 @@
 /*----------------------------------------------------------------------------
         Deletes all the history
 ----------------------------------------------------------------------------*/
-    $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE wiki_entry.oID = ?");
+    $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE oID = ?");
     $stmt->bind_param("i", $page);
     $stmt->execute();
     $stmt->get_result();
 
-    if($result){
-    // JSON Return
-        $data = ["Result"=>"Wiki entry deleted"];
-        jsonWrite($version,$data);
+    $data = ["Result"=>"Wiki entry deleted"];
+    jsonWrite($version,$data);
 
-    } else{          // Basicly if something went very wrong
-        errorWrite($version,"you are not allowed to remove this entry");
-    } 
 ?>

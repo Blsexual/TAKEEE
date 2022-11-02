@@ -31,16 +31,11 @@ $page = $_GET["page"];          // wiki_entry ID
 /*----------------------------------------------------------------------------
         Deletes all the history
 ----------------------------------------------------------------------------*/
-    $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE wiki_entry.ID = ?");
+    $stmt = $conn->prepare("DELETE FROM wiki_entry_history WHERE ID = ?");
     $stmt->bind_param("i", $page);
     $stmt->execute();
     $result = $stmt->get_result();
-
-    if($result){
     // JSON Return
-        $data = ["Result"=>"Wiki entry edit deleted"];
-        jsonWrite($version,$data);
-    } else{          // Basicly if something went very wrong
-        errorWrite($version,"you are not allowed to remove this entry");
-    } 
+    $data = ["Result"=>"Wiki entry edit deleted"];
+    jsonWrite($version,$data);
 ?>
