@@ -10,12 +10,12 @@
     $token = $_GET["token"];
 
     $date = getdate();              // get the date in a array 
-    $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
+    $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"]." ".$date["hours"].":".$date["minutes"].":".$date["seconds"];      // Creates a date variable the database can handle (yyyy-mm-dd)
 
 /*-----------------------------------------------------------
         Connection
 -----------------------------------------------------------*/
-    $stmt = $conn->prepare("SELECT date FROM wiki_entry WHERE ID = ?");
+    $stmt = $conn->prepare("SELECT * FROM wiki_entry WHERE ID = ?");
     $stmt->bind_param("i", $page);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -30,8 +30,8 @@
         errorWrite($version,"we cant find the page you are looking for");
     }
 
-    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,wID,uID,title,contents,date,editDate) VALUES(?,?,?,?,?,?,?)");
-    $stmt->bind_param("iiissss", $page,$wiki,$uID,$title,$contents,$date,$todayDate);
+    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,uID,title,contents,date) VALUES(?,?,?,?,?)");
+    $stmt->bind_param("iisss", $page,$uID,$title,$contents,$todayDate);
     $stmt->execute();
     $result = $stmt->get_result();
 
