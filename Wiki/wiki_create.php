@@ -7,10 +7,7 @@
             Variabels
     -----------------------------------------------------------*/
     
-    if (isset($_REQUEST['user'])){ // user = user ID
-        $user = $_REQUEST["user"];
-    }
-    if (empty($user)){
+    if (empty($uID)){
         errorWrite($version,"No user ID was found");
     }
     if (isset($_GET['contents'])){ // contents
@@ -32,18 +29,18 @@
         errorWrite($version,"No token was found");
     }
     
-    $adminCheck = checkToken($token, $user, "100", $version, $conn);
+    $adminCheck = checkToken($token, $uID, "100", $version, $conn);
 
-    if ($adminCheck["UserType"] != "admin"){ // Check if admin is true for user
+    if ($adminCheck["userType"] != "admin"){ // Check if admin is true for user
         errorWrite($version,"You are not allowed to create this wiki");
     }
 
     $date = getdate();              // get the date in a array 
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
 
-    $int = $user;
+    $int = $uID;
     $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex) VALUES(?,?,?)");
-    $stmt->bind_param("isi", $user, $title, $int);
+    $stmt->bind_param("isi", $uID, $title, $int);
     $stmt->execute();
     $resultID = $stmt->get_result(); 
 
@@ -61,7 +58,7 @@
     }
 
     $stmt = $conn->prepare("INSERT INTO wiki_entry (wID,uID) VALUES(?,?)");
-    $stmt->bind_param("ii", $wikiID, $user);
+    $stmt->bind_param("ii", $wikiID, $uID);
     $stmt->execute();
     $resultID = $stmt->get_result();
 
