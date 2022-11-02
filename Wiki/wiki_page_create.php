@@ -23,8 +23,8 @@
         errorWrite($version,"No user was specified");
     }
 
-    $date = getdate();              // get the date in a array 
-    $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"]." ".$date["hours"].":".$date["minutes"].":".$date["seconds"];      // Creates a date variable the database can handle (yyyy-mm-dd)
+    $todayDate = date("Y-m-d h:i:s");
+
 /*-----------------------------------------------------------
         Connection
 -----------------------------------------------------------*/
@@ -49,9 +49,9 @@
     $stmt->execute();
     $result = $stmt->get_result();
     $result = $result->fetch_assoc();
-    
-    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,title,contents,date) VALUES(?,?,?,?)");
-    $stmt->bind_param("isss", $result["ID"],$title,$contents,$todayDate);
+
+    $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,uID,title,contents,date) VALUES(?,?,?,?,?)");
+    $stmt->bind_param("iisss", $result["ID"],$uID,$title,$contents,$todayDate);
     $stmt->execute();
     $data = ["Result"=>"Page created successfully"];
     jsonWrite($version,$data);
