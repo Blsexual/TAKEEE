@@ -47,8 +47,9 @@
     $stmt = $conn->prepare("SELECT MAX(ID) AS ID FROM wiki_entry WHERE uID = ?");
     $stmt->bind_param("i", $user);
     $stmt->execute();
-
-
+    $result = $stmt->get_result();
+    $result = $result->fetch_assoc();
+    
     $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,title,contents,date) VALUES(?,?,?,?)");
     $stmt->bind_param("isss", $result["ID"],$title,$contents,$todayDate);
     $stmt->execute();
