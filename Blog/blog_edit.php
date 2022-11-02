@@ -55,7 +55,7 @@
 
         }
 
-        if($uID != 0){
+        if($eID == 0){
             $stmt = $conn->prepare("SELECT title,description FROM blog WHERE blog.uID = ?");
             $stmt->bind_param("i", $uID); 
             $stmt->execute();  
@@ -100,7 +100,7 @@
                 $data = ["Action"=>"Entry Updated"];
                 jsonWrite($version,$data);
             }
-            else if ($uID != 0){
+            else if ($eID == 0){
                 $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.uID = ? "); // updates blogs
                 $stmt->bind_param("ssi", $title, $content, $uID); 
                 $stmt->execute(); 

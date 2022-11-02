@@ -43,10 +43,16 @@
         if ($res["userType"] == "endUser"){
             if ($lock == 0){
                 if ($eID != 0){    
-                    $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.ID = ? ");  // deletes entries by specific id
-                    $stmt->bind_param("i", $eID); 
+                    $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.ID = ? AND blog_entry.uID = ?");  // deletes entries by specific id
+                    $stmt->bind_param("ii", $eID, $uID); 
                     $stmt->execute();  
-                    $data = ["Action"=>"Entry deleted"];
+                    $result = $stmt->get_result(); 
+                    echo $result;
+                    if ($result == 0){
+                        $data = ["Action"=>"Entry deleted"];
+                        jsonWrite($version,$data);
+                    }
+                    $data = ["Action"=>"you don't have permission you big dum"];
                     jsonWrite($version,$data);
                 }    
                 else{
