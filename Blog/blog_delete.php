@@ -61,7 +61,7 @@
         else if ($res["userType"] == "admin"){
             if ($lock == 0){
                 if ($duID != 0){    
-                    $stmt = $conn->prepare("DELETE FROM blog WHERE blog.ID = ?"); // deletes blogs by specific id
+                    $stmt = $conn->prepare("DELETE FROM blog WHERE blog.uID = ?"); // deletes blogs by specific id
                     $stmt->bind_param("i", $duID); 
                     $stmt->execute(); 
 
@@ -91,6 +91,6 @@
 
 
     // ?eID=x
-    // ?bID=x
+    // ?duID=x
 ?>
 
