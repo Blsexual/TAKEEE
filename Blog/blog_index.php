@@ -11,15 +11,7 @@
                 Shows all blogs and whats in a blog
             ----------------------------------------------------------------------*/
                 if($action == "showBlog"){
-                    require_once("blog_db.php");
-                }
-            #
-
-            /*----------------------------------------------------------------------
-                logs in
-            ----------------------------------------------------------------------*/
-                if($action == "login"){
-                    require_once("../login.php");
+                    require_once("blog_show.php");
                 }
             #
 
