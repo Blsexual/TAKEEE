@@ -14,7 +14,6 @@ $page = $_GET["page"];          // wiki_entry ID
         $stmt->bind_param("ii", $user, $page);
         $stmt->execute();
         $result = $stmt->get_result();
-    
         if ($result->num_rows == 0) {
             $stmt = $conn->prepare("SELECT * FROM wiki_entry_history,wiki_entry WHERE wiki_entry_history.ID = ? AND wiki_entry.uID = ? AND wiki_entry.ID = wiki_entry_history.oID");
             $stmt->bind_param("ii", $user, $page);
@@ -24,7 +23,6 @@ $page = $_GET["page"];          // wiki_entry ID
                 // JSON Return
                 errorWrite($version,"We can either not find the page you are looking for or you are not allowed to remove the page");
             }
-            
         }
     }
 
