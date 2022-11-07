@@ -2,11 +2,11 @@
     /*----------------------------------
         Variables
     ----------------------------------*/
-    if (isset($_REQUEST['ID'])){
-        $ID = $_REQUEST["ID"];
+    if (isset($_REQUEST['eID'])){
+        $ID = $_REQUEST["eID"];
     }
-    if (empty($ID)){
-        errorWrite($version,"No ID was given");
+    if (empty($eID)){
+        errorWrite($version,"No eID was given");
     }
 
     $stmt = $conn->prepare("SELECT * FROM wiki_entry where (ID) = ?");

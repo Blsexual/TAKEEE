@@ -6,10 +6,6 @@
     /*-----------------------------------------------------------
             Variabels
     -----------------------------------------------------------*/
-    
-    if (empty($uID)){
-        errorWrite($version,"No user ID was found");
-    }
     if (isset($_GET['contents'])){ // contents
         $contents = $_GET["contents"];
     }
@@ -21,12 +17,6 @@
     }
     if (empty($title)){
         errorWrite($version,"No title was found");
-    }
-    if (isset($_GET['token'])){ // token
-        $token = $_GET["token"];
-    }
-    if (empty($token)){
-        errorWrite($version,"No token was found");
     }
     
     $adminCheck = checkToken($token, $uID, "100", $version, $conn);

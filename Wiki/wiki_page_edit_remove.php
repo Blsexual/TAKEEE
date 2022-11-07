@@ -11,12 +11,12 @@ $page = $_GET["page"];          // wiki_entry ID
 
     if($res["userType"] != "admin"){
         $stmt = $conn->prepare("SELECT * FROM wiki_entry_history WHERE uID = ? AND ID = ?");
-        $stmt->bind_param("ii", $user, $page);
+        $stmt->bind_param("ii", $uID, $page);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows == 0) {
             $stmt = $conn->prepare("SELECT * FROM wiki_entry_history,wiki_entry WHERE wiki_entry_history.ID = ? AND wiki_entry.uID = ? AND wiki_entry.ID = wiki_entry_history.oID");
-            $stmt->bind_param("ii", $user, $page);
+            $stmt->bind_param("ii", $uID, $page);
             $stmt->execute();
             $result = $stmt->get_result();
             if($result->num_rows == 0){
