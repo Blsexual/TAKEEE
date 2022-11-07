@@ -10,7 +10,9 @@
 
         $suID = 0;
         $eID = 0;
+        $cID = 0;
         $fID = $uID;
+        
 
         if(!empty($_GET['eID'])){
             $eID = $_GET['eID'];
@@ -42,6 +44,9 @@
                 $cID= $row["uID"];
             }
         } 
+        else{
+            errorWrite($version,"event doesn't exist");
+        }
         
 
 
@@ -63,7 +68,7 @@
                         jsonWrite($version,$data);  
                     }    
                     else{
-                        $data = ["Action"=>"you don't have permission you big dum"];
+                        $data = ["Action"=>"you don't have permission"];
                         jsonWrite($version,$data);
                     }   
                 }    

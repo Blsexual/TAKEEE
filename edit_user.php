@@ -98,27 +98,70 @@
 /*------------------------------------------------------------------------
                             Blogs lock user
 ------------------------------------------------------------------------*/  
-  
-        if($endUser[1] == "1"){    
-            if ($locked != 0){
-                $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 1 WHERE user.ID = ? "); // updates entries
-                $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
-                $stmt->execute();  
-                $data = ["Action"=>"User Updated"];
-                jsonWrite($version,$data);
-            } 
-            $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 0 WHERE user.ID = ? "); // updates entries
+    if($endUser[1] == "1"){    
+        if ($locked != 0){
+            $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 1 WHERE user.ID = ? "); // updates entries
             $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
             $stmt->execute();  
+            $stmt->close();
+
+            $stmt = $conn->prepare("SELECT `ID`, `endUser` FROM `user` WHERE `ID`=?");
+            $stmt->bind_param("i",$rID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if($row['endUser'][1] == 0){
+                    $stmt = $conn->prepare("DELETE FROM `blog` WHERE `blog`.`uID`=?");
+                    $stmt->bind_param("i",$rID);
+                    $stmt->execute();
+                    $stmt->close();
+                        
+                    $stmt = $conn->prepare("DELETE FROM `blog_entry` WHERE `blog_entry`.`uID`=?");
+                    $stmt->bind_param("i",$rID);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+                if ($row['endUser'][1] == "1") {       //creates blog for user if user in blog
+                    $date = date("Y/m/d H:i:s");
+                    $title = "No Title";
+                    $content = "No content";  // sets variables
+    
+                    $stmt = $conn->prepare("SELECT ID FROM user WHERE name = ? AND password = ?");
+                    $stmt->bind_param("ss", $username, $password);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                   
+                    if ($result->num_rows > 0) {
+                        $res = [];
+                        while($row = $result->fetch_assoc()) {          //gets which ID the new user has
+                            $res[] = $row;
+                        }
+                    } 
+                    else {
+                        errorWrite($version,"No blogs found");
+                    }
+                    $usID = $res[0];
+                    print_r($usID["ID"]);
+    
+                    $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the blog for the new user
+                    $stmt->bind_param("sssi", $title, $content, $date, $usID["ID"]);   
+                    $stmt->execute();    
+                    $stmt->close();
+                }
+            }
+
             $data = ["Action"=>"User Updated"];
             jsonWrite($version,$data);
-        }
+        } 
+    }
 #
-        $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ? WHERE user.ID = ? "); // updates entries
-        $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
-        $stmt->execute();  
-        $data = ["Action"=>"User Updated"];
-        jsonWrite($version,$data);
+    $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 0 WHERE user.ID = ? "); // updates entries
+    $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $rID); 
+    $stmt->execute();  
+    $data = ["Action"=>"User Updated"];
+    jsonWrite($version,$data);
     } 
     else{
         errorWrite($version,"You are not allowed to do this");
