@@ -98,10 +98,6 @@
                     }
                 #
             }
-            else{
-                
-            }
-            
             errorWrite($version,"No valid action made");
         }
         errorWrite($version,"Invalid action made");
