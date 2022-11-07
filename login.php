@@ -41,7 +41,7 @@
                 $stmt->execute();
 
                 // JSON Return
-                $data = ["Action"=>"Log in succsess","User"=>$row, "Token"=>$token];
+                $data = ["Action"=>"Log in succsess","uID"=>$row["ID"], "Token"=>$token];
                 jsonWrite($version,$data);
             }
         }

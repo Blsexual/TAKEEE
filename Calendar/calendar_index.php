@@ -8,10 +8,6 @@
     if(!empty($_GET)){
         if(!empty($_GET['action'])){
             $action = $_GET['action'];
-            if($action == "login"){
-                require_once("calendar_login.php");
-            }
-
             if(empty($_GET['token'])){
                 errorWrite($version,"No set token");
             }

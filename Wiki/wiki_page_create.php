@@ -2,8 +2,8 @@
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
-    if(!empty($_GET["wiki"])){
-        $wiki = $_GET["wiki"];          // wiki = wiki ID
+    if(!empty($_GET["wID"])){
+        $wiki = $_GET["wID"];          // wiki = wiki ID
     }else{
         errorWrite($version,"No wiki was specified");
     }

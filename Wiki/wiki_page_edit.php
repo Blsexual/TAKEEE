@@ -2,7 +2,7 @@
 /*-----------------------------------------------------------
         Variabels
 -----------------------------------------------------------*/
-    $wiki = $_GET["wiki"];          // wiki = wiki ID
+    $wiki = $_GET["wID"];          // wiki = wiki ID
     $title = $_GET["title"];
     $contents = $_GET["contents"];  // html?
     $page = $_GET["page"];

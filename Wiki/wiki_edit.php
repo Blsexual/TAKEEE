@@ -7,20 +7,11 @@
             Variabels
     -----------------------------------------------------------*/
     
-    if (empty($uID)){
-        errorWrite($version,"No user ID was found");
+    if (isset($_GET['wID'])){ // ID
+        $ID = $_GET["wID"];
     }
-    if (isset($_GET['token'])){ // token
-        $token = $_GET["token"];
-    }
-    if (empty($token)){
-        errorWrite($version,"No token was found");
-    }
-    if (isset($_GET['ID'])){ // ID
-        $ID = $_GET["ID"];
-    }
-    if (empty($ID)){
-        errorWrite($version,"No ID was found");
+    if (empty($wID)){
+        errorWrite($version,"No wID was found");
     }
     if (isset($_GET['title'])){ // title
         $title = $_GET["title"];
