@@ -23,6 +23,9 @@
         errorWrite($version,"No user was specified");
     }
 
+    if ($res["admin"][0] == "1"){
+        errorWrite($version,"Admins should not do this");
+    }
     $todayDate = date("Y-m-d h:i:s");
 
 /*-----------------------------------------------------------
