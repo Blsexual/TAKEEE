@@ -5,7 +5,7 @@
     if (isset($_REQUEST['eID'])){
         $ID = $_REQUEST["eID"];
     }
-    if (empty($eID)){
+    if (empty($ID)){
         errorWrite($version,"No eID was given");
     }
 
@@ -24,6 +24,26 @@
         }
     } else{
         errorWrite($version,"We could not find the page you were looking for");
+    }
+
+    $stmt = $conn->prepare("SELECT private FROM wiki,wiki_entry where wiki.ID = wiki_entry.wID AND wiki_entry.ID = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $resultInfoPage = $stmt->get_result();
+
+    if ($resultInfoPage->num_rows > 0) {
+        $res = $resultInfoPage->fetch_assoc();
+        if ($res["private"] == 1){
+            if(empty($_GET["uID"])){
+                errorWrite($version, "You need to be logged in to use this. No uID given");
+            }
+            if(empty($_GET["token"])){
+                errorWrite($version, "You need to be logged in to use this. No uID given");
+            }
+            $uID = $_GET["uID"];
+            $token = $_GET["token"];
+            checkToken($token,$uID,"100",$version,$conn);
+        }
     }
 
     $stmt = $conn->prepare("SELECT * FROM wiki_entry_history where (oID) = ?");

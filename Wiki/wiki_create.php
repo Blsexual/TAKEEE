@@ -18,6 +18,9 @@
     if (empty($title)){
         errorWrite($version,"No title was found");
     }
+    if (!empty($_GET["private"])){
+        $private = $_GET["private"]; // 0 = public 1 = private
+    }
     
     $adminCheck = checkToken($token, $uID, "100", $version, $conn);
 
@@ -29,8 +32,8 @@
     $todayDate = $date["year"]."-".$date["mon"]."-".$date["mday"];      // Creates a date variable the database can handle (yyyy-mm-dd)
 
     $int = $uID;
-    $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex) VALUES(?,?,?)");
-    $stmt->bind_param("isi", $uID, $title, $int);
+    $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex,private) VALUES(?,?,?,?)");
+    $stmt->bind_param("isii", $uID, $title, $int, $private);
     $stmt->execute();
     $resultID = $stmt->get_result(); 
 
