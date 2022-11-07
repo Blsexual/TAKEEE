@@ -11,13 +11,14 @@
     if ($result->num_rows > 0) {
         $stmt->close();
         $stmt = $conn->prepare("DELETE FROM `event` WHERE `ID`=? AND `uID`=?");
-
         $stmt->bind_param("ii", $ID,$uID);
-    
         $stmt->execute();
         $result = $stmt->get_result();
-        echo $result;
         if ($result == 0) {
+            $stmt->close();
+            $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `eID`=?");
+            $stmt->bind_param("i", $ID);
+            $stmt->execute();
             $data = ["Action"=>"Deleted event nr. ".$ID];
             jsonWrite($version,$data);  
         } 
