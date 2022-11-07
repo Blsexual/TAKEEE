@@ -1,4 +1,5 @@
 <?php
+
     /*----------------------------------------------------------------------
         Checks if eventID is set
     ----------------------------------------------------------------------*/
@@ -38,29 +39,36 @@
     /*----------------------------------------------------------------------
         Checks if the recipentID set exists
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `ID`, `name` FROM `user` WHERE `ID`=?");
+        $stmt = $conn->prepare("SELECT `ID`, `name`, `endUser` FROM `user` WHERE `ID`=?");
         $stmt->bind_param("i", $rID);
         $stmt->execute();
         $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
 
         if ($result->num_rows < 1) {           
             errorWrite($version,"Could not find recipient");
         }
     #
+    /*------------------------------------------------------------------------
+        Checks if recipient is Calendar endUser
+    ------------------------------------------------------------------------*/
+        if($row['endUser'][2] == "0"){
+            errorWrite($version,"Unable to invite recipient");
+        }
+    #
 
     /*------------------------------------------------------------------------
-        Making sure the actions are allowed to be made
+        Checks if recipient is self
     ------------------------------------------------------------------------*/
-        if($endUser[2] != "1"){
-            errorWrite($version,"Unable to invite recipient");
+        if($row['ID'] == $uID){
+            errorWrite($version,"Unable to invite self");
         }
     #
 
     /*----------------------------------------------------------------------
         Saves name of the recipent if recipentID exists
     ----------------------------------------------------------------------*/
-        elseif($result->num_rows > 0){
-            $row = $result->fetch_assoc();
+        if($result->num_rows > 0){
             $name = $row['name'];
         }
         $stmt->close();
