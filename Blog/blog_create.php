@@ -10,7 +10,7 @@
 
         $title = "No Title";
         $content = "No content"; 
-        $duID = 0;
+        $euID = 0;
         $fID = $uID;                  // sets base variables
         $date = date("Y/m/d H:i:s");
 
@@ -22,9 +22,9 @@
             $content = $_GET['content'];
         }
 
-        if(!empty($_GET['duID'])){
-            $duID = $_GET['duID'];
-            $fID = $_GET['duID'];
+        if(!empty($_GET['euID'])){
+            $euID = $_GET['euID'];
+            $fID = $_GET['euID'];
         }
 
 
@@ -61,9 +61,9 @@
         }
         if($res["userType"] == "admin"){
             if($lock == 0){                      
-                if ($duID != 0){
+                if ($euID != 0){
                     $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
-                    $stmt->bind_param("s", $duID);
+                    $stmt->bind_param("s", $euID);
                     $stmt->execute();
                     $result = $stmt->get_result();  
 
@@ -72,7 +72,7 @@
                     } 
                     else{
                         $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
-                        $stmt->bind_param("sssi", $title, $content, $date, $duID);
+                        $stmt->bind_param("sssi", $title, $content, $date, $euID);
                         $stmt->execute();  
                     }
                     
