@@ -26,12 +26,12 @@
             /*----------------------------------------------------------------------
                 Checks if handle is cancel
             ----------------------------------------------------------------------*/
-                if($action == "cancel"){
+                if($eventHandle == "cancel"){
                     require_once("calendar_invitation_cancel.php");
                     errorWrite($version,"Something went wrong in invitaion cancel");
                 }
             #
-            errorWrite($version,"Not a valid action, either accept or decline");
+            errorWrite($version,"Not a valid action, either accept, decline or cancel");
         }
         errorWrite($version,"Specify handle");
     #
