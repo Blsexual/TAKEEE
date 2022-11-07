@@ -26,6 +26,26 @@
         errorWrite($version,"We could not find the page you were looking for");
     }
 
+    $stmt = $conn->prepare("SELECT private FROM wiki where wiki.ID = ?");
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $resultInfoPage = $stmt->get_result();
+
+    if ($resultInfoPage->num_rows > 0) {
+        $res = $resultInfoPage->fetch_assoc();
+        if ($res["private"] == 1){
+            if(empty($_GET["uID"])){
+                errorWrite($version, "You need to be logged in to use this. No uID given");
+            }
+            if(empty($_GET["token"])){
+                errorWrite($version, "You need to be logged in to use this. No uID given");
+            }
+            $uID = $_GET["uID"];
+            $token = $_GET["token"];
+            checkToken($token,$uID,"100",$version,$conn);
+        }
+    }
+
     $stmt = $conn->prepare("SELECT * FROM wiki_entry where (wID) = ?");
     $stmt->bind_param("i", $ID);
     $stmt->execute();
