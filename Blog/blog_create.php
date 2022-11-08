@@ -17,9 +17,15 @@
         if(!empty($_GET['title'])){
             $title = $_GET['title'];
         }
+        elseif((empty($_GET['title'])) && ($res["userType"] == "endUser")){
+            errorWrite($version,"Must set a title");
+        }
         
         if(!empty($_GET['content'])){
             $content = $_GET['content'];
+        }
+        elseif((empty($_GET['content'])) && ($res["userType"] == "endUser")){
+            errorWrite($version,"Must set a content");
         }
 
         if(!empty($_GET['euID'])){
@@ -45,7 +51,7 @@
         creating new entries and blogs
     ----------------------------------------*/
 
-        if ($res["userType"] == "endUser"){
+        if($res["userType"] == "endUser"){
             if($lock == 0){
                 $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
                 $stmt->bind_param("sssi", $title, $content, $date, $uID);   
