@@ -1,12 +1,17 @@
 <?php
-    if(empty($_GET['eID'])){
-        errorWrite($version,"Must select an event");
-    }
+    /*----------------------------------------------------------------------
+        Checks if eID is given
+    ----------------------------------------------------------------------*/
+        if(!empty($_GET['eID'])){
+            $eID = $_GET['eID'];
+        }
+        else{
+            errorWrite($version,"Must select an event");
+        }
+    #
 
     $stmt = $conn->prepare("SELECT `ID`,`uID`, `title`, `description`, `startDate`, `endDate` FROM `event` WHERE `uID` = ? AND `ID` = ?");
     $stmt->bind_param("ii", $uID,$eID);
-    $eID = $_GET['eID'];
-
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -14,6 +19,7 @@
         $event = $result->fetch_assoc();
     }
     $stmt->close();
+
     /*----------------------------------------------------------------------
         Sets the title of the event
     ----------------------------------------------------------------------*/

@@ -114,8 +114,6 @@
                     errorWrite($version,"No blogs found");
                 }
                 $usID = $res[0];
-                print_r($usID["ID"]);
-
 
                 $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the blog for the new user
                 $stmt->bind_param("sssi", $title, $content, $date, $usID["ID"]);   
