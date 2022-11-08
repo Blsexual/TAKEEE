@@ -22,7 +22,7 @@
     ----------------------------------------*/
 
         if ($uID == 0){
-            $selectBlog = "SELECT blog.title,blog.description,blog.date FROM blog";
+            $selectBlog = "SELECT blog.title,blog.uID,blog.description,blog.date FROM blog";
             $result = $conn->query($selectBlog);
             if ($result->num_rows > 0) {
                 $bloggList = [];
@@ -64,7 +64,7 @@
     ----------------------------------------*/
 
         
-        $stmt = $conn->prepare("SELECT blog.title,blog.description,blog.date FROM blog WHERE blog.uID = ?");
+        $stmt = $conn->prepare("SELECT blog.title,blog.uID,blog.description,blog.date FROM blog WHERE blog.uID = ?");
         $stmt->bind_param("i", $uID); 
         $stmt->execute();  
         $result = $stmt->get_result();  
