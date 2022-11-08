@@ -126,6 +126,6 @@
         }
     }
     else{
-        errorWrite($version,"Not a Admin");
+        errorWrite($version,"Not an Admin");
     }
 ?>
