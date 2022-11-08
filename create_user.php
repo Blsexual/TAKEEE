@@ -48,8 +48,8 @@
         } else{
             errorWrite($version,"End user privilliges not defined");
         }
-        if(!empty($_GET["desc"])){
-            $description = $_GET["desc"];
+        if(!empty($_GET["description"])){
+            $description = $_GET["description"];
         } else{
             $description = "Hello!";
         }
