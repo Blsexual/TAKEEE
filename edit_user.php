@@ -51,7 +51,7 @@
         }
 
         if(!empty($_GET['password'])){
-            $password = $_GET['password'];
+            $password = password_hash($_GET['password'],PASSWORD_DEFAULT);
         } 
         else{
             $password = $user['password'];
