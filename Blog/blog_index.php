@@ -13,6 +13,9 @@
                 if($action == "showBlog"){
                     require_once("blog_show.php");
                 }
+                else if($action != "create" && $action != "delete" && $action != "edit"){
+                    errorWrite($version,"Not a valid action made");
+                }
             #
 
             if(!empty($_GET["token"])){

@@ -93,7 +93,7 @@
             $stmt->bind_param("sssssss", $username,$password,$email,$admin,$endUser,$description,$avatar);
             $stmt->execute();
 
-            if ($endUser == "010"||$endUser == "110"||$endUser == "011"||$endUser == "111") {       //creates blog for user if user in blog
+            if ($endUser['endUser'][1] == "1") {       //creates blog for user if user in blog
                 $date = date("Y/m/d H:i:s");
                 $title = "No Title";
                 $content = "No content";  // sets variables
@@ -114,8 +114,6 @@
                     errorWrite($version,"No blogs found");
                 }
                 $usID = $res[0];
-                print_r($usID["ID"]);
-
 
                 $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the blog for the new user
                 $stmt->bind_param("sssi", $title, $content, $date, $usID["ID"]);   
@@ -126,6 +124,6 @@
         }
     }
     else{
-        errorWrite($version,"Not a Admin");
+        errorWrite($version,"Not an Admin");
     }
 ?>

@@ -33,5 +33,4 @@
     jsonWrite($version,$data); //Output json message with data
 
 
-
 ?>
