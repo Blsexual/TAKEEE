@@ -93,7 +93,7 @@
             $stmt->bind_param("sssssss", $username,$password,$email,$admin,$endUser,$description,$avatar);
             $stmt->execute();
 
-            if ($endUser['endUser'][1] == "1") {       //creates blog for user if user in blog
+            if ($endUser[1] == "1") {       //creates blog for user if user in blog
                 $date = date("Y/m/d H:i:s");
                 $title = "No Title";
                 $content = "No content";  // sets variables
