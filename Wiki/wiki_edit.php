@@ -47,5 +47,6 @@
         Connection
     -----------------------------------------------------------*/
 
-    jsonWrite($version,"Wiki was edited");
+    $data = ["Result"=>"Wiki was edited"];
+    jsonWrite($version,$data);
 ?>

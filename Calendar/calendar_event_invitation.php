@@ -99,7 +99,7 @@
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Action"=>"Invited $name to event"];
+        $data = ["Result"=>"Invited $name to event"];
         jsonWrite($version,$data);
     #
 ?>

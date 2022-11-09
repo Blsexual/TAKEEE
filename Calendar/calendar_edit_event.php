@@ -271,11 +271,11 @@
         $stmt->bind_param("ssssii", $title, $description, $startDate, $endDate, $eID, $uID);
         if($stmt->execute() === TRUE){
 
-            $data = ["Action"=>"Event succesfully edited"];
+            $data = ["Result"=>"Event succesfully edited"];
             jsonWrite($version,$data);
         }
         else{
-            errorWrite($version,"No");
+            errorWrite($version,"Something went wrong while editing the event");
         }
         
         $result = $stmt->get_result();

@@ -45,7 +45,7 @@
             }
         } 
         else{
-            errorWrite($version,"event doesn't exist");
+            errorWrite($version,"Event doesn't exist");
         }
         
 
@@ -64,11 +64,11 @@
                         $stmt->bind_param("ii", $eID, $uID); 
                         $stmt->execute();  
                 
-                        $data = ["Action"=>"Entry deleted"];
+                        $data = ["Result"=>"Entry deleted"];
                         jsonWrite($version,$data);  
                     }    
                     else{
-                        $data = ["Action"=>"you don't have permission"];
+                        $data = ["Result"=>"You don't have permission"];
                         jsonWrite($version,$data);
                     }   
                 }    
@@ -77,7 +77,7 @@
                 }
             }
             else{
-                $data = ["Blog"=>"you are locked"];
+                $data = ["Result"=>"you are locked"];
                 jsonWrite($version,$data); 
             }
         }
@@ -92,7 +92,7 @@
                     $stmt->bind_param("i", $euID); 
                     $stmt->execute(); 
                     
-                    $data = ["Action"=>"Blog deleted"];
+                    $data = ["Result"=>"Blog deleted"];
                     jsonWrite($version,$data);   
                 }
                 else{
@@ -100,7 +100,7 @@
                 }
             }
             else{
-                $data = ["Blog"=>"user is locked"];
+                $data = ["Result"=>"User is locked"];
                 jsonWrite($version,$data); 
             }
             

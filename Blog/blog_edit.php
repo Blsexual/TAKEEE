@@ -97,14 +97,14 @@
                 $stmt = $conn->prepare("UPDATE blog_entry SET title = ?, contents = ? WHERE blog_entry.ID = ? "); // updates entries
                 $stmt->bind_param("ssi", $title, $content, $eID); 
                 $stmt->execute();  
-                $data = ["Action"=>"Entry Updated"];
+                $data = ["Result"=>"Entry Updated"];
                 jsonWrite($version,$data);
             }
             else if ($eID == 0){
                 $stmt = $conn->prepare("UPDATE blog SET title = ?, description = ? WHERE blog.uID = ? "); // updates blogs
                 $stmt->bind_param("ssi", $title, $content, $uID); 
                 $stmt->execute(); 
-                $data = ["Action"=>"Blog updated"];
+                $data = ["Result"=>"Blog updated"];
                 jsonWrite($version,$data);
             }
             else{
@@ -112,7 +112,7 @@
             }
         }
         else{
-            $data = ["Blog"=>"user is locked"];
+            $data = ["Result"=>"User is locked"];
             jsonWrite($version,$data); 
         }
         
