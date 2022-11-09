@@ -64,7 +64,7 @@
                         $stmt->bind_param("ii", $eID, $uID); 
                         $stmt->execute();  
                 
-                        $data = ["Result"=>"Entry deleted"];
+                        $data = ["Result"=>"Entry deleted", "eID"=>$eID];
                         jsonWrite($version,$data);  
                     }    
                     else{
@@ -92,7 +92,7 @@
                     $stmt->bind_param("i", $euID); 
                     $stmt->execute(); 
                     
-                    $data = ["Result"=>"Blog deleted"];
+                    $data = ["Result"=>"Blog deleted", "eID"=>$eID];
                     jsonWrite($version,$data);   
                 }
                 else{

@@ -54,9 +54,9 @@
     $result = $result->fetch_assoc();
 
     $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,uID,title,contents,date) VALUES(?,?,?,?,?)");
-    $stmt->bind_param("iisss", $result["ID"],$uID,$title,$contents,$todayDate);
+    $stmt->bind_param("iisss", $result['ID'],$uID,$title,$contents,$todayDate);
     $stmt->execute();
-    $data = ["Result"=>"Page created successfully"];
+    $data = ["Result"=>"Page created successfully","eID"=>$result['ID']];
     jsonWrite($version,$data);
 
     

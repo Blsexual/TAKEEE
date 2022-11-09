@@ -56,8 +56,9 @@
                 $stmt = $conn->prepare("INSERT INTO blog_entry(title,contents,date,uID) VALUES (?,?,?,?)");  //creates the new entries
                 $stmt->bind_param("sssi", $title, $content, $date, $uID);   
                 $stmt->execute();    
+                $last_id = $conn->insert_id;
     
-                $data = ["Result"=>"Entry created"];
+                $data = ["Result"=>"Entry created", "eID"=>$last_id];
                 jsonWrite($version,$data);
             }
             else{
@@ -80,9 +81,10 @@
                         $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
                         $stmt->bind_param("sssi", $title, $content, $date, $euID);
                         $stmt->execute();  
+                        $last_id = $conn->insert_id;
                     }
                     
-                    $data = ["Result"=>"Blog created"];
+                    $data = ["Result"=>"Blog created", "bID"=>$last_id];
                     jsonWrite($version,$data);
                 }
                 else{

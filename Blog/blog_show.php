@@ -87,7 +87,7 @@
                 blog entries
     ----------------------------------------*/
       
-        $stmt = $conn->prepare("SELECT blog_entry.title,blog_entry.contents,blog_entry.date FROM blog_entry INNER JOIN blog ON blog.uID = ? AND blog_entry.uID = ?");
+        $stmt = $conn->prepare("SELECT blog_entry.ID,blog_entry.title,blog_entry.contents,blog_entry.date FROM blog_entry INNER JOIN blog ON blog.uID = ? AND blog_entry.uID = ?");
         $stmt->bind_param("ii", $euID, $euID); 
         $stmt->execute();  
         $result = $stmt->get_result();
