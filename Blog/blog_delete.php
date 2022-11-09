@@ -44,11 +44,7 @@
                 $cID= $row["uID"];
             }
         } 
-        else{
-            errorWrite($version,"Event doesn't exist");
-        }
-        
-
+      
 
     #
 
@@ -98,12 +94,21 @@
                 else{
                     errorWrite($version,"Wrong inputs");
                 }
+            if ($euID != 0){    
+                $stmt = $conn->prepare("DELETE FROM blog WHERE blog.uID = ?"); // deletes blogs by specific id
+                $stmt->bind_param("i", $euID); 
+                $stmt->execute(); 
+
+                $stmt = $conn->prepare("DELETE FROM blog_entry WHERE blog_entry.uID = ?"); // deletes entries from the blog when deleted
+                $stmt->bind_param("i", $euID); 
+                $stmt->execute(); 
+                
+                $data = ["Action"=>"Blog deleted"];
+                jsonWrite($version,$data);   
             }
             else{
-                $data = ["Result"=>"User is locked"];
-                jsonWrite($version,$data); 
-            }
-            
+                errorWrite($version,"Wrong inputs");
+            } 
         }
         else{
             errorWrite($version,"No user");
