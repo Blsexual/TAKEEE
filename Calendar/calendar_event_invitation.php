@@ -66,15 +66,6 @@
     #
 
     /*----------------------------------------------------------------------
-        Saves name of the recipent if recipentID exists
-    ----------------------------------------------------------------------*/
-        if($result->num_rows > 0){
-            $name = $row['name'];
-        }
-        $stmt->close();
-    #
-    
-    /*----------------------------------------------------------------------
         Checks if the recipient is already invited
     ----------------------------------------------------------------------*/
         $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `rID`=? AND `eID`=?");
@@ -99,7 +90,7 @@
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Result"=>"Invited $name to event"];
+        $data = ["Result"=>"Invited user to event", "User"=>$rID];
         jsonWrite($version,$data);
     #
 ?>

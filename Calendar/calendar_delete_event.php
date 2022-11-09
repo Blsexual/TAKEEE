@@ -29,7 +29,7 @@
                         $stmt = $conn->prepare("DELETE FROM `event_invitation` WHERE `eID`=?");
                         $stmt->bind_param("i", $ID);
                         $stmt->execute();
-                        $data = ["Result"=>"Deleted event nr. ".$ID];
+                        $data = ["Result"=>"Event deleted", "eID"=>$ID];
                         jsonWrite($version,$data);  
                     } 
                     else{

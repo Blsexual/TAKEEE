@@ -50,6 +50,15 @@
             $name = $user['name'];
         }
 
+        $stmt = $conn->prepare("SELECT * FROM user WHERE name = ?");
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){ 
+            errorWrite($version,"Username already in use");
+        }
+
         if(!empty($_GET['password'])){
             $password = password_hash($_GET['password'],PASSWORD_DEFAULT);
         } 

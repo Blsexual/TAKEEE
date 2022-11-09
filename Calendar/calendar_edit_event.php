@@ -270,8 +270,18 @@
         $stmt = $conn->prepare("UPDATE `event` SET `title` = ?, `description` = ?, `startDate` = ?, `endDate` = ? WHERE `ID` = ? AND `uID` = ?");
         $stmt->bind_param("ssssii", $title, $description, $startDate, $endDate, $eID, $uID);
         if($stmt->execute() === TRUE){
-
             $data = ["Result"=>"Event succesfully edited"];
+
+            $stmt = $conn->prepare("SELECT `title`, `description`, `startDate`, `endDate` FROM `event` WHERE ID = ?"); // gets new title and content for entry
+            $stmt->bind_param("i", $eID); 
+            $stmt->execute();  
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {              // gets old title and content for entry
+                    $data = ["Result"=>"Event updated", "Title"=>$row['title'], "Description"=>$row['description'], "StartDate"=>$row['startDate'], "EndDate"=>$row['endDate']];
+                }
+            } 
             jsonWrite($version,$data);
         }
         else{

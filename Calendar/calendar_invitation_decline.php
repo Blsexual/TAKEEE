@@ -13,10 +13,12 @@
     /*----------------------------------------------------------------------
         Checks if the invitation exists
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `ID` FROM `event_invitation` WHERE `ID`=?");
+        $stmt = $conn->prepare("SELECT `ID`, `eID` FROM `event_invitation` WHERE `ID`=?");
         $stmt->bind_param("i",$iID);
         $stmt->execute();
         $result = $stmt->get_result();
+
+        $event = $result->fetch_assoc();
 
         if ($result->num_rows == 0) {           
             errorWrite($version,"Could not find invitation");
@@ -63,7 +65,7 @@
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Result"=>"Invitation declined"];
+        $data = ["Result"=>"Invitation declined", "Invite"=>$iID, "Event"=>$event['eID']];
         jsonWrite($version,$data);
     #
 ?>

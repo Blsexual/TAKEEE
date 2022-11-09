@@ -43,6 +43,7 @@
     $stmt = $conn->prepare("INSERT INTO wiki (uID,title,wikiIndex,private) VALUES(?,?,?,?)");
     $stmt->bind_param("isii", $uID, $title, $int, $private);
     $stmt->execute();
+    $last_wid = $conn->insert_id;
 
     $stmt = $conn->prepare("SELECT ID FROM wiki");
     $stmt->execute();
@@ -60,6 +61,7 @@
     $stmt = $conn->prepare("INSERT INTO wiki_entry (wID,uID) VALUES (?,?)");
     $stmt->bind_param("ii", $wikiID, $uID);
     $stmt->execute();
+    $last_eid = $conn->insert_id;
 
     $stmt = $conn->prepare("SELECT ID FROM wiki_entry");
     $stmt->execute();
@@ -98,6 +100,6 @@
         Connection
     -----------------------------------------------------------*/
 
-    $data = ["Result"=>"Wiki was created"];
+    $data = ["Result"=>"Wiki was created", "wID"=>$last_wid, "eID"=>$last_eid];
     jsonWrite($version,$data);
 ?>

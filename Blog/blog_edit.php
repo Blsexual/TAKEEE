@@ -43,10 +43,9 @@
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {              // gets old title and content for entety
+                while($row = $result->fetch_assoc()) {              // gets old title and content for entry
                     $title = $row["title"];
                     $content = $row["contents"];
-
                 }
             } 
             else {
@@ -98,6 +97,17 @@
                 $stmt->bind_param("ssi", $title, $content, $eID); 
                 $stmt->execute();  
                 $data = ["Result"=>"Entry Updated"];
+                
+                $stmt = $conn->prepare("SELECT `title`,`contents` FROM blog_entry WHERE blog_entry.ID = ? "); // gets new title and content for entry
+                $stmt->bind_param("i", $eID); 
+                $stmt->execute();  
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {              // gets old title and content for entry
+                        $data = ["Result"=>"Blog updated", "Title"=>$row['title'], "Content"=>$row['contents']];
+                    }
+                } 
                 jsonWrite($version,$data);
             }
             else if ($eID == 0){
@@ -105,6 +115,17 @@
                 $stmt->bind_param("ssi", $title, $content, $uID); 
                 $stmt->execute(); 
                 $data = ["Result"=>"Blog updated"];
+
+                $stmt = $conn->prepare("SELECT `title`,`description` FROM blog WHERE blog.uID = ? "); // gets new title and content for blog
+                $stmt->bind_param("i", $uID); 
+                $stmt->execute();  
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {              // gets old title and content for entry
+                        $data = ["Result"=>"Blog updated", "Title"=>$row['title'], "Description"=>$row['description']];
+                    }
+                }
                 jsonWrite($version,$data);
             }
             else{
