@@ -85,12 +85,13 @@
         $stmt = $conn->prepare("INSERT INTO `event_invitation` (rID, eID) VALUES (?,?)");
         $stmt->bind_param("ii", $rID, $eID);
         $stmt->execute();
+        $iID = $conn->insert_id;
     #
 
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Result"=>"Invited user to event", "User"=>$rID];
+        $data = ["Result"=>"Invited user to event", "rID"=>$rID, "iID"=>$iID];
         jsonWrite($version,$data);
     #
 ?>

@@ -94,7 +94,9 @@
                     }
                 #
             }
-            errorWrite($version,"No valid action made");
+            else{
+                errorWrite($version,"You are not allowed to do this");
+            }
         }
         errorWrite($version,"Invalid action made");
     }
