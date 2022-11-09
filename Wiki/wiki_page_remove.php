@@ -19,7 +19,7 @@
             $res = $result->fetch_assoc();        // output data of each row
         } else{
             // JSON Return
-            errorWrite($version,"we can not find the page you are looking for");
+            errorWrite($version,"We can not find the page you are looking for");
         }
     }
 

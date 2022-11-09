@@ -10,13 +10,13 @@
     if(!empty($_GET["username"])){
         $username = $_GET["username"];
     } else{
-        errorWrite($version,"no username was given");
+        errorWrite($version,"No username was given");
     }
     
     if(!empty($_GET["password"])){
         $pass = $_GET["password"];
     } else{
-        errorWrite($version,"no password was given");
+        errorWrite($version,"No password was given");
     }
     
 /*-----------------------------------------------------------
@@ -41,14 +41,14 @@
                 $stmt->execute();
 
                 // JSON Return
-                $data = ["Action"=>"Log in succsess","uID"=>$row["ID"], "Token"=>$token];
+                $data = ["Result"=>"Log in succsess","uID"=>$row["ID"], "Token"=>$token];
                 jsonWrite($version,$data);
             }
         }
     } else{ // No username match the one that has been inputed 
         // JSON Return
-        errorWrite($version,"wrong username or password was given");
+        errorWrite($version,"Wrong username or password was given");
     }
     // JSON Return
-    errorWrite($version,"wrong username or password was given");
+    errorWrite($version,"Wrong username or password was given");
 ?>

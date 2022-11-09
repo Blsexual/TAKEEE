@@ -1,21 +1,25 @@
 <?php
     require_once("db.php");
     require_once("json_exempel.php");
+    require_once("login_check.php");
 
-    if(!empty($_GET["uID"])){
+    if(empty($_GET["uID"])){
         errorWrite($version,"No uID given");
     }
-    if(!empty($_GET["token"])){
+    $uID = $_GET["uID"];
+    if(empty($_GET["token"])){
         errorWrite($version,"No token given");
     }
+	$token = $_GET["token"];
 
-    $res = checkToken($version,$uID,"111",$version,$conn);
+    $res = checkToken($token,$uID,"111",$version,$conn);
 
-    for($i = 3;$i>=0;--$i){
-        
+    if($res['userType'] == "endUser"){
+        $data = ["Result"=>"Only admins can see this information"];
+        jsonWrite($version,$data);
     }
 
-    $stmt = $conn->prepare("SELECT * FROM `user`");
+    $stmt = $conn->prepare("SELECT `ID`,`name`, `email`, `admin`, `endUser`, `description`, `avatar`, `locked` FROM `user`");
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -29,7 +33,7 @@
         }
     }
 
-    $data = ["Wiki entry"=>$emparray];
+    $data = ["Users"=>$emparray];
     jsonWrite($version,$data); //Output json message with data
 
 

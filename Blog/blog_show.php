@@ -49,12 +49,12 @@
                 $lock= $row["locked"];
             }
             if ($lock !=0){
-                $data = ["Blog"=>"User is locked"];
+                $data = ["Result"=>"User is locked"];
                 jsonWrite($version,$data); 
             }
         } 
         else{
-            $data = ["Blog"=>"User does not exist"];
+            $data = ["Result"=>"User does not exist"];
             jsonWrite($version,$data);
         }
 
@@ -79,7 +79,7 @@
             }
         } 
         else {
-            $data = ["Blog"=>"No blogs found"];
+            $data = ["Result"=>"No blogs found"];
             jsonWrite($version,$data);
         }
     # 

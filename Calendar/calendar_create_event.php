@@ -238,7 +238,7 @@
         $stmt = $conn->prepare("INSERT INTO `event` (uID, title, description, startDate, endDate) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("issss", $uID, $title, $description, $startDate, $endDate);
         $stmt->execute();
-        $data = ["Action"=>"Created a new event"];
+        $data = ["Result"=>"Created a new event"];
         jsonWrite($version,$data);
     #
 ?>

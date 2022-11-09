@@ -58,6 +58,6 @@
     while ($row = $result->fetch_assoc()){
         $entryArray[] = $row;
     }
-    $data = ["wiki"=>$emparray, "wiki_entry"=>$entryArray];
+    $data = ["Wiki"=>$emparray, "Wiki_entry"=>$entryArray];
     jsonWrite($version,$data);
 ?>

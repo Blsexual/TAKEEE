@@ -31,7 +31,7 @@
                     }
                 }
                 if($correctUser != 1){
-                    errorWrite($version,"no user found or token not valid");
+                    errorWrite($version,"No user found or token not valid");
                 }
             }
             $conn->query($sql);
@@ -57,7 +57,7 @@
             $admin = $result["admin"];
             $endUser = $result["endUser"];
             if($correctUser != 1){
-                errorWrite($version,"no user found or token not valid");
+                errorWrite($version,"No user found or token not valid");
             }
 
             #Checks if the end date is before the start date
@@ -70,7 +70,7 @@
                 $tokenEnd = (int)$tokenEnd;
 
                 if($now > $tokenEnd){
-                    errorWrite($version,"token not valid");
+                    errorWrite($version,"Token not valid");
                 } else{
                     $ID = $result["ID"];
                     $date = date("Y-m-d H:i:s", mktime(date("H"), date("i")+30, 00, date("m"), date("d"), date("Y")));
@@ -82,7 +82,7 @@
                 }
             #
         } else{
-            errorWrite($version,"no user found or token not valid");
+            errorWrite($version,"No user found or token not valid");
         }
     }
 ?>

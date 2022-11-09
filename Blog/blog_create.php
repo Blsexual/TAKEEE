@@ -41,7 +41,7 @@
 
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {    
-                $lock= $row["locked"];
+                $lock = $row["locked"];
             }
         } 
 
@@ -57,12 +57,12 @@
                 $stmt->bind_param("sssi", $title, $content, $date, $uID);   
                 $stmt->execute();    
     
-                $data = ["Action"=>"Entry created"];
+                $data = ["Result"=>"Entry created"];
                 jsonWrite($version,$data);
             }
             else{
-                $data = ["Blog"=>"you are locked"];
-                jsonWrite($version,$data);;
+                $data = ["Result"=>"You are locked"];
+                jsonWrite($version,$data);
             }
         }
         if($res["userType"] == "admin"){
@@ -74,7 +74,7 @@
                     $result = $stmt->get_result();  
 
                     if ($result->num_rows > 0) {
-                        errorWrite($version,"user already has a blog ");                // if user allready has a blog
+                        errorWrite($version,"User already has a blog ");                // if user allready has a blog
                     } 
                     else{
                         $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
@@ -82,24 +82,19 @@
                         $stmt->execute();  
                     }
                     
-                    $data = ["Action"=>"Blog created"];
+                    $data = ["Result"=>"Blog created"];
                     jsonWrite($version,$data);
                 }
                 else{
-                    errorWrite($version,"need a user ID for the new blog");
+                    errorWrite($version,"Need a user ID for the new blog");
                 }
             }
             else{
-                $data = ["Blog"=>"user is locked"];
+                $data = ["Result"=>"User is locked"];
                 jsonWrite($version,$data); 
             }
         }
-
-
-        errorWrite($version,"no user");
-    
-
-
+        errorWrite($version,"No user");
     #
 //   ?title=x&content=x&uID=x
 ?>

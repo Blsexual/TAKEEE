@@ -21,13 +21,13 @@
             if(!empty($_GET["token"])){
                 $token = $_GET['token'];
             } else{
-                errorWrite($version,"no token was given");
+                errorWrite($version,"No token was given");
             }
             
             if(!empty($_GET["uID"])){
                 $uID = $_GET['uID'];
             } else{
-                errorWrite($version,"no uID was given");
+                errorWrite($version,"No uID was given");
             }
 
             $res = checkToken($token,$uID,"010",$version,$conn);
