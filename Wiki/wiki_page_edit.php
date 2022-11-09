@@ -24,7 +24,7 @@
     } else{
 
         // JSON Return
-        errorWrite($version,"we cant find the page you are looking for");
+        errorWrite($version,"We could not find the page you are looking for");
     }
 
     $stmt = $conn->prepare("INSERT INTO wiki_entry_history (oID,uID,title,contents,date) VALUES(?,?,?,?,?)");

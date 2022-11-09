@@ -63,7 +63,7 @@
     /*----------------------------------------------------------------------
         Outputs json
     ----------------------------------------------------------------------*/
-        $data = ["Action"=>"Invitation declined"];
+        $data = ["Result"=>"Invitation declined"];
         jsonWrite($version,$data);
     #
 ?>

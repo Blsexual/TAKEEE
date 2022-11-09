@@ -69,5 +69,6 @@
 
     
 
-    jsonWrite($version,"Wiki was removed");
+    $data = ["Result"=>"Wiki was removed"];
+    jsonWrite($version,$data);
 ?>

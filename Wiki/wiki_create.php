@@ -98,5 +98,6 @@
         Connection
     -----------------------------------------------------------*/
 
-    jsonWrite($version,"Wiki was created");
+    $data = ["Result"=>"Wiki was created"];
+    jsonWrite($version,$data);
 ?>

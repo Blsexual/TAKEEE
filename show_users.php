@@ -15,7 +15,8 @@
     $res = checkToken($token,$uID,"111",$version,$conn);
 
     if($res['userType'] == "endUser"){
-        jsonWrite($version,"Only admins can see this information");
+        $data = ["Result"=>"Only admins can see this information"];
+        jsonWrite($version,$data);
     }
 
     $stmt = $conn->prepare("SELECT `ID`,`name`, `email`, `admin`, `endUser`, `description`, `avatar`, `locked` FROM `user`");
@@ -32,7 +33,7 @@
         }
     }
 
-    $data = ["Users-"=>$emparray];
+    $data = ["Users"=>$emparray];
     jsonWrite($version,$data); //Output json message with data
 
 
