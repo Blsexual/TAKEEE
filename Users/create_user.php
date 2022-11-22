@@ -4,9 +4,9 @@
 //?username=?&password=?&email=?&admin=?&endUser=?&desc=optional&avatar=optional
 
 
-    require_once("db.php");
-    require_once("json_exempel.php");
-    require_once("login_check.php");
+    require_once("../db.php");
+    require_once("../json_exempel.php");
+    require_once("../login_check.php");
 
     if(!empty($_GET["token"])){
         $token = $_GET['token'];      // Name of user
