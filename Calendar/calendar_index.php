@@ -29,6 +29,14 @@
                     }
                 #
                 /*----------------------------------------------------------------------
+                    Shows a list of all events for the user
+                ----------------------------------------------------------------------*/
+                    if($action == "showInvitation"){
+                        require_once("calendar_show_invitation.php");
+                        errorWrite($version,"Something went wrong in show invitation");
+                    }
+                #
+                /*----------------------------------------------------------------------
                     Allows the user to create a new event
                 ----------------------------------------------------------------------*/
                     if($action == "createEvent"){
