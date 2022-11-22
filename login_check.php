@@ -12,31 +12,52 @@
             errorWrite($version,"Not a valid user");
         }
         if ($token == "test"){ // Temp for testing
-            $sql = "SELECT * FROM user WHERE ID = $uID";
+
+            $sql = "SELECT * FROM test_token WHERE testID = 1";
             $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                $result = $result->fetch_assoc();
-                $correctUser = 0;
-                $uType = "";
-                $admin = $result["admin"];
-                $endUser = $result["endUser"];
-                for($i = 2;$i>=0;--$i){
-                    if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
-                        $correctUser = 1;
-                        $uType = "endUser";
+            $active = $result->fetch_assoc();              //shows all the possible blogs
+
+            $date = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
+            $pattern = ['/:/i','/-/i','/ /i']; // Removes ":","-" and " "
+            $now = preg_replace($pattern, "", $date);
+            $tokenEnd = preg_replace($pattern, "", $active["validUntil"]);
+            
+            $now = (int)$now;
+            $tokenEnd = (int)$tokenEnd;
+
+            if($now > $tokenEnd){
+                errorWrite($version,"No user found or token not valid");
+            } 
+            else{
+                if($active["active"] == 1){
+                    $sql = "SELECT * FROM user WHERE ID = $uID";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        $result = $result->fetch_assoc();
+                        $correctUser = 0;
+                        $uType = "";
+                        $admin = $result["admin"];
+                        $endUser = $result["endUser"];
+                        for($i = 2;$i>=0;--$i){
+                            if($result["endUser"][$i] == $service[$i] && $result["endUser"][$i] != "0"){
+                                $correctUser = 1;
+                                $uType = "endUser";
+                            }
+                            if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
+                                $correctUser = 1;
+                                $uType = "admin";
+                            }
+                        }
+                        if($correctUser != 1){
+                            errorWrite($version,"No user found or token not valid");
+                        }
                     }
-                    if($result["admin"][$i] == $service[$i] && $result["admin"][$i] != "0"){
-                        $correctUser = 1;
-                        $uType = "admin";
-                    }
-                }
-                if($correctUser != 1){
-                    errorWrite($version,"No user found or token not valid");
+                    $conn->query($sql);
+                    $data = ["userType"=>"$uType","admin"=>"$admin","endUser"=>"$endUser"];
+                    return $data;
                 }
             }
-            $conn->query($sql);
-            $data = ["userType"=>"$uType","admin"=>"$admin","endUser"=>"$endUser"];
-            return $data;
+            
         }
         $sql = "SELECT * FROM user WHERE ID = $uID AND token = '$token'";
         $result = $conn->query($sql);
