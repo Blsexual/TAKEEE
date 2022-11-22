@@ -66,34 +66,28 @@
                 jsonWrite($version,$data);
             }
         }
-        if($res["userType"] == "admin"){
-            if($lock == 0){                      
-                if ($euID != 0){
-                    $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
-                    $stmt->bind_param("s", $euID);
-                    $stmt->execute();
-                    $result = $stmt->get_result();  
+        if($res["userType"] == "admin"){                     
+            if ($euID != 0){
+                $stmt = $conn->prepare("SELECT uID FROM blog WHERE uID = ?"); //creates the new blogs
+                $stmt->bind_param("s", $euID);
+                $stmt->execute();
+                $result = $stmt->get_result();  
 
-                    if ($result->num_rows > 0) {
-                        errorWrite($version,"User already has a blog ");                // if user allready has a blog
-                    } 
-                    else{
-                        $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
-                        $stmt->bind_param("sssi", $title, $content, $date, $euID);
-                        $stmt->execute();  
-                        $last_id = $conn->insert_id;
-                    }
-                    
-                    $data = ["Result"=>"Blog created", "bID"=>$last_id];
-                    jsonWrite($version,$data);
-                }
+                if ($result->num_rows > 0) {
+                    errorWrite($version,"User already has a blog ");                // if user allready has a blog
+                } 
                 else{
-                    errorWrite($version,"Need a user ID for the new blog");
+                    $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)");
+                    $stmt->bind_param("sssi", $title, $content, $date, $euID);
+                    $stmt->execute();  
+                    $last_id = $conn->insert_id;
                 }
+                
+                $data = ["Result"=>"Blog created", "bID"=>$last_id];
+                jsonWrite($version,$data);
             }
             else{
-                $data = ["Result"=>"User is locked"];
-                jsonWrite($version,$data); 
+                errorWrite($version,"Need a user ID for the new blog");
             }
         }
         errorWrite($version,"No user");
