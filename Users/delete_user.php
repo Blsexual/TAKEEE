@@ -58,7 +58,7 @@
                 $stmt->execute();
                 $stmt->close();
 
-                $data = ["Result"=>"Deleted user ".$rID];
+                $data = ["uID"=>$rID, "Result"=>"Deleted user"];
                 jsonWrite($version,$data);  
             }
             errorWrite($version,"Could not find user");
