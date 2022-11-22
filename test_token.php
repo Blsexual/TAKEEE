@@ -22,8 +22,8 @@
 
 
 
-    if($res['userType'] == "admin"){
-        if($activet == 1){
+    if($res['userType'] == "admin"){ // checks if user is a admin
+        if($activet == 1){      //if test token should activate
             $date = date("Y-m-d H:i:s", mktime(date("H")+1, date("i"), 00, date("m"), date("d"), date("Y")));
             $stmt = $conn->prepare("UPDATE test_token SET active = 1, validUntil = ?  WHERE testID = 1");
             $stmt->bind_param("s", $date); 
@@ -34,7 +34,7 @@
             jsonWrite($version,$data);
 
         }   
-        else{
+        else{               //if test token should deactivate
             $stmt = "UPDATE test_token SET active = 0  WHERE testID = 1";
             $conn->query($stmt);
     

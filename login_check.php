@@ -15,7 +15,7 @@
 
             $sql = "SELECT * FROM test_token WHERE testID = 1";
             $result = $conn->query($sql);
-            $active = $result->fetch_assoc();              //shows all the possible blogs
+            $active = $result->fetch_assoc();              //gets everything from test_token
 
             $date = date("Y-m-d H:i:s", mktime(date("H"), date("i"), 00, date("m"), date("d"), date("Y")));
             $pattern = ['/:/i','/-/i','/ /i']; // Removes ":","-" and " "
@@ -25,11 +25,11 @@
             $now = (int)$now;
             $tokenEnd = (int)$tokenEnd;
 
-            if($now > $tokenEnd){
+            if($now > $tokenEnd){           // checks if test token is valid
                 errorWrite($version,"No user found or token not valid");
             } 
-            else{
-                if($active["active"] == 1){
+            else{               
+                if($active["active"] == 1){                 // checks if test token is active
                     $sql = "SELECT * FROM user WHERE ID = $uID";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
