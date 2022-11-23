@@ -2,15 +2,15 @@
     /*----------------------------------
         Variables
     ----------------------------------*/
-    if (isset($_REQUEST['ID'])){
-        $ID = $_REQUEST["ID"];
+    if (isset($_REQUEST['eID'])){
+        $eID = $_REQUEST["eID"];
     }
-    if (empty($ID)){
-        errorWrite($version,"No ID was given");
+    if (empty($eID)){
+        errorWrite($version,"No eID was given");
     }
 
     $stmt = $conn->prepare("SELECT * FROM wiki_entry_history where (oID) = ?");
-    $stmt->bind_param("i", $ID);
+    $stmt->bind_param("i", $eID);
     $stmt->execute();
     $result = $stmt->get_result();
 
