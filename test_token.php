@@ -30,7 +30,7 @@
             $stmt->execute();
     
             // JSON Return
-            $data = ["Result"=>"token is now usable"];
+            $data = ["Result"=>"test token is now usable"];
             jsonWrite($version,$data);
 
         }   
@@ -39,7 +39,7 @@
             $conn->query($stmt);
     
             // JSON Return
-            $data = ["Result"=>"token is now disabled"];
+            $data = ["Result"=>"test token is now disabled"];
             jsonWrite($version,$data);
         }
     }
