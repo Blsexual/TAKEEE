@@ -53,7 +53,7 @@
     
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {              // gets old title and content for entry
-            $data = ["Result"=>"Wiki was updated", "Title"=>$row['title'], "Description"=>$row['description'], "StartDate"=>$row['startDate'], "EndDate"=>$row['endDate']];
+            $data = ["Result"=>"Wiki was updated","wID"=>$ID, "Title"=>$row['title'], "Description"=>$row['description'], "StartDate"=>$row['startDate'], "EndDate"=>$row['endDate']];
         }
     } 
     jsonWrite($version,$data);
