@@ -102,7 +102,6 @@
                 $stmt->bind_param("ss", $username, $password);
                 $stmt->execute();
                 $result = $stmt->get_result();
-               
 
                 if ($result->num_rows > 0) {
                     $res = [];
@@ -118,8 +117,22 @@
                 $stmt = $conn->prepare("INSERT INTO blog(title,description,date,uID) VALUES (?,?,?,?)"); //creates the blog for the new user
                 $stmt->bind_param("sssi", $title, $content, $date, $usID["ID"]);   
                 $stmt->execute();    
+            } else{
+                $stmt = $conn->prepare("SELECT ID FROM user WHERE name = ? AND password = ?");
+                $stmt->bind_param("ss", $username, $password);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $res = [];
+                    while($row = $result->fetch_assoc()) {          //gets which ID the new user has
+                        $res[] = $row;
+                    }
+                } 
+                $usID = $res[0];
             }
-            $data = ["Result"=>"User was added successfully"];
+            
+            $data = ["Result"=>"User was added successfully","uID"=>$usID];
             jsonWrite($version, $data);
         }
     }
