@@ -43,6 +43,13 @@
                 require_once("show_users.php");
             }
         #
+            /*----------------------------------------------------------------------
+                Show a users
+            ----------------------------------------------------------------------*/
+            if($action == "showUser"){
+                require_once("show_user.php");
+            }
+        #
 
 
             errorWrite($version,"No a valid action made");
