@@ -21,11 +21,78 @@
     }
     
     $res = checkToken($token,$uID,"111",$version,$conn);
-
+    print_r($res);
 /*---------------------------------------------------------------
         Checking all variables
 ---------------------------------------------------------------*/
-    if($res['userType'] == "admin"){
+    if($res['userType'] == "endUser"){
+        $stmt = $conn->prepare("SELECT `name`, `password`, `email`, `admin`, `endUser`, `description`, `avatar`, `locked` FROM `user` WHERE `ID` = ?");
+        $stmt->bind_param("i", $uID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+        }
+        $stmt->close();
+
+        if(!empty($_GET['name'])){
+            $name = $_GET['name']; 
+        } 
+        else{
+            $name = $user['name'];
+        }
+
+        $stmt = $conn->prepare("SELECT * FROM user WHERE name = ?");
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){ 
+            errorWrite($version,"Username already in use");
+        }
+
+        if(!empty($_GET['password'])){
+            $password = password_hash($_GET['password'],PASSWORD_DEFAULT);
+        } 
+        else{
+            $password = $user['password'];
+        }
+
+        if(!empty($_GET['email'])){
+            $email = $_GET['email'];
+        } 
+        else{
+            $email = $user['email'];
+        }
+
+        if(!empty($_GET['description'])){
+            $description = $_GET['description'];
+        } 
+        else{
+            $description = $user['description'];
+        }
+
+        if(!empty($_GET['avatar'])){
+            $avatar = $_GET['avatar'];
+        } 
+        else{
+            $avatar = $user['avatar'];
+        }
+
+        $admin = $user['admin'];
+        $endUser = $user['endUser'];
+        $locked = $user['locked'];
+
+        $stmt = $conn->prepare("UPDATE user SET name = ?, password = ?, email = ?, admin = ?, endUser = ?, description = ?, avatar = ?, locked = 0 WHERE user.ID = ? "); // updates entries
+        $stmt->bind_param("sssssssi", $name, $password, $email, $admin, $endUser, $description, $avatar, $uID); 
+        $stmt->execute();  
+        $stmt->close();
+
+        $data = ["Result"=>"User Updated","uID"=>$uID];
+        jsonWrite($version,$data);
+
+    }else if($res['userType'] == "admin"){
         if(!empty($_GET['rID'])){
             $rID = $_GET['rID'];
         }
