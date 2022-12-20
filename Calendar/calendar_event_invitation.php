@@ -28,8 +28,8 @@
     /*----------------------------------------------------------------------
         Checks if recipentID is set
     ----------------------------------------------------------------------*/
-        if(!empty($_GET['rID'])){
-            $rID = $_GET['rID'];
+        if(!empty($_GET['rName'])){
+            $rName = $_GET['rName'];
         }
         else{
             errorWrite($version,"Didn't specify which recipient to invite");
@@ -39,11 +39,13 @@
     /*----------------------------------------------------------------------
         Checks if the recipentID set exists
     ----------------------------------------------------------------------*/
-        $stmt = $conn->prepare("SELECT `ID`, `name`, `endUser` FROM `user` WHERE `ID`=?");
-        $stmt->bind_param("i", $rID);
+        $stmt = $conn->prepare("SELECT `ID`, `name`, `endUser` FROM `user` WHERE `name`=?");
+        $stmt->bind_param("s", $rName);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+
+        $rID = $row['ID'];
 
         if ($result->num_rows < 1) {           
             errorWrite($version,"Could not find recipient");
